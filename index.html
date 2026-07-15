@@ -1,0 +1,2035 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZEV Readiness Framework Dashboard</title>
+<style>
+:root {
+  --bg:#f4f7fb;
+  --panel:#ffffff;
+  --text:#17202a;
+  --muted:#64748b;
+  --line:#dbe3ee;
+  --blue:#1d4ed8;
+  --blue-soft:#e9f0ff;
+  --shadow:0 10px 30px rgba(15,23,42,.08);
+  --radius:18px;
+}
+* { box-sizing:border-box; }
+body {
+  margin:0;
+  font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+.wrap { max-width:1500px; margin:0 auto; padding:24px; }
+.hero {
+  background:linear-gradient(135deg,#0f172a 0%, #1e40af 60%, #0ea5e9 100%);
+  color:#fff;
+  border-radius:26px;
+  padding:28px;
+  box-shadow:var(--shadow);
+  margin-bottom:18px;
+}
+.hero h1 { margin:0 0 8px 0; font-size:2rem; line-height:1.1; }
+.hero p { margin:0; max-width:1000px; line-height:1.55; color:rgba(255,255,255,.9); }
+.hero .chips { display:flex; flex-wrap:wrap; gap:10px; margin-top:16px; }
+.hero .chip {
+  background:rgba(255,255,255,.15);
+  border:1px solid rgba(255,255,255,.15);
+  padding:8px 12px; border-radius:999px; font-size:.9rem;
+}
+.toolbar {
+  display:grid;
+  grid-template-columns:1.2fr 1fr 1fr auto auto auto;
+  gap:12px;
+  margin-bottom:18px;
+}
+.toolbar input, .toolbar select, .toolbar button {
+  width:100%;
+  padding:12px 14px;
+  border-radius:14px;
+  border:1px solid var(--line);
+  background:#fff;
+  font-size:.95rem;
+}
+.toolbar button {
+  background:var(--blue);
+  color:#fff;
+  font-weight:700;
+  border:none;
+  cursor:pointer;
+}
+.toolbar .secondary {
+  background:#fff;
+  color:var(--text);
+  border:1px solid var(--line);
+}
+.grid {
+  display:grid;
+  grid-template-columns:1.45fr .95fr;
+  gap:18px;
+  align-items:start;
+}
+.panel {
+  background:var(--panel);
+  border:1px solid rgba(219,227,238,.9);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+}
+.panel h2 {
+  margin:0;
+  padding:18px 20px 8px 20px;
+  font-size:1.15rem;
+}
+.sub {
+  padding:0 20px 16px 20px;
+  color:var(--muted);
+  line-height:1.5;
+  font-size:.94rem;
+}
+.summary {
+  padding:0 20px 20px 20px;
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+}
+.stat {
+  padding:14px;
+  border-radius:16px;
+  border:1px solid var(--line);
+  background:#fbfdff;
+}
+.stat .num { font-size:1.55rem; font-weight:800; margin-bottom:4px; }
+.stat .lbl { color:var(--muted); font-size:.92rem; }
+
+.categoryBars {
+  padding:0 20px 20px 20px;
+  display:grid; gap:12px;
+}
+.catRow {
+  border:1px solid var(--line); border-radius:16px; padding:12px; background:#fcfdff;
+}
+.catRowTop {
+  display:flex; justify-content:space-between; gap:10px; align-items:center; margin-bottom:8px;
+}
+.bar {
+  width:100%; height:10px; border-radius:999px; background:#edf2f7; overflow:hidden;
+}
+.bar > span {
+  display:block; height:100%; border-radius:999px;
+  background:linear-gradient(90deg,#dc2626 0%, #f59e0b 50%, #16a34a 100%);
+}
+.cards {
+  padding:0 16px 16px 16px;
+  display:grid;
+  grid-template-columns:repeat(2, minmax(0,1fr));
+  gap:14px;
+}
+.card {
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:16px;
+  background:#fff;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.top {
+  display:flex; justify-content:space-between; gap:12px; align-items:flex-start;
+}
+.pill {
+  background:var(--blue-soft);
+  color:var(--blue);
+  border-radius:999px;
+  padding:6px 10px;
+  font-weight:700;
+  font-size:.78rem;
+  white-space:nowrap;
+}
+.cat { color:var(--muted); font-size:.85rem; }
+.name { font-size:1rem; font-weight:800; line-height:1.35; margin-top:2px; }
+.short { color:var(--muted); font-size:.92rem; line-height:1.5; min-height:52px; }
+.meta {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+.metaBox {
+  padding:10px;
+  border-radius:12px;
+  border:1px solid var(--line);
+  background:#f8fafc;
+  font-size:.88rem;
+}
+.metaBox strong {
+  display:block; font-size:.74rem; color:var(--muted); text-transform:uppercase; letter-spacing:.04em; margin-bottom:4px;
+}
+
+    .scoreArea {
+      display:grid; grid-template-columns:1fr 70px; gap:12px; align-items:center;
+    }
+    .scoreSliderWrap {
+      display:grid; gap:8px;
+    }
+
+    .scoreSlider {
+      -webkit-appearance:none;
+      appearance:none;
+      width:100%;
+      height:12px;
+      border-radius:999px;
+      background:linear-gradient(90deg,#dc2626 0%, #f59e0b 45%, #16a34a 100%);
+      outline:none;
+    }
+    .plotControls {
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+      padding:0 20px 14px 20px;
+    }
+    .plotControls select {
+      width:100%;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background:#fff;
+      font-size:.92rem;
+    }
+    .plotWrap {
+      padding:0 20px 20px 20px;
+    }
+    .plotCard {
+      border:1px solid var(--line);
+      border-radius:18px;
+      background:#fcfdff;
+      padding:14px;
+    }
+    .plotLegend {
+      display:flex;
+      justify-content:space-between;
+      color:var(--muted);
+      font-size:.82rem;
+      margin-top:10px;
+    }
+    .plotNote {
+      color:var(--muted);
+      font-size:.88rem;
+      line-height:1.45;
+      margin-top:10px;
+    }
+    details.accordion {
+      margin-top:18px;
+      overflow:hidden;
+    }
+    details.accordion > summary {
+      list-style:none;
+      cursor:pointer;
+      padding:18px 20px;
+      font-weight:800;
+      font-size:1.15rem;
+      user-select:none;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+    details.accordion > summary::-webkit-details-marker {
+      display:none;
+    }
+    details.accordion > summary::after {
+      content:"+";
+      display:inline-flex;
+      width:28px;
+      height:28px;
+      align-items:center;
+      justify-content:center;
+      border-radius:999px;
+      background:var(--blue-soft);
+      color:var(--blue);
+      font-weight:900;
+      flex:0 0 auto;
+    }
+    details.accordion[open] > summary::after {
+      content:"–";
+    }
+        .accordionBody {
+      border-top:1px solid var(--line);
+    }
+    .criteriaQuickTitle {
+      margin-top:6px;
+      color:var(--muted);
+      font-size:.84rem;
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:.04em;
+    }
+    .criteriaButtonRow {
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:8px;
+      margin-top:8px;
+    }
+    .criteriaBtn {
+      border:1px solid var(--line);
+      background:#fff;
+      border-radius:12px;
+      padding:10px 8px;
+      cursor:pointer;
+      font-weight:700;
+      font-size:.82rem;
+      text-align:center;
+    }
+    .criteriaBtn.notready {
+      background:#fee2e2;
+      border-color:#fca5a5;
+      color:#991b1b;
+    }
+    .criteriaBtn.somewhat {
+      background:#fef3c7;
+      border-color:#fcd34d;
+      color:#92400e;
+    }
+    .criteriaBtn.ready {
+      background:#dcfce7;
+      border-color:#86efac;
+      color:#166534;
+    }
+    .criteriaBtn:hover {
+      filter:brightness(0.98);
+      transform:translateY(-1px);
+    }
+    .criteriaBox {
+      margin-top:10px;
+      border:1px solid var(--line);
+      border-radius:14px;
+      background:#fcfdff;
+      overflow:hidden;
+    }
+    .criteriaBox summary {
+      cursor:pointer;
+      list-style:none;
+      padding:12px 14px;
+      font-weight:700;
+      color:var(--text);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:8px;
+    }
+    .criteriaBox summary::-webkit-details-marker { display:none; }
+    .criteriaBox summary::after {
+      content:"+";
+      width:24px;
+      height:24px;
+      border-radius:999px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      background:var(--blue-soft);
+      color:var(--blue);
+      font-weight:900;
+      flex:0 0 auto;
+    }
+    .criteriaBox[open] summary::after { content:"–"; }
+    .criteriaInner {
+      border-top:1px solid var(--line);
+      padding:12px;
+      display:grid;
+      gap:10px;
+    }
+    .criteriaLevel {
+      border:1px solid var(--line);
+      border-radius:12px;
+      padding:10px;
+      background:#fff;
+    }
+    .criteriaLevelHeader {
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:flex-start;
+      margin-bottom:6px;
+    }
+    .criteriaTag {
+      display:inline-block;
+      font-size:.76rem;
+      font-weight:800;
+      padding:4px 8px;
+      border-radius:999px;
+    }
+    .criteriaTag.notready {
+      background:#fee2e2;
+      color:#991b1b;
+      border:1px solid #fca5a5;
+    }
+    .criteriaTag.somewhat {
+      background:#fef3c7;
+      color:#92400e;
+      border:1px solid #fcd34d;
+    }
+    .criteriaTag.ready {
+      background:#dcfce7;
+      color:#166534;
+      border:1px solid #86efac;
+    }
+    .criteriaCriteria {
+      color:var(--text);
+      font-weight:700;
+      font-size:.88rem;
+      margin-bottom:4px;
+    }
+    .criteriaDesc {
+      color:var(--muted);
+      font-size:.88rem;
+      line-height:1.45;
+    }
+    .criteriaRefs {
+      margin-top:8px;
+      color:var(--muted);
+      font-size:.82rem;
+      line-height:1.35;
+      padding-top:8px;
+      border-top:1px dashed var(--line);
+    }
+    .criteriaGuide {
+      padding:0 20px 20px 20px;
+      display:grid;
+      gap:10px;
+    }
+    .criteriaGuideCard {
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:12px;
+      background:#fcfdff;
+    }
+    .actionBox {
+      margin-top:10px;
+      border:1px solid var(--line);
+      border-radius:14px;
+      background:#fcfdff;
+      padding:12px;
+    }
+    .actionLead {
+      font-weight:800;
+      margin-bottom:6px;
+    }
+    .actionMsg {
+      color:var(--text);
+      line-height:1.45;
+      font-size:.9rem;
+    }
+    .actionList {
+      padding:0 20px 20px 20px;
+      display:grid;
+      gap:10px;
+    }
+    .actionItem {
+      border:1px solid var(--line);
+      border-radius:14px;
+      background:#fcfdff;
+      padding:12px;
+    }
+    .actionHeader {
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:flex-start;
+      margin-bottom:6px;
+    }
+
+    .scoreSlider::-webkit-slider-thumb {
+      -webkit-appearance:none;
+      appearance:none;
+      width:24px;
+      height:24px;
+      border-radius:50%;
+      background:#ffffff;
+      border:4px solid #2f855a;
+      box-shadow:0 1px 4px rgba(0,0,0,.18);
+      cursor:pointer;
+    }
+    .scoreSlider::-moz-range-thumb {
+      width:24px;
+      height:24px;
+      border-radius:50%;
+      background:#ffffff;
+      border:4px solid #2f855a;
+      box-shadow:0 1px 4px rgba(0,0,0,.18);
+      cursor:pointer;
+    }
+    .scoreTicks {
+      display:flex;
+      justify-content:space-between;
+      color:var(--muted);
+      font-size:.76rem;
+      line-height:1;
+      padding:0 2px;
+    }
+    .scoreValueBox{
+      padding:10px 8px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background:#fff;
+      text-align:center;
+      font-weight:800;
+      font-size:.95rem;
+      min-width:64px;
+    }
+.note {
+  width:100%;
+  min-height:70px;
+  border-radius:12px;
+  border:1px solid var(--line);
+  padding:10px 12px;
+  resize:vertical;
+  font:inherit;
+}
+.actions {
+  display:flex; gap:10px; flex-wrap:wrap; margin-top:auto;
+}
+.btn {
+  padding:10px 12px; border-radius:12px; border:1px solid var(--line); background:#fff; cursor:pointer; font-weight:700;
+}
+
+.tableWrap { padding:0 20px 20px 20px; overflow:auto; }
+table {
+  width:100%;
+  border-collapse:collapse;
+  min-width:900px;
+}
+th, td {
+  border-bottom:1px solid var(--line);
+  padding:10px 8px;
+  text-align:left;
+  vertical-align:top;
+  font-size:.92rem;
+}
+th { color:var(--muted); font-size:.8rem; text-transform:uppercase; letter-spacing:.04em; }
+dialog {
+  border:none; border-radius:20px; padding:0; width:min(760px, calc(100% - 24px)); box-shadow:0 30px 90px rgba(0,0,0,.25);
+}
+dialog::backdrop { background:rgba(15,23,42,.45); }
+.modalHead {
+  padding:20px 22px 10px 22px; border-bottom:1px solid var(--line); display:flex; justify-content:space-between; gap:10px; align-items:flex-start;
+}
+.modalBody { padding:18px 22px 22px 22px; display:grid; gap:14px; }
+.closeBtn {
+  border:none; background:#eef2ff; color:#3730a3; padding:8px 12px; border-radius:12px; cursor:pointer; font-weight:700;
+}
+.help {
+  padding:0 20px 20px 20px;
+  color:var(--muted);
+  line-height:1.55;
+  font-size:.92rem;
+}
+@media print {
+  .toolbar, .actions button, .closeBtn { display:none !important; }
+  body { background:#fff; }
+  .panel, .hero { box-shadow:none; }
+}
+@media (max-width:1200px) {
+  .grid { grid-template-columns:1fr; }
+  .cards { grid-template-columns:1fr; }
+  .toolbar { grid-template-columns:1fr; }
+}
+@media (max-width:780px) {
+  .hero-grid { grid-template-columns:1fr !important; }
+  .hero-grid > div:last-child { display:none; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <section class="hero">
+    <div style="display:grid; grid-template-columns:1fr 380px; gap:32px; align-items:center;">
+      <div>
+        <h1 style="margin:0 0 10px 0; font-size:2rem; line-height:1.1;">ZEV Readiness Framework Dashboard</h1>
+        <p style="margin:0; line-height:1.6; color:rgba(255,255,255,.9); font-size:.97rem;">
+          This dashboard helps communities evaluate their readiness for Zero-Emission Vehicle (ZEV) adoption across six key categories: infrastructure, mobility access, supportive policies, outreach, workforce, and equity.
+        </p>
+        <p style="margin:10px 0 0 0; line-height:1.6; color:rgba(255,255,255,.85); font-size:.93rem;">
+          Score each indicator, view overall readiness results, and identify areas that need improvement. The framework supports planning, discussion, and decision-making by highlighting strengths, gaps, and opportunities. Scroll to the
+          <a href="#scoringTable" onclick="document.getElementById('scoringTable').scrollIntoView({behavior:'smooth'}); return false;" style="color:#93c5fd; font-weight:700; text-decoration:none;">📋 Scoring Table</a> or
+          <a href="#workNext" onclick="document.getElementById('workNext').scrollIntoView({behavior:'smooth'}); return false;" style="color:#93c5fd; font-weight:700; text-decoration:none;">🔧 What to Work on Next</a> for priority-based improvement recommendations.
+        </p>
+        <details class="accordion" style="margin-top:14px; border:1px solid rgba(255,255,255,.25); border-radius:14px; overflow:hidden;">
+        <summary style="color:#fff; padding:12px 16px; font-size:.95rem;">How to Use This Dashboard</summary>
+        <div class="accordionBody">
+          <div style="padding:20px; display:grid; gap:14px;">
+
+            <div style="display:flex; gap:14px; align-items:flex-start; padding:14px; border:1px solid var(--line); border-radius:14px; background:#fcfdff;">
+              <div style="flex-shrink:0; width:34px; height:34px; border-radius:50%; background:var(--blue); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:1rem;">1</div>
+              <div>
+                <div style="font-weight:800; margin-bottom:4px;">Browse the Indicator Cards</div>
+                <div style="color:var(--muted); font-size:.92rem; line-height:1.6;">Each card represents one measurable aspect of ZEV readiness — such as charging infrastructure, workforce training, or equity access. Read the short description to understand what that indicator is measuring in your community.</div>
+              </div>
+            </div>
+
+            <div style="display:flex; gap:14px; align-items:flex-start; padding:14px; border:1px solid var(--line); border-radius:14px; background:#fcfdff;">
+              <div style="flex-shrink:0; width:34px; height:34px; border-radius:50%; background:var(--blue); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:1rem;">2</div>
+              <div>
+                <div style="font-weight:800; margin-bottom:4px;">Check the Suggested Unit &amp; Range</div>
+                <div style="color:var(--muted); font-size:.92rem; line-height:1.6;">Each card shows a <strong>Suggested Unit</strong> (how the indicator is measured, e.g. "% uptime") and a <strong>Suggested Range</strong> (benchmark values from research). Use these to understand where your community currently stands before assigning a score.</div>
+              </div>
+            </div>
+
+            <div style="display:flex; gap:14px; align-items:flex-start; padding:14px; border:1px solid var(--line); border-radius:14px; background:#fcfdff;">
+              <div style="flex-shrink:0; width:34px; height:34px; border-radius:50%; background:var(--blue); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:1rem;">3</div>
+              <div>
+                <div style="font-weight:800; margin-bottom:4px;">Assign a Score — Two Easy Ways</div>
+                <div style="color:var(--muted); font-size:.92rem; line-height:1.6;">
+                  <strong>Option A — Quick buttons:</strong> Click <span style="background:#fee2e2; color:#991b1b; border-radius:6px; padding:2px 7px; font-size:.85rem; font-weight:700;">Not Ready (1–3)</span>, <span style="background:#fef3c7; color:#92400e; border-radius:6px; padding:2px 7px; font-size:.85rem; font-weight:700;">Somewhat Ready (&gt;3–7)</span>, or <span style="background:#dcfce7; color:#166534; border-radius:6px; padding:2px 7px; font-size:.85rem; font-weight:700;">Ready (&gt;7–10)</span> based on your community's current situation. The score updates automatically.<br><br>
+                  <strong>Option B — Slider:</strong> Drag the slider to any number from 1 to 10 for a more precise score. Use <em>"Show readiness conditions"</em> on each card to read exactly what qualifies as Not Ready, Somewhat Ready, or Ready — with real data thresholds to compare against.
+                </div>
+              </div>
+            </div>
+
+            <div style="display:flex; gap:14px; align-items:flex-start; padding:14px; border:1px solid var(--line); border-radius:14px; background:#fcfdff;">
+              <div style="flex-shrink:0; width:34px; height:34px; border-radius:50%; background:var(--blue); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:1rem;">4</div>
+              <div>
+                <div style="font-weight:800; margin-bottom:4px;">Read the Readiness Summary</div>
+                <div style="color:var(--muted); font-size:.92rem; line-height:1.6;">The <strong>Overall Readiness Summary</strong> panel updates live as you score. It shows your average score out of 10 and how many indicators fall into each readiness level. The <strong>Category Scores</strong> bars reveal which of the six pillars are strongest and which need the most attention.</div>
+              </div>
+            </div>
+
+            <div style="display:flex; gap:14px; align-items:flex-start; padding:14px; border:1px solid var(--line); border-radius:14px; background:#fcfdff;">
+              <div style="flex-shrink:0; width:34px; height:34px; border-radius:50%; background:var(--blue); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:1rem;">5</div>
+              <div>
+                <div style="font-weight:800; margin-bottom:4px;">Review What to Work on Next</div>
+                <div style="color:var(--muted); font-size:.92rem; line-height:1.6;">Scroll down to the <strong>"What to Work on Next"</strong> section. For every indicator it gives you a plain-language action step based on your score — whether you need to start from scratch, build on what you have, or maintain strong progress. This is your practical to-do list.</div>
+              </div>
+            </div>
+
+            <div style="display:flex; gap:14px; align-items:flex-start; padding:14px; border:1px solid var(--line); border-radius:14px; background:#fcfdff;">
+              <div style="flex-shrink:0; width:34px; height:34px; border-radius:50%; background:var(--blue); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:1rem;">6</div>
+              <div>
+                <div style="font-weight:800; margin-bottom:4px;">Export or Print Your Results</div>
+                <div style="color:var(--muted); font-size:.92rem; line-height:1.6;">
+                  Use the toolbar at the top to save your work:<br>
+                  <span style="display:inline-block; margin-top:6px;">&#128229; <strong>Export CSV</strong> — downloads a spreadsheet you can open in Excel or Google Sheets, with all scores in one table.</span><br>
+                  <span style="display:inline-block; margin-top:4px;">&#128424; <strong>Print / Save PDF</strong> — opens your browser's print dialog. Select "Save as PDF" to create a shareable report.</span>
+                </div>
+              </div>
+            </div>
+
+            <div style="padding:14px 16px; background:var(--blue-soft); border:1px solid #bfdbfe; border-radius:14px;">
+              <div style="font-weight:800; color:var(--blue); margin-bottom:6px;">&#128161; Tip — Use the Search &amp; Filter bar</div>
+              <div style="color:var(--muted); font-size:.92rem; line-height:1.6;">Use the bar at the top of the page to search by keyword (e.g. "charging" or "equity"), or filter by category or measurement type to focus on a specific set of indicators. The summary scores always reflect only the currently visible indicators.</div>
+            </div>
+
+          </div>
+        </div>
+      </details>
+      </div>
+
+      <!-- Six-pillar SVG infographic -->
+      <div style="flex-shrink:0;">
+        <svg viewBox="0 0 360 340" width="100%" style="display:block;" aria-label="The six pillars of the ZEV Readiness Framework">
+          <defs>
+            <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="3" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+
+          <!-- Central hub -->
+          <circle cx="180" cy="158" r="46" fill="rgba(255,255,255,.13)" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
+          <circle cx="180" cy="158" r="36" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+          <text x="180" y="146" text-anchor="middle" fill="#fff" font-size="10" font-weight="700" font-family="Inter,system-ui,sans-serif">ZEV</text>
+          <text x="180" y="159" text-anchor="middle" fill="#fff" font-size="10" font-weight="700" font-family="Inter,system-ui,sans-serif">Readiness</text>
+          <text x="180" y="172" text-anchor="middle" fill="rgba(255,255,255,.8)" font-size="9.5" font-family="Inter,system-ui,sans-serif">Framework</text>
+
+          <!-- Connector lines from centre to pillars -->
+          <g stroke="rgba(255,255,255,.2)" stroke-width="1" stroke-dasharray="3 3">
+            <line x1="180" y1="112" x2="180" y2="74"/>
+            <line x1="214" y1="131" x2="290" y2="96"/>
+            <line x1="214" y1="185" x2="290" y2="222"/>
+            <line x1="180" y1="204" x2="180" y2="244"/>
+            <line x1="146" y1="185" x2="70" y2="222"/>
+            <line x1="146" y1="131" x2="70" y2="96"/>
+          </g>
+
+          <!-- Pillar 1 — Availability of Infrastructure (top) -->
+          <g>
+            <rect x="126" y="10" width="108" height="58" rx="10" fill="rgba(56,189,248,.22)" stroke="rgba(56,189,248,.6)" stroke-width="1.2"/>
+            <text x="180" y="30" text-anchor="middle" fill="#7dd3fc" font-size="18" font-family="Inter,system-ui,sans-serif">⚡</text>
+            <text x="180" y="47" text-anchor="middle" fill="#fff" font-size="9.5" font-weight="700" font-family="Inter,system-ui,sans-serif">Infrastructure</text>
+          </g>
+
+          <!-- Pillar 2 — Clean Mobility Options (top-right) -->
+          <g>
+            <rect x="284" y="58" width="68" height="68" rx="10" fill="rgba(52,211,153,.22)" stroke="rgba(52,211,153,.6)" stroke-width="1.2"/>
+            <text x="318" y="83" text-anchor="middle" fill="#6ee7b7" font-size="18" font-family="Inter,system-ui,sans-serif">🚌</text>
+            <text x="318" y="99" text-anchor="middle" fill="#fff" font-size="9.5" font-weight="700" font-family="Inter,system-ui,sans-serif">Clean</text>
+            <text x="318" y="111" text-anchor="middle" fill="#fff" font-size="9.5" font-weight="700" font-family="Inter,system-ui,sans-serif">Mobility</text>
+          </g>
+
+          <!-- Pillar 3 — Supportive Policies (bottom-right) -->
+          <g>
+            <rect x="284" y="190" width="68" height="68" rx="10" fill="rgba(251,191,36,.22)" stroke="rgba(251,191,36,.6)" stroke-width="1.2"/>
+            <text x="318" y="215" text-anchor="middle" fill="#fde68a" font-size="18" font-family="Inter,system-ui,sans-serif">📋</text>
+            <text x="318" y="231" text-anchor="middle" fill="#fff" font-size="9.5" font-weight="700" font-family="Inter,system-ui,sans-serif">Supportive</text>
+            <text x="318" y="243" text-anchor="middle" fill="#fff" font-size="9.5" font-weight="700" font-family="Inter,system-ui,sans-serif">Policies</text>
+          </g>
+
+          <!-- Pillar 4 — Outreach & Education (bottom) -->
+          <g>
+            <rect x="126" y="274" width="108" height="58" rx="10" fill="rgba(167,139,250,.22)" stroke="rgba(167,139,250,.6)" stroke-width="1.2"/>
+            <text x="180" y="294" text-anchor="middle" fill="#c4b5fd" font-size="18" font-family="Inter,system-ui,sans-serif">📢</text>
+            <text x="180" y="311" text-anchor="middle" fill="#fff" font-size="9.5" font-weight="700" font-family="Inter,system-ui,sans-serif">Outreach &amp; Education</text>
+          </g>
+
+          <!-- Pillar 5 — Skilled Workforce (bottom-left) -->
+          <g>
+            <rect x="8" y="190" width="68" height="68" rx="10" fill="rgba(251,146,60,.22)" stroke="rgba(251,146,60,.6)" stroke-width="1.2"/>
+            <text x="42" y="215" text-anchor="middle" fill="#fed7aa" font-size="18" font-family="Inter,system-ui,sans-serif">🔧</text>
+            <text x="42" y="231" text-anchor="middle" fill="#fff" font-size="9.5" font-weight="700" font-family="Inter,system-ui,sans-serif">Skilled</text>
+            <text x="42" y="243" text-anchor="middle" fill="#fff" font-size="9.5" font-weight="700" font-family="Inter,system-ui,sans-serif">Workforce</text>
+          </g>
+
+          <!-- Pillar 6 — Equity Aspect (top-left) -->
+          <g>
+            <rect x="8" y="58" width="68" height="68" rx="10" fill="rgba(244,114,182,.22)" stroke="rgba(244,114,182,.6)" stroke-width="1.2"/>
+            <text x="42" y="83" text-anchor="middle" fill="#fbcfe8" font-size="18" font-family="Inter,system-ui,sans-serif">⚖️</text>
+            <text x="42" y="99" text-anchor="middle" fill="#fff" font-size="9.5" font-weight="700" font-family="Inter,system-ui,sans-serif">Equity</text>
+            <text x="42" y="111" text-anchor="middle" fill="#fff" font-size="9.5" font-weight="700" font-family="Inter,system-ui,sans-serif">Aspect</text>
+          </g>
+
+          <!-- Total indicator count label -->
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <div class="toolbar">
+    <input id="searchBox" type="text" placeholder="Search indicator ID, title, description, or unit">
+    <select id="categoryFilter">
+      <option value="all">All categories</option>
+      <option value="Availability of Infrastructure">Availability of Infrastructure</option><option value="Accessible Clean Mobility Options">Accessible Clean Mobility Options</option><option value="Supportive Policies">Supportive Policies</option><option value="Outreach and Education Programs">Outreach and Education Programs</option><option value="Skilled Workforce">Skilled Workforce</option><option value="Equity Aspect">Equity Aspect</option>
+    </select>
+    <select id="typeFilter">
+      <option value="all">All measurement types</option>
+      <option value="Quantitative">Quantitative</option>
+      <option value="Mixed">Mixed</option>
+    </select>
+    <button id="resetScoresBtn" type="button">Reset scores</button>
+    <button class="secondary" onclick="downloadCSV()">Export CSV</button>
+    <button class="secondary" onclick="window.print()">Print / Save PDF</button>
+  </div>
+
+  <div class="grid">
+    <div>
+      <section class="panel">
+        <h2>Indicator Scoring Cards</h2>
+        <div class="sub">
+          Each indicator includes a short description, suggested unit, suggested working range, and a manual readiness score from 1 to 10. Scores are adjusted with a slider so users can move along the line instead of selecting from a dropdown. Community members can also choose a readiness option directly from the criteria file for each indicator. Click “Show readiness conditions” inside any indicator card to see the Not Ready, Somewhat Ready, and Ready conditions before selecting one. 
+<div style="margin-top:14px; background:#f7f9fc; border:1px solid #d9e2ec; border-radius:12px; padding:16px 20px;">
+<ul style="margin:0; padding-left:22px; line-height:1.6;">
+<li><strong>Not Ready:</strong> Use this when the file indicates no relevant actions, no systems in place, no documented planning, or no supporting evidence.</li>
+<li><strong>Somewhat Ready:</strong> Use this when some actions are underway, monitoring is partial, coverage is incomplete, or planning exists but is not yet comprehensive.</li>
+<li><strong>Ready:</strong> Use this when the indicator meets the strongest condition in the file, with consistent implementation, complete coverage, public documentation, or integration into plans.</li>
+</ul>
+</div>
+ Use the notes field for workshop comments, assumptions, or next actions.
+        </div>
+        <div class="cards" id="cardGrid"></div>
+      </section>
+
+      <section class="panel" style="margin-top:18px;" id="scoringTable">
+        <h2>Scoring Table</h2>
+        <div class="sub">A compact table view for review, documentation, or exporting results after a stakeholder session.</div>
+        <div class="tableWrap">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Category</th>
+                <th>Indicator</th>
+                <th>Unit</th>
+                <th>Range</th>
+                <th>Score</th>
+                <th>Notes</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <details class="panel accordion" open id="workNext">
+        <summary>What to Work on Next</summary>
+        <div class="accordionBody">
+          <div class="sub">This panel gives plain-language next steps based on the current score of each indicator.</div>
+          <div class="actionList" id="actionGuidanceList"></div>
+        </div>
+      </details>
+
+
+    </div>
+
+    <div>
+      
+
+<section class="panel">
+        <h2>Overall Readiness Summary</h2>
+        <div class="sub">These values update automatically as you change indicator scores. The readiness interpretation shown here is: Not Ready = 1–3, Somewhat Ready = >3–7, and Ready = >7–10.</div>
+        <div class="summary">
+          <div class="stat"><div class="num" id="overallScore">0.00</div><div class="lbl">Overall readiness / 10</div></div>
+          
+          <div class="stat"><div class="num" id="highCount">0</div><div class="lbl">Ready range >7 to 10</div></div>
+          <div class="stat"><div class="num" id="midCount">0</div><div class="lbl">Somewhat Ready range >3 to 7</div></div>
+          <div class="stat"><div class="num" id="lowCount">0</div><div class="lbl">Not Ready range 1 to 3</div></div>
+          
+        </div>
+      </section>
+
+
+
+      <section class="panel" style="margin-top:18px;">
+        <h2>Category Scores</h2>
+        <div class="sub">Average readiness by framework category.</div>
+        <div class="categoryBars" id="categoryBars"></div>
+      </section>
+
+      <details class="panel accordion">
+        <summary>Average Fuzzy Score</summary>
+        <div class="accordionBody">
+        <div class="sub">This section uses a technique called Fuzzy Logic to provide an alternative approach for determining the readiness score. This alternative approach allows for different indicators to be weighted differently from one another (in terms of their influence). For more information about Fuzzy Logic please visit <a href="https://www.geeksforgeeks.org/artificial-intelligence/fuzzy-logic-introduction/" target="_blank" rel="noopener" style="color:var(--blue); font-weight:600; text-decoration:none;">Fuzzy Logic Reference ↗</a>.<br><br>Average Fuzzy Readiness Score</div>
+        <div class="categoryBars" id="fuzzyCategoryBars"></div>
+      </div>
+      </details>
+
+
+
+
+      <!-- <details class="panel accordion">
+        <summary>Fuzzy Membership Terms</summary>
+        <div class="accordionBody">
+        <div class="sub">The dashboard now follows the same linguistic terms and triangular membership function ranges used in your MATLAB Fuzzy Logic Designer app.</div>
+        <div class="categoryBars">
+          <div class="catRow">
+            <div class="catRowTop">
+              <div style="font-weight:800;">Not Ready (1–3)</div>
+              <div class="cat">trimf(-4, 1, 4)</div>
+            </div>
+            <div class="bar"><span style="width:10%; background:linear-gradient(90deg,#dc2626 0%, #dc2626 100%);"></span></div>
+          </div>
+          <div class="catRow">
+            <div class="catRowTop">
+              <div style="font-weight:800;">Somewhat Ready (>3–7)</div>
+              <div class="cat">trimf(3, 5.5, 8)</div>
+            </div>
+            <div class="bar"><span style="width:55%; background:linear-gradient(90deg,#f59e0b 0%, #f59e0b 100%);"></span></div>
+          </div>
+          <div class="catRow">
+            <div class="catRowTop">
+              <div style="font-weight:800;">Ready (>7–10)</div>
+              <div class="cat">trimf(7, 10, 13)</div>
+            </div>
+            <div class="bar"><span style="width:100%; background:linear-gradient(90deg,#16a34a 0%, #16a34a 100%);"></span></div>
+          </div>
+        </div>
+      </div>
+      </details> -->
+
+
+      <!-- <details class="panel accordion">
+        <summary>Live Fuzzy Surface Plot</summary>
+        <div class="accordionBody">
+        <div class="sub">A MATLAB Fuzzy Designer–style surface view. The selected pillar is evaluated across two inputs while the remaining inputs stay at their current slider values.</div>
+        <div class="plotControls">
+          <select id="surfaceModel"></select>
+          <select id="surfacePair"></select>
+        </div>
+        <div class="plotWrap">
+          <div class="plotCard">
+            <canvas id="surfaceCanvas" width="720" height="420" style="width:100%; max-width:100%; border-radius:14px; display:block;"></canvas>
+            <div class="plotLegend">
+              <span>Low readiness</span>
+              <span>Surface output / 10</span>
+              <span>High readiness</span>
+            </div>
+            <div class="plotNote" id="surfaceNote"></div>
+          </div>
+        </div>
+      </div>
+      </details> -->
+
+      
+
+
+
+
+
+
+    </div>
+  </div>
+
+
+</div>
+
+<dialog id="detailModal">
+  <div class="modalHead">
+    <div>
+      <div class="pill" id="modalId"></div>
+      <div class="name" id="modalName" style="margin-top:8px;"></div>
+      <div class="cat" id="modalCat" style="margin-top:6px;"></div>
+    </div>
+    <button class="closeBtn" onclick="document.getElementById('detailModal').close()">Close</button>
+  </div>
+  <div class="modalBody">
+    <div><strong>Objective</strong><div id="modalObjective"></div></div>
+    <div><strong>Short Description</strong><div id="modalShort"></div></div>
+    <div><strong>Expanded Description</strong><div id="modalDesc"></div></div>
+    <div class="meta">
+      <div class="metaBox"><strong>Suggested Unit</strong><span id="modalUnit"></span></div>
+      <div class="metaBox"><strong>Suggested Range</strong><span id="modalRange"></span></div>
+      <div class="metaBox"><strong>Measurement Type</strong><span id="modalType"></span></div>
+      <div class="metaBox"><strong>Current Score</strong><span id="modalScore"></span></div>
+    </div>
+    <div><strong>Criteria-based readiness conditions</strong><div id="modalCriteria"></div></div>
+  </div>
+</dialog>
+
+<script>
+const indicators = [{"id": "1.01", "category": "Availability of Infrastructure", "name": "ZEV Station-to-Vehicle Density and Distribution", "type": "Quantitative", "unit": "Public charging ports per 1,000 registered EVs; or EVSE per km²", "range": "Current global avg <10 EVs/public port (IEA 2024); projected ~15 EVs/port by 2035 (IEA APS); modelled mean 135 / median 23 EVs/charger across 168 studies (Xylia et al. 2025)", "short": "Measures whether EV and hydrogen stations are distributed in proportion to the local vehicle population.", "objective": "Ensure equitable and reliable access to public and private ZEV infrastructure by measuring how well charging and refueling stations are distributed relative to the light-duty vehicle population.", "description": "Tracks EVSE and hydrogen refueling availability relative to local light-duty vehicles, helping identify underserved areas and infrastructure gaps.", "defaultScore": 4, "notes": ""}, {"id": "1.02", "category": "Availability of Infrastructure", "name": "Charging Network Speed and Accessibility", "type": "Quantitative", "unit": "% DCFC of total public ports; kW power output (L2 = 3–22 kW; DCFC = 50–350 kW); avg. inter-station distance (km/miles)", "range": "U.S. 2024: 76% L2, 24% DCFC; EU AFIR: DCFC ≥150 kW every 60 km on TEN-T corridors; NEVI: DCFC ≥150 kW within 1 mile of highway exit", "short": "Captures charger mix and spacing to reflect convenience, travel flexibility, and range confidence.", "objective": "Evaluate the type of EV chargers and the charging speed of the network by analyzing charger availability and spatial distribution.", "description": "Assesses the ratio of fast chargers to Level 2 chargers and the average distance between charging sites to identify service quality gaps.", "defaultScore": 4, "notes": ""}, {"id": "1.03", "category": "Availability of Infrastructure", "name": "Energy and Grid Readiness for ZEV Infrastructure", "type": "Mixed", "unit": "Grid hosting capacity (kW/MW per feeder); % managed/smart charging adoption; V2G-capable vehicles as % of fleet", "range": "IEA target: 1.3 kW public capacity per BEV; NEVI minimum: 150 kW per DCFC; China goal: 60% off-peak charging by 2025", "short": "Assesses whether the local grid can reliably support more charging and refueling infrastructure.", "objective": "Evaluate whether existing and planned energy infrastructure can reliably support ZEV charging and refueling systems.", "description": "Examines hosting capacity, distributed energy resources, and managed charging or V2G readiness for scalable deployment.", "defaultScore": 3, "notes": ""}, {"id": "1.04", "category": "Availability of Infrastructure", "name": "Reliability and Maintenance of Charging Infrastructure", "type": "Mixed", "unit": "% uptime (availability); % First-Time Charge Success Rate (FTCSR); Mean Time to Repair (MTTR) in hours", "range": "Regulatory floor: ≥97% uptime (CA/FHWA/NEVI); UK target: ≥99%; real-world FTCSR: 71–85%; national avg reliability index: 93.5% (Q1 2026)", "short": "Focuses on charger uptime, maintenance, response time, and transparency in reporting.", "objective": "Ensure EV and hydrogen fueling infrastructure remains consistently functional, safe, and responsive to technical issues.", "description": "Evaluates uptime, incident response, maintenance practices, and reporting quality to strengthen user confidence.", "defaultScore": 3, "notes": ""}, {"id": "1.05", "category": "Availability of Infrastructure", "name": "Strategic Coverage of ZEV Chargers", "type": "Mixed", "unit": "# chargers per corridor (per 50 km); % census tracts within X miles of a public charger; equity coverage score (DAC vs non-DAC ratio)", "range": "NEVI: DCFC every 50 miles on designated highways; 60–80% of U.S. census tracts lack sufficient access; optimal radius: 5 miles urban / 15 miles rural", "short": "Checks whether chargers are sited where people travel, stop, and need them most.", "objective": "Promote effective and visible deployment of ZEV chargers in high-priority travel and activity areas.", "description": "Reviews corridor and destination siting for chargers near tourism, employment, commercial, and regional travel routes.", "defaultScore": 4, "notes": ""}, {"id": "2.01", "category": "Accessible Clean Mobility Options", "name": "Public Sector and Fleet ZEV Adoption", "type": "Mixed", "unit": "% of annual fleet purchases that are ZEVs; # ZEV fleet vehicles per 100 total fleet vehicles; CO₂ (tonnes) reduced per year", "range": "ACF: SLG fleets ≥50% ZEV purchases from 2024, 100% from 2027; ACT: 40–55% ZEV sales targets by 2035 (class-dependent)", "short": "Measures how much local public fleets have shifted toward zero-emission vehicles.", "objective": "Support public leadership by measuring adoption of ZEVs within municipal and public transit fleets.", "description": "Tracks battery electric and hydrogen vehicles in city, transit, and public fleets, with attention to disadvantaged communities.", "defaultScore": 3, "notes": ""}, {"id": "2.02", "category": "Accessible Clean Mobility Options", "name": "Community Access to Shared Electric Mobility", "type": "Mixed", "unit": "# shared e-mobility vehicles per 1,000 residents in DACs; % of programs with ≥1 equity requirement; subsidized fare uptake rate (%)", "range": "70% of U.S. shared micromobility programs have ≥1 equity requirement; discounted-fare users ride 20–30% more frequently; e-scooter usage grew ~20% in North America since 2022", "short": "Looks at affordable access to shared EVs, e-bikes, scooters, and other clean mobility services.", "objective": "Expand equitable access to clean transportation options by supporting shared electric mobility services.", "description": "Assesses service availability, affordability, equity pricing, and participation in shared clean mobility programs.", "defaultScore": 4, "notes": ""}, {"id": "2.03", "category": "Accessible Clean Mobility Options", "name": "Clean Mobility Hub Deployment and Accessibility", "type": "Mixed", "unit": "# clean mobility hubs per 100,000 residents; % DAC residents within 0.5 miles of a multimodal hub; # EV charging ports per hub", "range": "DOE Clean Cities: hubs typically include 2–10 EV ports + shared mobility docking; CARB CMO targets DACs with <0.5-mile multimodal access gap (peer-reviewed numeric ranges emerging)", "short": "Measures whether multimodal clean mobility hubs are present, accessible, and connected to community needs.", "objective": "Promote development of multimodal clean transportation centers that improve connectivity and equitable access.", "description": "Evaluates the presence, spread, and accessibility of mobility hubs that combine transit, charging, shared mobility, and real-time information.", "defaultScore": 3, "notes": ""}, {"id": "3.01", "category": "Supportive Policies", "name": "Permitting Efficiency and Legislative Compliance for ZEV Infrastructure", "type": "Mixed", "unit": "Avg. permitting time (days); % of jurisdictions AB 970 compliant; # days from application to permit issuance", "range": "CA AB 970: ≤30 business days (residential), ≤60 days (commercial); typical DCFC installation ~2 years total; CO HB24-1173 local compliance required by Dec 31, 2025", "short": "Measures whether local permitting is fast, transparent, and aligned with California requirements.", "objective": "Ensure local permitting processes for ZEV infrastructure are timely, transparent, and compliant with state legislation.", "description": "Tracks permit timelines, workflow transparency, and evidence of streamlined permitting and AB 970 compliance.", "defaultScore": 3, "notes": ""}, {"id": "3.02", "category": "Supportive Policies", "name": "Zoning and Land Use Incentives for ZEV Infrastructure Deployment", "type": "Mixed", "unit": "% of new construction with EV-ready parking; # EV spaces required per X parking spaces in zoning code; incentive points in PUD systems", "range": "CA AB 98: 100% of new construction must include EV charging infrastructure; CO: ≥20% EV-ready spaces in new lots; Minneapolis: EV chargers required for new surface lots ≥20 spaces", "short": "Assesses whether zoning and land-use rules actively support EV infrastructure in priority locations.", "objective": "Encourage integration of ZEV infrastructure into community development using zoning codes and land-use policies.", "description": "Reviews local ordinances, overlays, incentives, and public-private agreements that make charger siting easier.", "defaultScore": 3, "notes": ""}, {"id": "3.03", "category": "Supportive Policies", "name": "ZEV User Incentives: Adoption and Parking Support", "type": "Mixed", "unit": "$ rebate value per vehicle; % EV sales uplift per $1,000 incentive; % of incentive funds reaching DAC/low-income households", "range": "Federal IRA: up to $7,500 new / $4,000 used EV; each $1,000 rebate → ~2.6% uplift in CA EV sales; ~16% of CA's $1.9B incentive funds reached DAC households", "short": "Examines rebates, rate programs, parking benefits, and other user-facing incentives for adoption.", "objective": "Support broader ZEV adoption by reducing upfront and operational costs for users.", "description": "Looks at financial and convenience-based incentives, especially for low-income residents, renters, and users without home charging.", "defaultScore": 4, "notes": ""}, {"id": "3.04", "category": "Supportive Policies", "name": "Policy Support for Medium- and Heavy-Duty ZEVs", "type": "Mixed", "unit": "% of annual MD/HD vehicle sales that are ZEVs; # MD/HD ZEV charging ports deployed; $ public funding (voucher) per ZEV truck", "range": "ACT: 35–55% ZEV MD/HD sales by 2035 (class-dependent); ACF: SLG fleets 50% ZEV purchases from 2024, 100% from 2027; HVIP vouchers: $45,000–$240,000 per heavy-duty ZEV", "short": "Assesses policies and funding that support zero-emission buses, trucks, and other large fleets.", "objective": "Accelerate deployment of medium- and heavy-duty ZEVs through supportive policies, funding, and infrastructure.", "description": "Covers compliance plans, grant participation, fleet turnover, and charging or hydrogen investments for MD/HD vehicles.", "defaultScore": 3, "notes": ""}, {"id": "4.01", "category": "Outreach and Education Programs", "name": "Public Awareness & Community Engagement", "type": "Mixed", "unit": "# public ZEV outreach events per year; # community organizations engaged; % change in ZEV awareness score (survey-based)", "range": "Community outreach campaigns achieve 10–25% uptake increase in targeted DAC neighborhoods; CARB ZEV Equity Task Force: 14 workgroup meetings in 2023 (no universal peer-reviewed numeric target yet)", "short": "Measures how strongly a community informs and involves residents in ZEV-related outreach.", "objective": "Ensure community members have equitable access to information, events, and resources on ZEVs and clean mobility.", "description": "Tracks workshops, ride-and-drive events, public education programs, and partnerships that build awareness.", "defaultScore": 4, "notes": ""}, {"id": "4.02", "category": "Outreach and Education Programs", "name": "Educational & Workforce Programs", "type": "Mixed", "unit": "# ZEV training programs available regionally; # students enrolled per year; # ASE/manufacturer certifications issued annually", "range": ">100 EV training programs identified across U.S. (WRI 2025); FCCC ZEV Education Program active in 8 CA community colleges; ASE launched 2 new xEV certifications in 2023 (national enrollment benchmarks not yet standardized)", "short": "Measures the scale of ZEV-related education and workforce development in schools and training pathways.", "objective": "Develop a future-ready workforce by educating students and professionals on ZEV technologies and careers.", "description": "Reviews curriculum integration, formal programs, and participation levels across K–12, colleges, and workforce training.", "defaultScore": 4, "notes": ""}, {"id": "4.03", "category": "Outreach and Education Programs", "name": "Equity-Focused ZEV Education", "type": "Mixed", "unit": "# multilingual ZEV education materials/campaigns; % DAC residents reached by ZEV education; # community-based organizations delivering ZEV programming", "range": "~16% ($314M of $1.9B) of CA incentives reached DAC households (UCLA Luskin 2024); CARB ZEV Equity Task Force: 3+ workgroups, 14 meetings in 2023 (no standardized national range defined)", "short": "Assesses whether ZEV education is inclusive, multilingual, and designed for underserved communities.", "objective": "Promote inclusive access to ZEV knowledge by engaging underserved and historically marginalized communities.", "description": "Focuses on multilingual outreach, tailored materials, community partnerships, and equity-centered education delivery.", "defaultScore": 3, "notes": ""}, {"id": "5.01", "category": "Skilled Workforce", "name": "Training Program Availability", "type": "Mixed", "unit": "# accredited ZEV training programs per region; # training seats/enrollments per year; # colleges/institutions offering ZEV curriculum", "range": ">100 EV training programs across U.S. (WRI 2025); FCCC ZEV Program active in 8 CA community colleges; eTRUC Fresno Advanced Transportation Center opened Fall 2024 (national enrollment benchmark not established)", "short": "Measures whether local institutions offer accessible training relevant to ZEV maintenance and repair.", "objective": "Ensure local institutions offer accessible, up-to-date programs that prepare students and job seekers for ZEV work.", "description": "Tracks the existence, diversity, and reach of ZEV-related vocational, college, and specialized technical training.", "defaultScore": 3, "notes": ""}, {"id": "5.02", "category": "Skilled Workforce", "name": "Workforce Transition & Upskilling", "type": "Mixed", "unit": "# ICE workers retrained for ZEV roles per year; % workforce transition rate; $ invested per trainee in upskilling programs", "range": "DOE USEER (2024): EV industry covers 5 key workforce areas with significant job growth; skills transferable across manufacturing, electrical, and automotive sectors (no standardized % transition rate benchmark in peer-reviewed literature yet)", "short": "Measures how well the region helps traditional automotive workers move into ZEV-related roles.", "objective": "Support a just transition by equipping traditional automotive professionals with skills for the ZEV economy.", "description": "Assesses retraining and upskilling opportunities tailored to ICE-sector workers and emerging ZEV jobs.", "defaultScore": 3, "notes": ""}, {"id": "5.03", "category": "Skilled Workforce", "name": "Number of Certified ZEV Technicians in the Area", "type": "Quantitative", "unit": "# ASE-certified xEV technicians per 10,000 registered ZEVs; # certified repair shops per county/region", "range": "ASE launched 2 new xEV certifications in 2023; CA BAR (2025) tracking certified ZEV shops statewide (no standard technicians-per-ZEV ratio published in peer-reviewed literature yet)", "short": "Measures the local technical workforce available to maintain and repair growing ZEV fleets.", "objective": "Evaluate regional technical capacity to maintain and repair ZEVs by identifying certified professionals.", "description": "Counts technicians with recognized ZEV certifications and relates that capacity to local fleet size and growth.", "defaultScore": 2, "notes": ""}, {"id": "5.04", "category": "Skilled Workforce", "name": "Employment Growth Rate in ZEV-Related Occupations", "type": "Quantitative", "unit": "% annual growth rate in ZEV-related jobs; # new ZEV jobs per year; ZEV jobs as % of total automotive employment", "range": "Clean energy jobs growing 3–5x faster than overall economy (DOE 2024); U.S. EV manufacturing investments created >100,000 jobs since 2021; Class 8 BEV deliveries grew 6x in one year", "short": "Tracks how fast jobs in the ZEV ecosystem are expanding in the region.", "objective": "Track the evolution of the clean transportation workforce by measuring annual employment growth in ZEV occupations.", "description": "Monitors labor market growth in manufacturing, repair, charging, fueling, batteries, fleet, and mobility services.", "defaultScore": 3, "notes": ""}, {"id": "6.01", "category": "Equity Aspect", "name": "Equitable Access to ZEVs and Incentives", "type": "Mixed", "unit": "% of ZEV incentive funds reaching DAC/low-income households; # ZEV purchases per 1,000 low-income households; $ median ZEV purchase price gap (DAC vs non-DAC)", "range": "UCLA Luskin (2024): ~16% of CA incentive funds reached DAC households (target ≥40%); EV trip share >7% in highest income group vs. <2% in lowest; Federal IRA: $4,000 used EV / $7,500 new EV (income-capped)", "short": "Measures whether incentives and policies are designed to reach underserved households and communities.", "objective": "Promote a just and inclusive transition by ensuring that incentives and policies are accessible to all Californians, especially underserved groups.", "description": "Reviews rebates, grants, and equity-focused programs for renters, multifamily residents, low-income households, and communities burdened by pollution.", "defaultScore": 4, "notes": ""}, {"id": "6.02", "category": "Equity Aspect", "name": "Income Levels per Capita", "type": "Quantitative", "unit": "Median household income ($); % households below poverty line; AMI (Area Median Income) percentile used in program eligibility", "range": "SANDAG (2024): EV trip share >7% (>$200k income) vs. <1% (<$50k income); CVRP income threshold: ≤400% federal poverty level for enhanced rebates; CalEnviroScreen DAC threshold: ≥75th percentile on burden score", "short": "Provides affordability context by showing where incomes may limit access to ZEVs and charging.", "objective": "Support equitable ZEV planning by identifying communities with lower incomes that may require targeted assistance.", "description": "Uses per-capita income and vehicle cost comparisons to identify affordability gaps and justify targeted support.", "defaultScore": 2, "notes": ""}, {"id": "6.03", "category": "Equity Aspect", "name": "Environmental and Health Equity Outcomes", "type": "Quantitative", "unit": "µg/m³ PM₂.₅ concentration; # asthma-related ER visits per 10,000 residents; % reduction in NOₓ/PM₂.₅ attributable to ZEV adoption", "range": "WHO PM₂.₅ guideline: ≤5 µg/m³ annual mean; U.S. EPA NAAQS: ≤9 µg/m³ (revised 2024); DACs consistently 15–25% higher PM₂.₅ than non-DAC tracts; broad ZEV adoption reduces transportation PM₂.₅ by 30–60% in high-adoption zones", "short": "Measures whether ZEV progress is associated with cleaner air and better health outcomes in overburdened areas.", "objective": "Assess whether the transition to ZEVs is contributing to improved environmental quality and public health outcomes.", "description": "Tracks pollution and respiratory health indicators and compares them with areas experiencing ZEV deployment or adoption.", "defaultScore": 4, "notes": ""}];
+
+
+const CRITERIA_DATA = {
+"AI1": {"title": "ZEV Station-to-Vehicle Density & Distribution", "levels": [
+  {"label": "Ready (7-10)", "criteria": "≤20 EVs per public port OR ≥50 ports per 1,000 EVs; sub-regional gap mapping complete", "description": "Station-to-vehicle ratio is at or below the IEA 2035 Announced Pledges Scenario target of ~15 EVs per public charging point. Local data is available at sub-regional level. Underserved area gaps are mapped and addressed in official transportation/equity plans. Public-facing dashboards or maps are maintained."},
+  {"label": "Somewhat Ready (3-7)", "criteria": "15–30 EVs per public port; partial data available for some areas", "description": "Station-to-vehicle ratio is in the 15–30 EVs/port range — above the current global average of <10 EVs/port (IEA 2024) but below the 2035 APS projection of ~15. Some sub-regional mapping exists but coverage is incomplete or not formally integrated into planning documents."},
+  {"label": "Not Ready (1-3)", "criteria": ">50 EVs per public port OR no ratio data available", "description": "Station-to-vehicle ratio exceeds 30 EVs per public port, or no reliable ratio data exists at all. No spatial mapping, no coverage gap analysis, and no evidence of inclusion in transportation or equity programs."}
+], "refs": []},
+"AI2": {"title": "Charging Network Speed and Accessibility", "levels": [
+  {"label": "Ready (7-10)", "criteria": "DCFC ≥25% of public ports; inter-station spacing ≤60 km on corridors; DCFC ≥150 kW", "description": "Network meets or exceeds NEVI/EU AFIR standards: DCFC stations rated ≥150 kW, spaced ≤50 miles (~80 km) on designated highways, within 1 mile of highway exits. DCFC share exceeds 25% of all public ports (above U.S. 2024 average of 24%). ADA-accessible chargers documented."},
+  {"label": "Somewhat Ready (3-7)", "criteria": "DCFC 10–25% of public ports; corridor gaps 60–120 km; some stations <150 kW", "description": "DCFC share between 10–24% of public ports, or corridor spacing is 60–120 km (exceeding AFIR/NEVI targets). Some fast chargers present but below the 150 kW minimum, or chargers are clustered in urban areas with rural/suburban gaps remaining."},
+  {"label": "Not Ready (1-3)", "criteria": "<10% DCFC share; inter-station gaps >120 km; no corridor strategy", "description": "Fewer than 10% of public ports are DCFC, or average inter-station distance exceeds 120 km with no designated corridor strategy. No documented plan to meet NEVI or AFIR spacing standards. Network is predominantly Level 2 only."}
+], "refs": []},
+"AI3": {"title": "Energy and Grid Readiness for ZEV Infrastructure", "levels": [
+  {"label": "Ready (7-10)", "criteria": "≥1.3 kW public charging capacity per registered BEV; managed charging or V2G program active covering ≥20% of load", "description": "Grid hosting capacity meets IEA benchmark of ≥1.3 kW public capacity per registered BEV. Managed/smart charging programs cover ≥20% of charging load. V2G-capable vehicles or pilot programs are operational. Utility coordination plans are documented and publicly available."},
+  {"label": "Somewhat Ready (3-7)", "criteria": "0.5–1.3 kW per BEV; hosting capacity mapped but managed charging <20%", "description": "Public charging capacity is between 0.5–1.3 kW per BEV (below IEA target). Hosting capacity maps exist for some feeders. Managed charging pilots may be underway but cover less than 20% of network. V2G integration is planned but not yet active."},
+  {"label": "Not Ready (1-3)", "criteria": "<0.5 kW per BEV; no hosting capacity data; no managed charging or V2G planning", "description": "Public charging capacity is below 0.5 kW per registered BEV, or no grid hosting capacity data exists at all. No managed charging programs, no V2G readiness, and no coordination with utilities on ZEV infrastructure expansion."}
+], "refs": []},
+"AI4": {"title": "Reliability and Maintenance of Charging Infrastructure", "levels": [
+  {"label": "Ready (7-10)", "criteria": "Uptime ≥97% (CA/FHWA/NEVI floor); FTCSR ≥85%; MTTR ≤24 hours; public reporting active", "description": "Charger uptime meets or exceeds the CA/FHWA/NEVI regulatory floor of ≥97% (UK target: ≥99%). First-Time Charge Success Rate (FTCSR) is ≥85% (above real-world average). Mean Time to Repair (MTTR) is ≤24 hours. Uptime data is publicly reported and service agreements are in place, especially for rural and DAC locations."},
+  {"label": "Somewhat Ready (3-7)", "criteria": "Uptime 90–97%; FTCSR 71–85%; MTTR 24–72 hours; partial reporting", "description": "Charger uptime is in the 90–97% range (national avg reliability index: 93.5% in Q1 2026), or FTCSR is between 71–85% (typical real-world degradation by year 3). Some operators track and report reliability, but coverage is inconsistent. MTTR varies between 24–72 hours."},
+  {"label": "Not Ready (1-3)", "criteria": "Uptime <90%; FTCSR <71%; MTTR >72 hours; no public reliability reporting", "description": "Uptime falls below 90%, or FTCSR is below 71% (below real-world floor for aging stations). MTTR exceeds 72 hours. No public uptime data, no maintenance logs, and no accountability standards in place."}
+], "refs": []},
+"AI5": {"title": "Strategic Coverage of ZEV Chargers", "levels": [
+  {"label": "Ready (7-10)", "criteria": "DCFC every ≤50 miles on designated corridors; ≥80% census tracts within 5 miles (urban) / 15 miles (rural); DAC equity ratio ≥1.0", "description": "Charger siting meets NEVI standard: DCFC every ≤50 miles on designated highways, within 1 mile of exit. ≥80% of census tracts have a public charger within 5-mile (urban) or 15-mile (rural) service radius. DAC-to-non-DAC coverage ratio is documented and equity gaps are formally addressed."},
+  {"label": "Somewhat Ready (3-7)", "criteria": "DCFC gaps 50–100 miles; 40–80% census tract coverage; DAC equity ratio tracked but <1.0", "description": "DCFC corridor gaps range from 50–100 miles, exceeding NEVI targets in some segments. Between 40–80% of census tracts have charger access within the target radius (60–80% of U.S. tracts currently lack sufficient access). DAC vs. non-DAC equity coverage ratio is tracked but below parity."},
+  {"label": "Not Ready (1-3)", "criteria": "DCFC gaps >100 miles; <40% census tracts covered; no equity siting analysis", "description": "DCFC gaps exceed 100 miles on key corridors, or fewer than 40% of census tracts have a public charger within the service radius. No spatial equity analysis, no DAC siting strategy, and no corridor planning aligned with NEVI or state ZEV targets."}
+], "refs": []},
+"CM1": {"title": "Public Sector and Fleet ZEV Adoption", "levels": [
+  {"label": "Ready (7-10)", "criteria": "≥50% of annual fleet purchases are ZEVs (ACF SLG 2024 target); fleet inventory tracked by fuel type; HVIP participation documented", "description": "Meets the ACF requirement: ≥50% of new annual fleet purchases are ZEVs (from 2024), progressing toward 100% by 2027. Fleet inventory is up-to-date by fuel type. Route equity analysis using CalEnviroScreen is documented. Participation in funding programs (HVIP) is tracked and reported."},
+  {"label": "Somewhat Ready (3-7)", "criteria": "10–50% ZEV fleet purchase share; basic inventory exists; equity/funding tracking incomplete", "description": "Annual ZEV fleet purchases are between 10–50% (below ACF threshold). Basic fleet inventory exists but may not be fully categorized by fuel type. Some electrification planning is underway but equity mapping and HVIP participation are not yet documented comprehensively."},
+  {"label": "Not Ready (1-3)", "criteria": "<10% ZEV fleet purchase share; no fleet inventory or ZEV transition plan", "description": "Fewer than 10% of annual fleet purchases are ZEVs, or no fleet ZEV data is tracked. No ACF compliance planning, no charging infrastructure roadmap for fleet use, and no engagement with state funding programs."}
+], "refs": []},
+"CM2": {"title": "Community Access to Shared Electric Mobility", "levels": [
+  {"label": "Ready (7-10)", "criteria": "≥70% of programs have ≥1 equity requirement; ≥1 shared e-vehicle per 1,000 DAC residents; subsidized fare uptake active", "description": "Shared mobility programs meet the national benchmark: ≥70% of programs include at least one equity requirement (Brown & Howell 2024). Service density reaches ≥1 shared e-vehicle per 1,000 DAC residents. Discounted fare uptake is active — subsidized-fare users ride 20–30% more frequently. Service areas and equity data are mapped."},
+  {"label": "Somewhat Ready (3-7)", "criteria": "30–70% of programs have equity requirements; 0.3–1 vehicles per 1,000 DAC residents", "description": "Between 30–70% of shared mobility programs include equity provisions. Vehicle density in DACs is 0.3–1 per 1,000 residents. Some geographic tracking exists but is incomplete. Discounted fare programs are piloted but not fully scaled."},
+  {"label": "Not Ready (1-3)", "criteria": "<30% equity program compliance; <0.3 shared e-vehicles per 1,000 DAC residents; no equity pricing", "description": "Fewer than 30% of shared mobility programs have equity requirements, or shared e-vehicle density in DACs is below 0.3 per 1,000 residents. No usage data or service maps. No equity-focused pricing or access programs documented."}
+], "refs": []},
+"CM3": {"title": "Clean Mobility Hub Deployment and Accessibility", "levels": [
+  {"label": "Ready (7-10)", "criteria": "≥1 hub per 100,000 residents; ≥70% DAC residents within 0.5 miles; 2–10 EV ports per hub; ADA compliant", "description": "Hub density meets or exceeds DOE Clean Cities guidance (2–10 EV ports + shared mobility docking per hub). ≥70% of DAC residents are within 0.5 miles of a multimodal hub (CARB CMO target). Hubs are ADA-compliant, integrated into regional plans, and user data is tracked."},
+  {"label": "Somewhat Ready (3-7)", "criteria": "0.3–1 hub per 100,000 residents; 30–70% DAC residents within 0.5 miles; <2 EV ports per hub", "description": "Hub density is between 0.3–1 per 100,000 residents. Between 30–70% of DAC residents are within the 0.5-mile target. Some hubs are operational but services are limited (fewer than 2 EV ports), accessibility features are incomplete, or equity impact is not tracked."},
+  {"label": "Not Ready (1-3)", "criteria": "<0.3 hubs per 100,000 residents; <30% DAC residents within 0.5 miles; no hub planning", "description": "Hub density is below 0.3 per 100,000 residents, fewer than 30% of DAC residents have a hub within 0.5 miles, or no clean mobility hub planning exists. No documentation of coverage, service integration, or inclusion in transportation strategies."}
+], "refs": []},
+"SP1": {"title": "Permitting Efficiency and Legislative Compliance", "levels": [
+  {"label": "Ready (7-10)", "criteria": "Residential permits ≤30 business days; commercial ≤60 days; AB 970 compliant; digital workflow active", "description": "Jurisdiction meets CA AB 970 benchmarks: residential EVSE permits issued within ≤30 business days, commercial within ≤60 days. Permitting timelines are publicly tracked on a dashboard. Digital or streamlined permitting workflows are in place. Full AB 970 / CO HB24-1173 compliance is demonstrated."},
+  {"label": "Somewhat Ready (3-7)", "criteria": "Residential 30–90 days; commercial 60–180 days; partial AB 970 alignment; some workflow improvements", "description": "Permit timelines are 30–90 days (residential) or 60–180 days (commercial), exceeding AB 970 targets. Some workflow improvements are underway. AB 970 alignment is partial (e.g., draft ordinances or offline-only processes). Note: typical full DCFC installation takes ~2 years including all site work."},
+  {"label": "Not Ready (1-3)", "criteria": "Residential >90 days; commercial >180 days; no AB 970 compliance; no timeline tracking", "description": "Permitting takes more than 90 days (residential) or 180 days (commercial), or no timeline data is collected. No evidence of AB 970 compliance, no digital permitting tools, and no streamlined workflow for EVSE applications."}
+], "refs": []},
+"SP2": {"title": "Zoning and Land Use Incentives for ZEV Infrastructure", "levels": [
+  {"label": "Ready (7-10)", "criteria": "100% new construction EV-ready (CA AB 98); ≥20% EV-ready spaces in new lots (CO standard); active local incentive programs", "description": "Jurisdiction meets CA AB 98: 100% of new construction includes EV charging infrastructure. New surface lots of ≥20 spaces include ≥20% EV-ready spaces (CO standard). Local tax rebates or EVSE grants are active, tracked, and publicly accessible. Overlay maps align with state/regional ZEV plans."},
+  {"label": "Somewhat Ready (3-7)", "criteria": "20–99% new construction EV-ready; 5–20% EV-ready spaces required in new lots; ≥1 incentive program adopted", "description": "Between 20–99% of new construction includes EV-ready requirements. Zoning codes require 5–20% EV-ready spaces in new parking lots. At least one local incentive program or zoning update is in place, but comprehensive coverage or state alignment is incomplete."},
+  {"label": "Not Ready (1-3)", "criteria": "<20% new construction EV-ready; no EV space requirements in zoning; no local incentives", "description": "Fewer than 20% of new construction projects are subject to EV-ready requirements. No local zoning codes mandate EV spaces in new lots. No public-facing incentive programs, overlays, or developer guidance documents are available."}
+], "refs": []},
+"SP3": {"title": "ZEV User Incentives: Adoption and Parking Support", "levels": [
+  {"label": "Ready (7-10)", "criteria": "Federal IRA accessed ($4k–$7.5k/vehicle); each $1k rebate → ~2.6% EV uptake; ≥30% of incentive funds reach DAC households", "description": "Full incentive suite in place: local rebates, federal IRA credits (up to $7,500 new / $4,000 used EV), and designated EV parking with active ICE-ing enforcement. Each $1,000 rebate produces ~2.6% EV sales uplift in CA (Muehlegger & Rapson 2022). ≥30% of total incentive funds reach DAC/low-income households (above current CA avg of ~16%)."},
+  {"label": "Somewhat Ready (3-7)", "criteria": "≥1 active incentive type; $500–$2,500 local rebate; 10–30% of funds reach DAC households", "description": "At least one financial incentive is active (local rebate $500–$2,500, utility rate discount, or dedicated EV parking). Between 10–30% of incentive funding reaches DAC or low-income households. ICE-ing enforcement may exist but is not consistently applied."},
+  {"label": "Not Ready (1-3)", "criteria": "No local rebates; <10% of incentive funds reach DAC households; no EV parking enforcement", "description": "No local financial rebates or parking support for ZEV users. Less than 10% of any existing incentive funds reach DAC or low-income households. No municipal ordinances on EV parking or ICE-ing enforcement are documented or promoted."}
+], "refs": []},
+"SP4": {"title": "Policy Support for Medium- and Heavy-Duty ZEVs", "levels": [
+  {"label": "Ready (7-10)", "criteria": "≥50% annual ZEV fleet purchases (ACF 2024 target); HVIP vouchers accessed ($45k–$240k/vehicle); ACT compliance plan documented", "description": "Jurisdiction meets ACF: ≥50% of SLG annual fleet purchases are ZEVs (2024, rising to 100% by 2027). HVIP vouchers ($45,000–$240,000 per heavy-duty ZEV, class-dependent) are actively accessed. ACT ZEV sales targets (35–55% by 2035) are tracked and infrastructure is planned accordingly."},
+  {"label": "Somewhat Ready (3-7)", "criteria": "10–50% annual MD/HD ZEV purchases; HVIP participation initiated; draft ACT compliance plan", "description": "Between 10–50% of annual MD/HD fleet purchases are ZEVs. HVIP participation is initiated but not at full scale. A draft ACF/ACT compliance plan exists. Some MD/HD charging or hydrogen refueling infrastructure is under development."},
+  {"label": "Not Ready (1-3)", "criteria": "<10% annual MD/HD ZEV purchases; no HVIP access; no ACF/ACT compliance planning", "description": "Fewer than 10% of MD/HD fleet purchases are ZEVs, or no tracking exists. No participation in HVIP or similar voucher programs. No ACF/ACT compliance planning, no infrastructure investment for MD/HD ZEV charging or hydrogen."}
+], "refs": []},
+"OEP1": {"title": "Public Awareness & Community Engagement", "levels": [
+  {"label": "Ready (7-10)", "criteria": "≥10 ZEV outreach events/year per 100,000 residents; 10–25% ZEV awareness uplift in DACs; ≥3 CBO partnerships active", "description": "Regular ZEV outreach events achieve ≥10 per year per 100,000 residents with documented participation tracking. Campaigns in targeted DAC neighborhoods achieve 10–25% increase in ZEV awareness or uptake (Connolly et al. 2023). ≥3 formal partnerships with schools, CBOs, or community groups are active and tracked."},
+  {"label": "Somewhat Ready (3-7)", "criteria": "3–10 events/year per 100,000 residents; some DAC outreach; 1–2 community partnerships", "description": "Between 3–10 ZEV outreach events per year per 100,000 residents. Some DAC-targeted outreach has occurred but is not consistently tracked. 1–2 community partnerships exist in early or pilot stage. Awareness change has not been formally measured."},
+  {"label": "Not Ready (1-3)", "criteria": "<3 events/year per 100,000 residents; no DAC targeting; no documented partnerships", "description": "Fewer than 3 ZEV outreach events per year per 100,000 residents, or none at all. No targeted engagement in DAC or equity-priority communities. No formal community organization partnerships and no tracking of participation or awareness change."}
+], "refs": []},
+"OEP2": {"title": "Educational & Workforce Programs", "levels": [
+  {"label": "Ready (7-10)", "criteria": "≥5 accredited ZEV programs regionally; ≥1 ASE xEV certification pathway locally; ZEV content in ≥3 institutions with enrollment tracked", "description": "Region has ≥5 accredited ZEV training programs (WRI 2025 identifies >100 nationally across 5 categories). At least one ASE xEV Electrical Safety certification pathway is available locally (ASE launched 2 new xEV certifications in 2023). ZEV curriculum is integrated into ≥3 K–12, community college, or vocational institutions with enrollment tracked."},
+  {"label": "Somewhat Ready (3-7)", "criteria": "2–5 programs regionally; certification accessible but not local; ZEV content in 1–2 institutions", "description": "Between 2–5 ZEV training programs are accessible in the region. ASE or manufacturer certification is available but may require travel outside the immediate area. ZEV topics are covered in 1–2 institutions but without formal curriculum integration or enrollment tracking."},
+  {"label": "Not Ready (1-3)", "criteria": "<2 programs regionally; no local certification pathway; no ZEV curriculum in local institutions", "description": "Fewer than 2 ZEV training programs in the region, or none at all. No ASE xEV or equivalent certification pathway is locally accessible. No documented ZEV-related courses in K–12, community college, or vocational programs."}
+], "refs": []},
+"OEP3": {"title": "Equity-Focused ZEV Education", "levels": [
+  {"label": "Ready (7-10)", "criteria": "Materials in ≥3 languages; ≥30% DAC residents reached; ≥3 CBO partnerships; DAC incentive share ≥30% (vs. CA avg ~16%)", "description": "Education materials are available in ≥3 languages. ≥30% of DAC residents in the target area have been reached by ZEV education programming. ≥3 active CBO partnerships delivering ZEV content. DAC household incentive fund share is ≥30% (above CA current ~16% of $1.9B — UCLA Luskin 2024)."},
+  {"label": "Somewhat Ready (3-7)", "criteria": "1–3 languages; 10–30% DAC residents reached; 1–2 CBO partnerships; DAC incentive share 10–30%", "description": "Materials are available in 1–3 languages. Between 10–30% of DAC residents are reached. 1–2 CBO partnerships are in early stage. DAC household incentive access is between 10–30% of total program funds."},
+  {"label": "Not Ready (1-3)", "criteria": "English only; <10% DAC residents reached; no CBO partnerships; DAC incentive share <10%", "description": "All materials are English-only. Fewer than 10% of DAC residents have been reached by ZEV education efforts. No community-based organization partnerships. Less than 10% of incentive funding reaches DAC households (CA documented gap: only ~16%)."}
+], "refs": []},
+"SW1": {"title": "Training Program Availability", "levels": [
+  {"label": "Ready (7-10)", "criteria": "≥5 accredited ZEV programs per region; enrollment tracked; industry partnerships and grant funding (CEC/eTRUC/DOE) active", "description": "≥5 accredited ZEV training programs per region (WRI 2025: >100 nationally across 5 categories). Enrollment and graduation trends are documented. Active industry partnerships and grant use (CEC ZEV SEED, eTRUC Fresno Advanced Transportation Center) are in place. Programs cover both light-duty and MD/HD vehicles."},
+  {"label": "Somewhat Ready (3-7)", "criteria": "2–5 programs per region; partial enrollment tracking; limited industry or grant engagement", "description": "Between 2–5 ZEV training programs are available. Enrollment data may exist for individual programs but is not systematically tracked. Industry partnerships are limited or in early stages. Grant activity (CEC, eTRUC, DOE) has been explored but not yet secured or active."},
+  {"label": "Not Ready (1-3)", "criteria": "<2 programs per region; no enrollment data; no industry partnerships or grant activity", "description": "Fewer than 2 ZEV training programs are available in the region. No curriculum or enrollment documentation. No coordination with industry partners, no active grant applications, and no outreach to potential ZEV workforce entrants."}
+], "refs": []},
+"SW2": {"title": "Workforce Transition & Upskilling", "levels": [
+  {"label": "Ready (7-10)", "criteria": "≥3 ICE-to-ZEV retraining programs active; completion data tracked; covers ≥3 of 5 DOE ZEV workforce areas; integrated into just-transition plan", "description": "≥3 active retraining programs support ICE-sector workers transitioning to ZEV roles. DOE USEER (2024) identifies 5 key ZEV workforce areas — programs cover ≥3 of these sectors (manufacturing, electrical, automotive, fueling, or battery). Enrollment and completion data are publicly reported. Retraining is integrated into a formal regional just-transition or clean economy plan."},
+  {"label": "Somewhat Ready (3-7)", "criteria": "1–3 retraining programs active or piloting; <3 of 5 DOE workforce areas covered; some completion tracking", "description": "1–3 ZEV workforce transition programs are active or in pilot phase. Skills transferable from automotive, electrical, or manufacturing sectors are acknowledged (NGA 2025), but program coverage spans fewer than 3 of the 5 DOE ZEV workforce areas. Completion data exists but is inconsistently reported."},
+  {"label": "Not Ready (1-3)", "criteria": "0 formal ICE-to-ZEV retraining programs; no completion data; no just-transition planning", "description": "No formal retraining programs for ICE-sector workers transitioning to ZEV roles. No participation or completion data tracked. No regional just-transition strategy or clean economy workforce plan that includes ZEV-specific upskilling."}
+], "refs": []},
+"SW3": {"title": "Number of Certified ZEV Technicians", "levels": [
+  {"label": "Ready (7-10)", "criteria": "≥10 ASE-certified xEV technicians per 10,000 registered ZEVs; certified shop registry current and publicly accessible", "description": "≥10 ASE-certified xEV technicians (using ASE 2023 Electrical Safety certifications) per 10,000 registered ZEVs. CA BAR tracks certified ZEV shops statewide — local registry is current. Certification data is cross-referenced with fleet growth projections and local training program output."},
+  {"label": "Somewhat Ready (3-7)", "criteria": "3–10 ASE-certified technicians per 10,000 ZEVs; partial registry; data not benchmarked to fleet growth", "description": "Between 3–10 ASE-certified xEV technicians per 10,000 registered ZEVs. Certification data exists from one or more institutions but may be outdated or not benchmarked against ZEV adoption trends. CA BAR shop certification tracking is a useful reference but coverage may be incomplete."},
+  {"label": "Not Ready (1-3)", "criteria": "<3 certified technicians per 10,000 ZEVs; no local technician registry or tracking", "description": "Fewer than 3 ASE-certified xEV technicians per 10,000 registered ZEVs, or no technician count is available. No institutional effort to compile, verify, or track ZEV certification data in the region."}
+], "refs": []},
+"SW4": {"title": "Employment Growth Rate in ZEV-Related Occupations", "levels": [
+  {"label": "Ready (7-10)", "criteria": "ZEV job growth ≥3× regional economy rate; tracked annually across ≥3 ZEV occupation sectors; >100k new jobs benchmark (EDF 2024)", "description": "ZEV-related jobs are growing ≥3× faster than the overall regional economy (DOE USEER 2024: clean energy growing 3–5× nationally). Employment growth is tracked annually across ≥3 ZEV occupation sectors (manufacturing, repair, charging, fueling, batteries, fleet, or mobility services). EDF (2024): >100,000 new U.S. EV manufacturing jobs since 2021 provides a national benchmark."},
+  {"label": "Somewhat Ready (3-7)", "criteria": "ZEV job growth 1–3× regional economy rate; data available but not ZEV-specific or <3 sectors tracked", "description": "ZEV-related job growth is 1–3× the regional economic growth rate, or general clean energy employment data is available but ZEV-specific jobs are not disaggregated. Fewer than 3 ZEV occupation sectors are tracked. Local awareness of workforce–industry alignment is developing."},
+  {"label": "Not Ready (1-3)", "criteria": "ZEV job growth <1× regional rate OR not tracked; no sector-level ZEV workforce data", "description": "ZEV-related employment is growing slower than the regional economy, or no ZEV-specific employment data is collected. No partnerships with workforce agencies, no labor market reporting, and no sector-level analysis to guide clean transportation workforce development."}
+], "refs": []},
+"EA1": {"title": "Equitable Access to ZEVs and Incentives", "levels": [
+  {"label": "Ready (7-10)", "criteria": "≥30% of incentive funds reach DAC households (vs. CA avg ~16%); EV adoption gap <3× between income groups; IRA credits actively promoted", "description": "≥30% of total ZEV incentive funding reaches DAC or low-income households (well above CA documented ~16% of $1.9B — UCLA Luskin 2024). Federal IRA credits ($4,000 used / $7,500 new EV, income-capped) are actively promoted. EV adoption rate gap between highest and lowest income groups is below 3× (current SANDAG 2024: >7% high-income vs. <2% low-income trip share)."},
+  {"label": "Somewhat Ready (3-7)", "criteria": "10–30% of incentive funds reach DAC households; adoption gap 3–5× between income groups; ≥1 equity-targeted program", "description": "Between 10–30% of incentive funds are reaching DAC or low-income households. The EV adoption gap between income groups is 3–5× (improving from the current >5× national disparity). At least one program targets multifamily residents, renters, or low-income buyers specifically."},
+  {"label": "Not Ready (1-3)", "criteria": "<10% of incentive funds reach DAC households; adoption gap >5× between income groups; no equity program provisions", "description": "Less than 10% of incentive funding reaches DAC or low-income households. EV adoption gap exceeds 5× between highest and lowest income groups (matching or worse than current CA baseline). No equity-targeted program provisions or affordability tracking in place."}
+], "refs": []},
+"EA2": {"title": "Income Levels per Capita", "levels": [
+  {"label": "Ready (7-10)", "criteria": "Income-ZEV affordability gap quantified at census-tract level; CVRP eligibility (≤400% FPL) mapped; CalEnviroScreen DAC overlay (≥75th pctile) applied", "description": "Per-capita income and ZEV affordability data are cross-referenced at sub-regional (census-tract) level. CVRP income threshold (≤400% federal poverty level) is mapped to identify eligible populations. CalEnviroScreen DAC threshold (≥75th percentile burden score) is applied to target ZEV programs. EV trip share gap (>7% for >$200k income vs. <1% for <$50k — SANDAG 2024) is documented and guides interventions."},
+  {"label": "Somewhat Ready (3-7)", "criteria": "Regional income data collected; affordability gap estimated but not at census-tract level; partial program eligibility mapping", "description": "Regional or city-level income distribution data is available. A general ZEV affordability gap is estimated (comparing median local income to median ZEV price), but analysis is not disaggregated to census-tract level. CVRP or equivalent income-based eligibility is acknowledged but not fully mapped."},
+  {"label": "Not Ready (1-3)", "criteria": "No income-ZEV affordability analysis; no census-tract mapping; no DAC overlay applied to ZEV programs", "description": "No per-capita income data has been used in relation to ZEV pricing or program design. No census-tract mapping, no CVRP income eligibility analysis, and no CalEnviroScreen or equivalent DAC overlay applied to ZEV infrastructure or incentive decisions."}
+], "refs": []},
+"EA3": {"title": "Environmental and Health Equity Outcomes", "levels": [
+  {"label": "Ready (7-10)", "criteria": "PM₂.₅ ≤9 µg/m³ (EPA NAAQS 2024) trending toward ≤5 µg/m³ (WHO); DAC-non-DAC gap (15–25%) reducing; ZEV-linked 30–60% PM₂.₅ reduction documented", "description": "Annual mean PM₂.₅ meets EPA NAAQS revised 2024 standard of ≤9 µg/m³ (target: WHO guideline of ≤5 µg/m³). The DAC–non-DAC PM₂.₅ exposure gap (typically 15–25% higher in DACs — Su et al. 2024) is tracked and showing reduction. ZEV adoption is linked to 30–60% reduction in transportation PM₂.₅ in high-adoption zones (UCLA Luskin 2021). CalEnviroScreen is used and data is publicly reported."},
+  {"label": "Somewhat Ready (3-7)", "criteria": "PM₂.₅ 9–15 µg/m³; DAC-non-DAC gap tracked but not reducing; ZEV-health link partially documented", "description": "Annual mean PM₂.₅ is between 9–15 µg/m³ (above EPA NAAQS but below severely polluted threshold). The DAC–non-DAC PM₂.₅ gap is being tracked but no significant improvement trend is documented. Some ZEV-health outcome linkage is emerging in local data, but longitudinal analysis is incomplete."},
+  {"label": "Not Ready (1-3)", "criteria": "PM₂.₅ >15 µg/m³ OR no data; no DAC-non-DAC tracking; no ZEV-health outcome linkage", "description": "Annual mean PM₂.₅ exceeds 15 µg/m³, or no air quality data is available at the local level. No tracking of the DAC–non-DAC PM₂.₅ disparity (15–25% documented gap). No effort to link ZEV adoption to health outcomes (asthma ER visits per 10,000 residents, NOₓ/PM₂.₅ reductions), and no CalEnviroScreen or equivalent tool applied."}
+], "refs": []}};
+
+const INDICATOR_CODE_MAP = {
+  '1.01':'AI1','1.02':'AI2','1.03':'AI3','1.04':'AI4','1.05':'AI5',
+  '2.01':'CM1','2.02':'CM2','2.03':'CM3',
+  '3.01':'SP1','3.02':'SP2','3.03':'SP3','3.04':'SP4',
+  '4.01':'OEP1','4.02':'OEP2','4.03':'OEP3',
+  '5.01':'SW1','5.02':'SW2','5.03':'SW3','5.04':'SW4',
+  '6.01':'EA1','6.02':'EA2','6.03':'EA3'
+};
+
+const ACTION_RECOMMENDATIONS = {"1.01": {"name": "ZEV Density (AOI1)", "low": "Collect and validate charging and refueling station-to-vehicle data, then identify basic coverage gaps across urban, suburban, and rural areas.", "mid": "Develop plans to address underserved areas and improve spatial equity in charging and refueling access.", "high": "Maintain strong coverage through periodic mapping, registration tracking, and updates to deployment priorities."}, "1.02": {"name": "Charging Network Speed and Accessibility (AOI2)", "low": "Improve charging speed availability, diversify charger types, and reduce major access gaps in the network.", "mid": "Improve consistency of charger deployment and reporting, especially for DC fast charging and corridor accessibility.", "high": "Sustain balanced charger mix, convenient spacing, and reliable public communication on network access."}, "1.03": {"name": "Energy and Grid Readiness (AOI3)", "low": "Assess hosting capacity and coordinate with utilities to identify where grid upgrades, DERs, or managed charging are needed.", "mid": "Complete broader coverage planning and strengthen coordination with utilities and agencies on grid support and V2G readiness.", "high": "Maintain strong grid readiness through regular hosting-capacity reviews, utility coordination, and DER integration updates."}, "1.04": {"name": "Reliability and Maintenance (AOI4)", "low": "Establish uptime monitoring, maintenance logging, public reporting, and accountability standards for ZEV infrastructure.", "mid": "Improve consistency in uptime reporting, repair response, and service agreements across the charging network.", "high": "Maintain high performance with routine audits, preventive maintenance, and transparent reliability reporting."}, "1.05": {"name": "Strategic Coverage of ZEV Chargers (AOI5)", "low": "Identify priority corridors, destination zones, and accessibility gaps where charger siting is most urgently needed.", "mid": "Expand charger presence in tourism, employment, and underserved areas while improving accessibility features.", "high": "Keep strategic siting current by updating corridor and destination planning with changing travel demand."}, "2.01": {"name": "Public Sector and Fleet ZEV Adoption (CMO1)", "low": "Build a baseline inventory of public fleets and start transition planning for municipal and transit ZEV adoption.", "mid": "Expand electrification plans and strengthen service coverage in disadvantaged communities.", "high": "Maintain leadership through regular fleet updates, infrastructure alignment, and equity-focused deployment."}, "2.02": {"name": "Shared Electric Mobility Access (CMO2)", "low": "Start or expand shared EV, e-bike, or scooter programs in underserved areas and document access barriers.", "mid": "Increase geographic coverage, affordability, and participation through equity pricing and community partnerships.", "high": "Maintain strong shared mobility access through continued monitoring, outreach, and service refinement."}, "2.03": {"name": "Clean Mobility Hubs (CMO3)", "low": "Identify candidate hub locations and begin planning multimodal services, accessibility, and local partnerships.", "mid": "Improve hub coverage, service quality, and ADA access while linking hubs more strongly to local plans.", "high": "Sustain hub performance through user feedback, ridership tracking, and periodic service upgrades."}, "3.01": {"name": "Permitting Efficiency (SP1)", "low": "Document current permitting timelines and build a streamlined, transparent ZEV permitting workflow.", "mid": "Reduce delays, improve internal coordination, and strengthen compliance with state permitting requirements.", "high": "Maintain rapid permitting through routine review of workflows, dashboards, and ordinance updates."}, "3.02": {"name": "Zoning and Land Use Incentives (SP2)", "low": "Review zoning codes and identify where EV-ready requirements or supportive incentives are missing.", "mid": "Expand zoning support in multifamily, commercial, and transit-oriented locations and improve developer guidance.", "high": "Maintain strong land-use support by updating overlays, incentives, and public-private partnerships."}, "3.03": {"name": "User Incentives and Parking Support (SP3)", "low": "Create or document basic rebates, charging incentives, parking support, and anti-ICE-ing protections.", "mid": "Improve visibility and reach of incentives, especially for renters, low-income users, and dense neighborhoods.", "high": "Maintain strong incentive programs through periodic updates, clear outreach, and usage monitoring."}, "3.04": {"name": "Policy Support for MD/HD ZEVs (SP4)", "low": "Develop local policy alignment and infrastructure planning for medium- and heavy-duty ZEV deployment.", "mid": "Expand grant participation, compliance planning, and fleet transition support for public and private operators.", "high": "Maintain progress through ongoing funding strategy, infrastructure expansion, and regulatory updates."}, "4.01": {"name": "Public Awareness and Community Engagement (OEP1)", "low": "Start public workshops, outreach events, and partnerships to build foundational awareness of ZEV options.", "mid": "Increase frequency, consistency, and community reach of engagement activities, especially in priority areas.", "high": "Maintain strong awareness through recurring outreach, updated messaging, and local partnerships."}, "4.02": {"name": "Educational and Workforce Programs (OEP2)", "low": "Introduce ZEV topics into schools, colleges, and local workforce programs with clear participation tracking.", "mid": "Expand curriculum reach, technical depth, and institutional coordination to build stronger pathways.", "high": "Maintain strong program quality through participant tracking, curriculum refreshes, and industry alignment."}, "4.03": {"name": "Equity-Focused ZEV Education (OEP3)", "low": "Develop multilingual and community-based education efforts targeted to underserved populations.", "mid": "Improve geographic coverage, demographic reach, and partnership depth for equity-centered ZEV education.", "high": "Maintain inclusive education through updated multilingual resources and regular community feedback."}, "5.01": {"name": "Training Program Availability (SW1)", "low": "Identify missing ZEV training pathways and begin building partnerships with schools and workforce providers.", "mid": "Expand the number and visibility of training programs while improving alignment with industry needs.", "high": "Maintain strong training availability through regular program refreshes, outreach, and enrollment tracking."}, "5.02": {"name": "Workforce Transition and Upskilling (SW2)", "low": "Launch retraining and upskilling programs for workers transitioning from ICE-related occupations.", "mid": "Increase accessibility, scale, and participation of workforce transition programs across the region.", "high": "Maintain momentum through employer engagement, updated certifications, and continued reskilling support."}, "5.03": {"name": "Certified ZEV Technicians (SW3)", "low": "Track the local technician pipeline and increase access to recognized ZEV certification pathways.", "mid": "Expand technician supply relative to local ZEV growth and strengthen training-to-certification transitions.", "high": "Maintain technical readiness through continued certification growth and local workforce monitoring."}, "5.04": {"name": "Employment Growth in ZEV Occupations (SW4)", "low": "Track baseline labor market data and identify priority occupations where local job growth is lagging.", "mid": "Improve workforce planning and employer coordination so training supply matches labor demand.", "high": "Maintain strong growth through ongoing labor market monitoring and strategic workforce investment."}, "6.01": {"name": "Equitable Access to ZEVs and Incentives (EA1)", "low": "Build or strengthen equity-focused incentive programs for low-income households, renters, and multifamily residents.", "mid": "Expand reach and accessibility of programs so underserved groups can use them more consistently.", "high": "Maintain equitable access through targeted outreach, simplified participation, and regular program review."}, "6.02": {"name": "Income Levels and Affordability Context (EA2)", "low": "Use local income and affordability data to identify where ZEV cost barriers are highest.", "mid": "Integrate income-based targeting more clearly into incentives, outreach, and infrastructure planning.", "high": "Maintain affordability focus through regular updates to income and vehicle-cost comparisons."}, "6.03": {"name": "Environmental and Health Equity Outcomes (EA3)", "low": "Establish baseline PM2.5 and asthma-related indicators and identify overburdened communities for tracking.", "mid": "Improve monitoring and strengthen links between ZEV progress and health or air-quality improvements.", "high": "Maintain strong outcome tracking through regular environmental-health reporting and equity evaluation."}};
+
+const state = {
+  scores: Object.fromEntries(indicators.map(x => [x.id, x.defaultScore])),
+  notes: Object.fromEntries(indicators.map(x => [x.id, x.notes || ""])),
+  activeRegion: null // unused
+};
+const INITIAL_SCORES = Object.fromEntries(indicators.map(x => [x.id, Number(x.defaultScore)]));
+const INITIAL_NOTES = Object.fromEntries(indicators.map(x => [x.id, x.notes || ""]));
+
+function scoreColor(score) {
+  if (score < 2) return '#b91c1c';
+  if (score < 3) return '#ea580c';
+  if (score < 4) return '#d97706';
+  if (score < 4.5) return '#65a30d';
+  return '#15803d';
+}
+
+function filteredIndicators() {
+  const q = document.getElementById('searchBox').value.toLowerCase().trim();
+  const category = document.getElementById('categoryFilter').value;
+  const type = document.getElementById('typeFilter').value;
+  return indicators.filter(ind => {
+    const blob = [ind.id, ind.category, ind.name, ind.short, ind.description, ind.unit, ind.range].join(' ').toLowerCase();
+    const matchesSearch = !q || blob.includes(q);
+    const matchesCategory = category === 'all' || ind.category === category;
+    const matchesType = type === 'all' || ind.type === type;
+    return matchesSearch && matchesCategory && matchesType;
+  });
+}
+
+
+function indicatorCode(id) {
+  return INDICATOR_CODE_MAP[id] || '';
+}
+
+function criteriaForIndicator(id) {
+  return CRITERIA_DATA[indicatorCode(id)] || null;
+}
+
+function criteriaClass(label) {
+  const t = String(label || '').toLowerCase();
+  if (t.includes('not ready')) return 'notready';
+  if (t.includes('somewhat')) return 'somewhat';
+  return 'ready';
+}
+
+function criteriaScore(label) {
+  const t = String(label || '').toLowerCase();
+  if (t.includes('not ready')) return 1.0;
+  if (t.includes('somewhat')) return 5.5;
+  return 10.0;
+}
+
+function criteriaTerm(label) {
+  const t = String(label || '').toLowerCase();
+  if (t.includes('not ready')) return 'Not Ready';
+  if (t.includes('somewhat')) return 'Somewhat Ready';
+  return 'Ready';
+}
+
+function applyCriteriaLevel(indicatorId, levelLabel) {
+  state.scores[indicatorId] = criteriaScore(levelLabel);
+  renderAll();
+}
+
+function renderCriteriaButtons(ind) {
+  const c = criteriaForIndicator(ind.id);
+  if (!c || !c.levels || !c.levels.length) return '';
+
+  const desiredOrder = ['Not Ready', 'Somewhat Ready', 'Ready'];
+  const uniqueLevels = [];
+  const seen = new Set();
+
+  c.levels.forEach(level => {
+    const term = criteriaTerm(level.label);
+    if (term && !seen.has(term)) {
+      seen.add(term);
+      uniqueLevels.push(level);
+    }
+  });
+
+  const ordered = uniqueLevels.sort(
+    (a, b) => desiredOrder.indexOf(criteriaTerm(a.label)) - desiredOrder.indexOf(criteriaTerm(b.label))
+  );
+
+  return `
+    <div class="criteriaQuickTitle">Quick criteria selection</div>
+    <div class="cat" style="margin-top:4px;">Use score ranges: Not Ready = 1–3, Somewhat Ready = &gt;3–7, Ready = &gt;7–10</div>
+    <div class="criteriaButtonRow">
+      ${ordered.map(level => `
+        <button class="criteriaBtn ${criteriaClass(level.label)}" onclick="applyCriteriaLevel('${ind.id}', '${String(level.label).replace(/'/g, "\'")}')">
+          ${criteriaTerm(level.label) === 'Not Ready'
+            ? 'Not Ready (1–3)'
+            : criteriaTerm(level.label) === 'Somewhat Ready'
+            ? 'Somewhat Ready (>3–7)'
+            : 'Ready (>7–10)'}
+        </button>
+      `).join('')}
+    </div>
+  `;
+}
+
+function renderCriteriaDetails(ind) {
+  const c = criteriaForIndicator(ind.id);
+  if (!c || !c.levels || !c.levels.length) return '';
+  const desiredOrder = ['Not Ready', 'Somewhat Ready', 'Ready'];
+  const ordered = [...c.levels].sort((a, b) => desiredOrder.indexOf(criteriaTerm(a.label)) - desiredOrder.indexOf(criteriaTerm(b.label)));
+  return `
+    <details class="criteriaBox">
+      <summary>Show readiness conditions</summary>
+      <div class="criteriaInner">
+        ${ordered.map(level => `
+          <div class="criteriaLevel">
+            <div class="criteriaLevelHeader">
+              <div>
+                <div class="criteriaTag ${criteriaClass(level.label)}">${criteriaTerm(level.label)}</div>
+              </div>
+              <button class="btn" onclick="applyCriteriaLevel('${ind.id}', '${String(level.label).replace(/'/g, "\'")}')">Use this option</button>
+            </div>
+            <div class="criteriaCriteria">${level.criteria || ''}</div>
+            <div class="criteriaDesc">${level.description || ''}</div>
+          </div>
+        `).join('')}
+        ${c.refs && c.refs.length ? `<div class="criteriaRefs"><strong>Notes / references</strong><br>${c.refs.map(x => String(x)).join('<br>')}</div>` : ''}
+      </div>
+    </details>
+  `;
+}
+
+
+function actionBand(score) {
+  const x = Number(score || 0);
+  if (x <= 3) return 'low';
+  if (x <= 7) return 'mid';
+  return 'high';
+}
+
+function actionIntroForScore(score) {
+  const band = actionBand(score);
+  if (band === 'low') return 'This indicator is currently NOT READY. Focus on improvement:';
+  if (band === 'mid') return 'This indicator is SOMEWHAT READY. To approach READY level, focus on:';
+  return 'High readiness achieved. Continue maintaining this level through consistent planning and regular updates.';
+}
+
+function actionTextForIndicator(id, score) {
+  const rec = ACTION_RECOMMENDATIONS[id];
+  if (!rec) return '';
+  const band = actionBand(score);
+  if (band === 'low') return rec.low;
+  if (band === 'mid') return rec.mid;
+  return rec.high;
+}
+
+function renderActionGuidance() {
+  const container = document.getElementById('actionGuidanceList');
+  if (!container) return;
+  const items = filteredIndicators();
+  container.innerHTML = items.map(ind => {
+    const score = Number(state.scores[ind.id] || 0);
+    return `
+      <div class="actionItem">
+        <div class="actionHeader">
+          <div>
+            <strong>${ind.id} — ${ind.name}</strong><br>
+            <span class="cat">Current score: ${score.toFixed(1)} / 10</span>
+          </div>
+          <span class="criteriaTag ${actionBand(score) === 'low' ? 'notready' : actionBand(score) === 'mid' ? 'somewhat' : 'ready'}">
+            ${actionBand(score) === 'low' ? 'Not Ready' : actionBand(score) === 'mid' ? 'Somewhat Ready' : 'Ready'}
+          </span>
+        </div>
+        <div class="actionLead">${actionIntroForScore(score)}</div>
+        <div class="actionMsg">- ${actionTextForIndicator(ind.id, score)}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+const INDICATOR_REFS = {
+  '1.01': [
+    {num:1, text:'Brown, A. et al. (2024). EV Charging Infrastructure Trends Q1 2024. NREL.', url:'https://www.osti.gov/biblio/2447837'},
+    {num:2, text:'IEA. (2026). Global EV Outlook 2026: Electric Vehicle Charging.', url:'https://www.iea.org/reports/global-ev-outlook-2026/electric-vehicle-charging-chap-6-and-10'},
+    {num:3, text:'Xylia, M., Olsson, E., Macura, B., & Nykvist, B. (2025). Estimating charging infrastructure demand for EVs: A systematic review. Energy Strategy Reviews, 38, 107496.', url:'https://www.sciencedirect.com/science/article/pii/S2211467X25001166'},
+    {num:4, text:'Li, Z. (2024). A review of global EV charging infrastructure development. Int. J. Global Economics & Management.', url:'https://wepub.org/index.php/IJGEM/article/view/2343'}
+  ],
+  '1.02': [
+    {num:5, text:'Sawant, M. et al. (2024). DC fast charging stations for EVs: A review. IET Energy Conversion and Economics.', url:'https://www.researchgate.net/publication/378548241_DC_fast_charging_stations_for_electric_vehicles_A_review'},
+    {num:6, text:'IEA. (2024). Global EV Outlook 2024: Trends in EV Charging.', url:'https://www.iea.org/reports/global-ev-outlook-2024'},
+    {num:7, text:'Carlton, S. & Sultana, M. (2024). Utility or equity? Public EV charger allocations in Austin, TX. Transportation Research Part D.', url:'https://doi.org/10.1016/j.trd.2024.104278'},
+    {num:8, text:'Cooke, B. & Lee, A. (2025). Charger Data Transparency: Curing Range Anxiety. Brookings/AEI.', url:'https://www.brookings.edu/articles/charger-data-transparency/'}
+  ],
+  '1.03': [
+    {num:9, text:'Nutkani, I.U. et al. (2024). Impact of EV charging on distribution network. IET Smart Grid, 7(1).', url:'https://digital-library.theiet.org/doi/full/10.1049/stg2.12156'},
+    {num:10, text:'Rehman, A. et al. (2024). Grid-integrated solutions for sustainable EV charging. Frontiers in Energy Research, 12.', url:'https://www.frontiersin.org/journals/energy-research/articles/10.3389/fenrg.2024.1403883/full'},
+    {num:11, text:'U.S. DOE. (2025). Vehicles-to-Grid Integration Assessment Report. EERE.', url:'https://www.energy.gov/cmei/vehicles/articles/vehicle-grid-integration-assessment-report'},
+    {num:12, text:'Persson, J. et al. (2025). Smart charging and V2G: strengthen or strain grids? Applied Energy.', url:'https://doi.org/10.1016/j.apenergy.2025.125702'}
+  ],
+  '1.04': [
+    {num:13, text:'Slowik, P. et al. (2023). Improving Public Charging Infrastructure Reliability. ICCT Briefing.', url:'https://theicct.org/wp-content/uploads/2023/03/public-charging-reliability-mar23.pdf'},
+    {num:14, text:'Rempel, D. et al. (2022). Reliability of Open Public EV DC Fast Chargers. UC Berkeley.', url:'https://arxiv.org/abs/2203.16372'},
+    {num:15, text:'ChargerHelp. (2025). 2025 EV Charging Reliability Report: FTCSR Analysis.', url:'https://www.chargerhelp.com/post/news-and-events/chargerhelp-report-reveals-charge-success-rate-and-not-uptime-more-accurate-metric-for-ev-driver-experience/'},
+    {num:16, text:'Paren. (2026). EV Charger Reliability & Utilization Data: US DCFC Q1 2026.', url:'https://www.paren.app/data/charger-reliability'}
+  ],
+  '1.05': [
+    {num:17, text:'Hanig, H. et al. (2025). Siting for demand and equity: Optimizing L2 EV charger placement. J. Transport Geography.', url:'https://doi.org/10.1016/j.jtrangeo.2025.104118'},
+    {num:18, text:'Omer, O. et al. (2025). Multi-criteria decision analysis for optimal EVCS siting in Oklahoma. Transportation Research Interdisciplinary Perspectives.', url:'https://www.sciencedirect.com/science/article/pii/S2666691X25000259'},
+    {num:19, text:'Elamin, M. et al. (2025). Geodemographic-aware EV charging placement using Graph Neural Networks. Energy, 314.', url:'https://doi.org/10.1016/j.energy.2025.135834'},
+    {num:20, text:'Argonne National Laboratory. (2022). Equity, Environmental Justice, and EV Charger Siting. ANL-22/29.', url:'https://www.anl.gov/article/argonne-tools-helping-build-equitable-nationwide-electric-vehicle-charging-network'}
+  ],
+  '2.01': [
+    {num:21, text:'Rinaldi, M. et al. (2023). EV Transitioning Framework for Public Fleet Planning. Transportation Research Part D, 119.', url:'https://doi.org/10.1016/j.trd.2023.103740'},
+    {num:22, text:'CARB. (2023). Advanced Clean Fleets (ACF) Regulation Summary.', url:'https://ww2.arb.ca.gov/our-work/programs/advanced-clean-fleets'},
+    {num:23, text:'GNA. (2024). State of Sustainable Fleets 2024 Market Brief. Gladstein, Neandross & Associates.', url:'https://www.stateofsustainablefleets.com/market-briefs/2024-report/'},
+    {num:24, text:'WRI. (2023). Ways the US Can Electrify Its Public Vehicle Fleets. World Resources Institute.', url:'https://www.wri.org/insights/us-public-fleet-electrification'}
+  ],
+  '2.02': [
+    {num:25, text:'Brown, A. & Howell, A. (2024). Equity Requirements in US Shared Micromobility Programs. Transportation Research Record, 2678(9).', url:'https://doi.org/10.1016/j.jcmr.2024.100020'},
+    {num:26, text:'Oliva Mäkinen, S. et al. (2025). Urban micromobility and social equity via e-scooter rebalancing. Res. Transportation Business & Mgmt., 61.', url:'https://doi.org/10.1016/j.rtbm.2025.101417'},
+    {num:27, text:'UCLA Luskin. (2024). Analysis of CA EV Incentive Distribution & Registration Rates Since 2015.', url:'https://escholarship.org/uc/item/7ht4t1km'},
+    {num:28, text:'Qian, X. & Jaller, M. (2022). Spatial equity of micromobility: e-scooters vs. bikeshare in DC. Travel Behaviour and Society, 29.', url:'https://doi.org/10.1016/j.tbs.2022.07.001'}
+  ],
+  '2.03': [
+    {num:29, text:'UN-Habitat. (2022). The Role of Electric Mobility for Low-Carbon and Sustainable Cities.', url:'https://unhabitat.org/integration-is-key-the-role-of-electric-mobility-for-low-carbon-and-sustainable-cities'},
+    {num:30, text:'Shared Mobility Inc. (2025). Connecting Communities Through Clean Mobility Planning.', url:'https://www.sharedmobility.org/post/connecting-communities-through-clean-mobility-planning'},
+    {num:31, text:'U.S. DOE Clean Cities. (2024). EV Mobility Hubs: Project Lessons. EERE.', url:'https://web.archive.org/web/2024/https://cleancities.energy.gov/project-lessons-mobility-hubs'},
+    {num:32, text:'Farhan, J. & Chen, T.D. (2025). Decarbonising urban transport: EVs, transit and infrastructure. Discover Global Society, 2(1).', url:'https://link.springer.com/article/10.1007/s44268-025-00054-w'}
+  ],
+  '3.01': [
+    {num:33, text:'Gamage, T. et al. (2023). EV charging station installation timelines and project delays. Transportation Research Part D, 124.', url:'https://ncst.ucdavis.edu/research-product/costs-and-challenges-installing-corridor-dc-fast-chargers-california'},
+    {num:34, text:'Advanced Energy United. (2025). Key 2024 Legislative Trends in Electrified Transportation.', url:'https://advancedenergyunited.org/blog/2024-ev-state-policy-wrapped/'},
+    {num:35, text:'Colorado Energy Office. (2024). Local Government EV Charging Permitting: HB24-1173.', url:'https://energyoffice.colorado.gov/ev-charging-permitting'},
+    {num:36, text:'Electrification Coalition. (2024). Cutting the Red Tape — EVSE Permitting and Building Codes.', url:'https://electrificationcoalition.org/electrifying-municipalities/'}
+  ],
+  '3.02': [
+    {num:37, text:'CA GO-Biz. (2023). EVCS Permit Streamlining and Zoning Requirements Fact Sheet.', url:'https://static.business.ca.gov/industries/zero-emission-vehicles/plug-in-readiness/permitting-electric-vehicle-charging-stations-best-practices/'},
+    {num:38, text:'Liu, H. et al. (2024). Barriers and motivators to EV adoption: A global review. Green Energy & Intelligent Transportation, 3.', url:'https://doi.org/10.1016/j.geits.2024.100153'},
+    {num:39, text:'Milrose Consultants. (2024). Navigating Permitting for EV Charging Stations.', url:'https://www.milrose.com/insights/navigating-permitting-electric-vehicle-charging-stations-powering-growth-in-the-industry'},
+    {num:40, text:'IIETA. (2025). EV Charging Infrastructure Planning: Spatial and Predictive Analysis Framework. IJSDP, 20(6).', url:'https://www.iieta.org/journals/ijsdp/paper/10.18280/ijsdp.200605'}
+  ],
+  '3.03': [
+    {num:41, text:'ZEV Alliance. (2024). Adapting ZEV Incentives for a Mainstream Market.', url:'https://zevalliance.org/adapting-zero-emission-vehicle-incentives-for-a-mainstream-market/'},
+    {num:42, text:'Muehlegger, E. & Rapson, D.S. (2022). Subsidizing low/middle-income EV adoption. Journal of Public Economics, 216.', url:'https://www.nber.org/papers/w25359'},
+    {num:43, text:'SANDAG. (2024). ZEV Incentive Program Strategy Final Report.', url:'https://www.sandag.org/-/media/SANDAG/Documents/PDF/projects-and-programs/innovative-mobility/clean-transportation/incentive-programs/zev-incentive-program-strategy-report-2024-08-23.pdf'},
+    {num:44, text:'RFF. (2024). Equity in EV Charging Infrastructure. Working Paper 24-14.', url:'https://www.rff.org/publications/working-papers/equity-in-electric-vehicle-charging-infrastructure/'}
+  ],
+  '3.04': [
+    {num:45, text:'CARB. (2023). Advanced Clean Fleets Regulation Summary. California Air Resources Board.', url:'https://ww2.arb.ca.gov/our-work/programs/advanced-clean-fleets'},
+    {num:46, text:'CARB. (2024). California Truck Availability Analysis. CARB Staff Memorandum.', url:'https://ww2.arb.ca.gov/our-work/programs/advanced-clean-trucks'},
+    {num:47, text:'State Climate Policy Dashboard. (2024). MD/HD ZEV Mandates: State Overview. RFF.', url:'https://www.rff.org/topics/transportation/electric-vehicles/'},
+    {num:48, text:'Electrification Coalition. (2023). Advancing V2G Technology Adoption.', url:'https://electrificationcoalition.org/electrifying-municipalities/'}
+  ],
+  '4.01': [
+    {num:49, text:'Connolly, R., Pierce, G., & Liu, B. (2023). Beyond Incentives: Community Outreach for EV Purchase Uptake. UCLA Luskin.', url:'https://escholarship.org/uc/item/7ht4t1km'},
+    {num:50, text:'CARB. (2023). ZEV Equity Task Force Updates and ZEV Equitable Access Program.', url:'https://ww2.arb.ca.gov/updates-zev-equity-task-force'},
+    {num:51, text:'RFF. (2023). Final Summary Report: ZEV Mandates Workshop.', url:'https://www.rff.org/publications/reports/final-summary-report-zero-emissions-vehicle-zev-mandates-workshop/'},
+    {num:52, text:'Foundation for CA Community Colleges. (2024). ZEV Education Program: Community Outreach & Workforce.', url:'https://foundationccc.org/our-work/climate-action/building-a-strong-climate-workforce/zev-education-program/'}
+  ],
+  '4.02': [
+    {num:53, text:'WRI. (2025). Emerging Trends in US EV Training Programs. World Resources Institute.', url:'https://www.wri.org/insights/electric-vehicle-training-programs-trends'},
+    {num:54, text:'CEC. (2024). ZEV SEED Project: ZEV Sustainable Equitable Employment Destination. California Energy Commission.', url:'https://www.energy.ca.gov/data-reports/reports/electric-vehicle-charging-infrastructure-assessment-ab-2127'},
+    {num:55, text:'NGA. (2025). EV Workforce Myth-Busting. National Governors Association.', url:'https://www.nga.org/publications/ev-workforce-myth-busting/'},
+    {num:56, text:'eTRUC. (2025). ZEV Training Program Finder. Electric Truck & Bus Research Utility Collaborative.', url:'https://etruc.org/engagement/zev-training-program-finder/'}
+  ],
+  '4.03': [
+    {num:57, text:'UCLA Luskin. (2024). CA EV Incentive Distribution & Registration Rates 2015–2024: Equity Assessment.', url:'https://escholarship.org/uc/item/7ht4t1km'},
+    {num:58, text:'Greenlining Institute. (2025). ZEV Workforce Training & Development Strategy: Equity Comments.', url:'https://greenlining.org/our-work/environmental-equity/electric-vehicles/'},
+    {num:59, text:'CARB. (2024). 2024 ZEV Action Plan — Labor & Workforce Development Agency.', url:'https://ww2.arb.ca.gov/updates-zev-equity-task-force'},
+    {num:60, text:'RFF. (2023). ZEV Mandates Workshop: Effective, Efficient, and Equitable Implementation.', url:'https://www.rff.org/publications/reports/final-summary-report-zero-emissions-vehicle-zev-mandates-workshop/'}
+  ],
+  '5.01': [
+    {num:61, text:'WRI. (2025). Emerging Trends in US EV Training Programs. World Resources Institute.', url:'https://www.wri.org/insights/electric-vehicle-training-programs-trends'},
+    {num:62, text:'eTRUC. (2025). ZEV Training Program Finder: CA Programs.', url:'https://etruc.org/engagement/zev-training-program-finder/'},
+    {num:63, text:'SME. (2024). EV Battery Packaging and Assembly Certification. Society of Manufacturing Engineers.', url:'https://www.sme.org/training/electric-vehicle-fundamentals-evf-certification/'},
+    {num:64, text:'CA BAR. (2025). BAR ZEV Technician Training Action Plan 2025. CA Dept. of Consumer Affairs.', url:'https://bar.ca.gov/Industry/Training/index.html'}
+  ],
+  '5.02': [
+    {num:65, text:'NGA. (2025). EV Workforce Myth-Busting. National Governors Association.', url:'https://www.nga.org/publications/ev-workforce-myth-busting/'},
+    {num:66, text:'U.S. DOE. (2024). United States Energy & Employment Report 2024.', url:'https://www.energy.gov/sites/default/files/2024-10/USEER%202024_COMPLETE_1002.pdf'},
+    {num:67, text:'Greenlining Institute. (2025). ZEV Workforce Training & Development Strategy Comments.', url:'https://greenlining.org/our-work/environmental-equity/electric-vehicles/'},
+    {num:68, text:'FCCC. (2024). ZEV Education Program: Workforce Development Strategy.', url:'https://foundationccc.org/our-work/climate-action/building-a-strong-climate-workforce/zev-education-program/'}
+  ],
+  '5.03': [
+    {num:69, text:'ASE. (2023). New xEV Electrical Safety Certifications. Automotive Service Excellence.', url:'https://www.ase.com/xev'},
+    {num:70, text:'WRI. (2025). Emerging Trends in US EV Training Programs. World Resources Institute.', url:'https://www.wri.org/insights/electric-vehicle-training-programs-trends'},
+    {num:71, text:'CEC. (2024). ZEV SEED Project Final Report. California Energy Commission.', url:'https://www.energy.ca.gov/data-reports/reports/electric-vehicle-charging-infrastructure-assessment-ab-2127'},
+    {num:72, text:'eTRUC. (2025). ZEV Training Program Finder: Advanced Transportation Center Fresno.', url:'https://etruc.org/engagement/zev-training-program-finder/'}
+  ],
+  '5.04': [
+    {num:73, text:'U.S. DOE. (2024). United States Energy & Employment Report 2024.', url:'https://www.energy.gov/sites/default/files/2024-10/USEER%202024_COMPLETE_1002.pdf'},
+    {num:74, text:'EDF. (2024). U.S. EV Manufacturing Investments and Jobs. Environmental Defense Fund.', url:'https://www.edf.org/media/us-electric-vehicle-investments-have-grown-188-billion-almost-200000-jobs-new-report'},
+    {num:75, text:'NGA. (2025). EV Workforce Myth-Busting. National Governors Association.', url:'https://www.nga.org/publications/ev-workforce-myth-busting/'},
+    {num:76, text:'SME. (2024). EV Battery Packaging and Assembly Certification Launch. Society of Manufacturing Engineers.', url:'https://www.sme.org/training/electric-vehicle-fundamentals-evf-certification/'}
+  ],
+  '6.01': [
+    {num:77, text:'Muehlegger, E. & Rapson, D.S. (2022). Subsidizing low/middle-income EV adoption in CA. Journal of Public Economics, 216.', url:'https://www.nber.org/papers/w25359'},
+    {num:78, text:'ZEV Alliance. (2024). Adapting ZEV Incentives for a Mainstream Market.', url:'https://zevalliance.org/adapting-zero-emission-vehicle-incentives-for-a-mainstream-market/'},
+    {num:79, text:'UCLA Luskin. (2024). CA EV Incentive Distribution Analysis: Equity Assessment 2015–2024.', url:'https://escholarship.org/uc/item/7ht4t1km'},
+    {num:80, text:'RFF. (2024). Equity in EV Charging Infrastructure. Working Paper 24-14.', url:'https://www.rff.org/publications/working-papers/equity-in-electric-vehicle-charging-infrastructure/'}
+  ],
+  '6.02': [
+    {num:81, text:'Liu, H. et al. (2024). Barriers and motivators to EV adoption: A global review. Green Energy & Intelligent Transportation, 3.', url:'https://doi.org/10.1016/j.geits.2024.100153'},
+    {num:82, text:'RFF. (2023). ZEV Mandates Workshop Final Summary Report.', url:'https://www.rff.org/publications/reports/final-summary-report-zero-emissions-vehicle-zev-mandates-workshop/'},
+    {num:83, text:'SANDAG. (2024). ZEV Incentive Program Strategy Final Report.', url:'https://www.sandag.org/-/media/SANDAG/Documents/PDF/projects-and-programs/innovative-mobility/clean-transportation/incentive-programs/zev-incentive-program-strategy-report-2024-08-23.pdf'},
+    {num:84, text:'Carlton, S. & Sultana, M. (2024). Utility or equity? Public EV charger allocations in Austin, TX. Transportation Research Part D.', url:'https://doi.org/10.1016/j.trd.2024.104278'}
+  ],
+  '6.03': [
+    {num:85, text:'Su, J.G. et al. (2024). New method for mapping air pollution reveals disproportionate burden in DACs. Environ. Health Perspectives, UC Berkeley.', url:'https://www.science.org/doi/10.1126/sciadv.adm9986'},
+    {num:86, text:'Center for Sustainable Systems, U. Michigan. (2025). Environmental Justice Factsheet. CSS17-16.', url:'https://css.umich.edu/publications/factsheets/sustainability-indicators/environmental-justice-factsheet'},
+    {num:87, text:'CARB. (2023). ZEV Equity Task Force and ZEV Equitable Access Program Updates.', url:'https://ww2.arb.ca.gov/updates-zev-equity-task-force'},
+    {num:88, text:'UCLA Luskin. (2021). Driving CA\'s Transportation Emissions to Zero: Health, Environmental & Economic Benefits.', url:'https://escholarship.org/uc/item/7ht4t1km'}
+  ]
+};
+
+function renderIndicatorRefs(id) {
+  const refs = INDICATOR_REFS[id];
+  if (!refs || !refs.length) return '';
+  return `
+    <details class="criteriaBox">
+      <summary>📚 Key References</summary>
+      <div class="criteriaInner" style="gap:5px;">
+        ${refs.map(r => `
+          <div style="font-size:.82rem; line-height:1.5; display:flex; gap:7px; align-items:baseline; padding:7px 9px; border-radius:8px; background:#fff; border:1px solid var(--line);">
+            <span style="color:var(--blue); font-weight:700; flex-shrink:0;">[${r.num}]</span>
+            <span style="color:var(--muted);">${r.text} <a href="${r.url}" target="_blank" rel="noopener" style="color:var(--blue); text-decoration:none; font-weight:600; white-space:nowrap;">→ Open ↗</a></span>
+          </div>
+        `).join('')}
+      </div>
+    </details>
+  `;
+}
+
+function renderCards() {
+  const items = filteredIndicators();
+  const grid = document.getElementById('cardGrid');
+  grid.innerHTML = items.map(ind => `
+    <article class="card">
+      <div class="top">
+        <div>
+          <div class="cat">${ind.category}</div>
+          <div class="name">${ind.id} — ${ind.name}</div>
+        </div>
+        <div class="pill">${ind.type}</div>
+      </div>
+      <div class="short">${ind.short}</div>
+      <div class="meta">
+        <div class="metaBox"><strong>Suggested unit</strong>${ind.unit}</div>
+        <div class="metaBox"><strong>Suggested range</strong>${ind.range}</div>
+      </div>
+      <div class="scoreArea">
+        <div class="scoreSliderWrap">
+          <div class="cat" style="margin-bottom:2px;">Current readiness score</div>
+          <input
+            class="scoreSlider"
+            type="range"
+            min="1"
+            max="10"
+            step="0.1"
+            value="${state.scores[ind.id]}"
+            oninput="updateScore('${ind.id}', parseFloat(this.value))"
+            aria-label="Score for ${ind.id}" style="background:${sliderGradient(state.scores[ind.id])}"
+          >
+          <div class="scoreTicks"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span></div>
+          
+        </div>
+        <div class="scoreValueBox">${Number(state.scores[ind.id]).toFixed(1)} / 10</div>
+      </div>
+      ${renderCriteriaButtons(ind)}
+      ${renderCriteriaDetails(ind)}
+      <div class="actionBox">
+        <div class="actionLead">${actionIntroForScore(state.scores[ind.id])}</div>
+        <div class="actionMsg">- ${actionTextForIndicator(ind.id, state.scores[ind.id])}</div>
+      </div>
+      ${renderIndicatorRefs(ind.id)}
+      <div class="actions">
+        <button class="btn" onclick="openDetail('${ind.id}')">View details</button>
+      </div>
+    </article>
+  `).join('');
+}
+
+
+
+
+function sliderGradient(value) {
+  const pct = ((Number(value) - 1) / 9) * 100;
+  return `linear-gradient(90deg,
+    #dc2626 0%,
+    #f59e0b 45%,
+    #16a34a 100%) 0/100% 100% no-repeat,
+    linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0) ${pct}%, #e5e7eb ${pct}%, #e5e7eb 100%)`;
+}
+
+function variableKeyForIndicator(id) {
+  const map = {
+    '1.01':'AI1','1.02':'AI2','1.03':'AI3','1.04':'AI4','1.05':'AI5',
+    '2.01':'CM1','2.02':'CM2','2.03':'CM3',
+    '3.01':'SP1','3.02':'SP2','3.03':'SP3','3.04':'SP4',
+    '4.01':'OEP1','4.02':'OEP2','4.03':'OEP3',
+    '5.01':'SW1','5.02':'SW2','5.03':'SW3','5.04':'SW4',
+    '6.01':'EA1','6.02':'EA2','6.03':'EA3'
+  };
+  return map[id] || '';
+}
+
+function membershipDegreesForIndicator(id, x) {
+  const varKey = variableKeyForIndicator(id);
+  return {
+    notReady: membershipValue(x, 1, varKey),
+    somewhat: membershipValue(x, 2, varKey),
+    ready: membershipValue(x, 3, varKey)
+  };
+}
+
+function renderMembershipPills(id, x) {
+  const mu = membershipDegreesForIndicator(id, Number(x));
+  return `
+    <span class="muPill">μNotReady: ${mu.notReady.toFixed(2)}</span>
+    <span class="muPill">μSomewhat: ${mu.somewhat.toFixed(2)}</span>
+    <span class="muPill">μReady: ${mu.ready.toFixed(2)}</span>
+  `;
+}
+
+// Internal model key remains 'AI' for compatibility; user-facing label is shown as AOI.
+const SURFACE_MODELS = {
+  'AI': { label:'Availability of Infrastructure (AOI)', ids:['1.01','1.02','1.03','1.04','1.05'] },
+  'CM': { label:'Accessible Clean Mobility Options (CMO)', ids:['2.01','2.02','2.03'] },
+  'SP': { label:'Supportive Policies (SP)', ids:['3.01','3.02','3.03','3.04'] },
+  'OEP': { label:'Outreach and Education Programs (OEP)', ids:['4.01','4.02','4.03'] },
+  'SW': { label:'Skilled Workforce (SW)', ids:['5.01','5.02','5.03','5.04'] },
+  'EA': { label:'Equity Aspect (EA)', ids:['6.01','6.02','6.03'] }
+};
+
+function computeSingleModel(modelKey, values) {
+  if (modelKey === 'AI') {
+    const aiModel = {
+      coeffs: {
+        1: [0.35, 0.35, 0, 0.3, 0, 0],
+        2: [0.25, 0.25, 0.25, 0.15, 0.1, 0],
+        3: [0.2, 0.2, 0.2, 0.2, 0.2, 0]
+      },
+      rules: [
+        [1,0,1,0,0,1,1,2],[3,1,2,1,1,1,1,1],[3,1,3,1,1,1,1,1],[2,1,2,1,1,1,1,1],[2,1,3,1,1,1,1,1],
+        [3,1,2,1,2,2,1,1],[3,1,2,1,3,2,1,1],[3,1,2,2,1,2,1,1],[3,1,2,2,2,2,1,1],[3,1,2,2,3,2,1,1],
+        [3,1,2,3,1,2,1,1],[3,1,3,1,2,2,1,1],[3,1,3,1,3,2,1,1],[3,1,3,2,1,2,1,1],[3,1,3,2,2,2,1,1],
+        [3,1,3,2,3,2,1,1],[3,1,3,3,1,2,1,1],[3,1,3,3,2,2,1,1],[3,2,2,1,1,2,1,1],[3,2,2,1,2,2,1,1],
+        [3,2,2,1,3,2,1,1],[3,2,2,2,1,2,1,1],[3,2,2,2,2,2,1,1],[3,2,2,2,3,2,1,1],[3,2,2,3,1,2,1,1],
+        [3,2,3,1,1,2,1,1],[3,2,3,2,1,2,1,1],[3,2,3,2,2,2,1,1],[3,2,3,3,1,2,1,1],[3,3,2,1,1,2,1,1],
+        [3,3,2,1,2,2,1,1],[3,3,2,1,3,2,1,1],[3,3,2,2,1,2,1,1],[3,3,2,2,2,2,1,1],[3,3,2,1,1,2,1,1],
+        [3,3,2,2,1,2,1,1],[2,1,2,1,2,2,1,1],[2,1,2,1,3,2,1,1],[2,1,2,2,1,2,1,1],[2,1,2,2,2,2,1,1],
+        [2,1,2,2,3,2,1,1],[2,1,2,3,1,2,1,1],[2,1,2,3,2,2,1,1],[2,1,2,3,3,2,1,1],[2,1,3,1,2,2,1,1],
+        [2,1,3,1,3,2,1,1],[2,1,3,2,1,2,1,1],[2,1,3,2,2,2,1,1],[2,1,3,2,3,2,1,1],[2,1,3,3,1,2,1,1],
+        [2,1,3,3,2,2,1,1],[2,2,2,1,1,2,1,1],[2,2,2,1,2,2,1,1],[2,2,2,1,3,2,1,1],[2,2,2,2,1,2,1,1],
+        [2,2,2,2,2,2,1,1],[2,2,2,2,3,2,1,1],[2,2,2,3,1,2,1,1],[2,2,2,3,2,2,1,1],[2,2,2,3,3,2,1,1],
+        [2,2,3,1,1,2,1,1],[2,2,3,1,2,2,1,1],[2,2,3,1,3,2,1,1],[2,2,3,2,1,2,1,1],[2,2,3,2,2,2,1,1],
+        [2,2,3,2,3,2,1,1],[2,2,3,3,1,2,1,1],[2,2,3,3,2,2,1,1],[2,3,2,1,1,2,1,1],[2,3,2,1,2,2,1,1],
+        [2,3,2,1,3,2,1,1],[2,3,2,2,1,2,1,1],[2,3,2,2,2,2,1,1],[2,3,2,2,3,2,1,1],[2,3,2,3,1,2,1,1],
+        [2,3,3,1,1,2,1,1],[2,3,3,1,2,2,1,1],[2,3,3,2,1,2,1,1],[2,3,3,2,2,2,1,1],[3,1,2,3,2,3,1,1],
+        [3,1,2,3,3,3,1,1],[3,1,3,3,3,3,1,1],[3,2,2,3,2,3,1,1],[3,2,2,3,3,3,1,1],[3,2,3,1,2,3,1,1],
+        [3,2,3,1,3,3,1,1],[3,2,3,2,3,3,1,1],[3,2,3,3,2,3,1,1],[3,2,3,3,3,3,1,1],[3,3,2,2,3,3,1,1],
+        [3,3,2,3,1,3,1,1],[3,3,2,3,2,3,1,1],[3,3,2,3,3,3,1,1],[3,3,3,1,2,3,1,1],[3,3,3,1,3,3,1,1],
+        [3,3,3,2,2,3,1,1],[3,3,3,2,3,3,1,1],[3,3,3,3,1,3,1,1],[3,3,3,3,2,3,1,1],[3,3,3,3,3,3,1,1],
+        [2,1,3,3,3,3,1,1],[2,2,3,3,3,3,1,1],[2,3,2,3,2,3,1,1],[2,3,2,3,3,3,1,1],[2,3,3,1,3,3,1,1],
+        [2,3,3,2,3,3,1,1],[2,3,3,3,1,3,1,1],[2,3,3,3,2,3,1,1],[2,3,3,3,3,3,1,1]
+      ]
+    };
+    return evalSugeno(values, aiModel.rules, aiModel.coeffs, 'AI');
+  }
+  const model = FUZZY_MODELS[modelKey];
+  return evalSugeno(values, model.rules, model.coeffs, modelKey);
+}
+
+function initSurfaceControls() {
+  const modelSel = document.getElementById('surfaceModel');
+  const pairSel = document.getElementById('surfacePair');
+  if (!modelSel || !pairSel) return;
+  modelSel.innerHTML = Object.entries(SURFACE_MODELS).map(([k,v]) => `<option value="${k}">${v.label}</option>`).join('');
+  modelSel.value = 'AI';
+  rebuildSurfacePairs();
+  modelSel.addEventListener('change', () => {
+    rebuildSurfacePairs();
+    renderSurfacePlot();
+  });
+  pairSel.addEventListener('change', renderSurfacePlot);
+}
+
+function rebuildSurfacePairs() {
+  const modelKey = document.getElementById('surfaceModel').value;
+  const pairSel = document.getElementById('surfacePair');
+  const ids = SURFACE_MODELS[modelKey].ids;
+  const pairs = [];
+  for (let i = 0; i < ids.length; i++) {
+    for (let j = i + 1; j < ids.length; j++) {
+      const a = indicators.find(x => x.id === ids[i]);
+      const b = indicators.find(x => x.id === ids[j]);
+      pairs.push({value:`${ids[i]}|${ids[j]}`, label:`${a.id} vs ${b.id}`});
+    }
+  }
+  pairSel.innerHTML = pairs.map(p => `<option value="${p.value}">${p.label}</option>`).join('');
+}
+
+function colorForOutput(v) {
+  const t = Math.max(0, Math.min(1, (v - 1) / 9));
+  const r = Math.round(220 * (1 - t) + 22 * t);
+  const g = Math.round(38 * (1 - t) + 163 * t);
+  const b = Math.round(38 * (1 - t) + 74 * t);
+  return `rgb(${r},${g},${b})`;
+}
+
+function renderSurfacePlot() {
+  const canvas = document.getElementById('surfaceCanvas');
+  const note = document.getElementById('surfaceNote');
+  const modelSel = document.getElementById('surfaceModel');
+  const pairSel = document.getElementById('surfacePair');
+  if (!canvas || !modelSel || !pairSel) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(0,0,W,H);
+
+  const pad = {l:58, r:20, t:20, b:48};
+  const plotW = W - pad.l - pad.r;
+  const plotH = H - pad.t - pad.b;
+  const [idA, idB] = pairSel.value.split('|');
+  const modelKey = modelSel.value;
+  const ids = SURFACE_MODELS[modelKey].ids;
+  const base = ids.map(id => Number(state.scores[id] || 0));
+  const idxA = ids.indexOf(idA);
+  const idxB = ids.indexOf(idB);
+
+  const nx = 40, ny = 30;
+  for (let ix = 0; ix < nx; ix++) {
+    for (let iy = 0; iy < ny; iy++) {
+      const xVal = 1 + (ix/(nx-1))*9;
+      const yVal = 1 + ((ny-1-iy)/(ny-1))*9;
+      const vals = [...base];
+      vals[idxA] = xVal;
+      vals[idxB] = yVal;
+      const out = computeSingleModel(modelKey, vals);
+      ctx.fillStyle = colorForOutput(out);
+      const x = pad.l + ix * plotW / nx;
+      const y = pad.t + iy * plotH / ny;
+      ctx.fillRect(x, y, Math.ceil(plotW/nx)+1, Math.ceil(plotH/ny)+1);
+    }
+  }
+
+  // axes
+  ctx.strokeStyle = '#64748b';
+  ctx.lineWidth = 1.2;
+  ctx.beginPath();
+  ctx.moveTo(pad.l, pad.t);
+  ctx.lineTo(pad.l, pad.t + plotH);
+  ctx.lineTo(pad.l + plotW, pad.t + plotH);
+  ctx.stroke();
+
+  ctx.fillStyle = '#475569';
+  ctx.font = '12px Inter, sans-serif';
+  for (let k = 1; k <= 10; k++) {
+    const x = pad.l + ((k-1)/9)*plotW;
+    const y = pad.t + plotH + 18;
+    ctx.fillText(String(k), x-3, y);
+    const y2 = pad.t + plotH - ((k-1)/9)*plotH;
+    ctx.fillText(String(k), pad.l-20, y2+4);
+  }
+
+  const a = indicators.find(x => x.id === idA);
+  const b = indicators.find(x => x.id === idB);
+  ctx.fillStyle = '#0f172a';
+  ctx.font = 'bold 13px Inter, sans-serif';
+  ctx.fillText(`${a.id} (${a.name})`, pad.l + 8, H - 10);
+  ctx.save();
+  ctx.translate(16, pad.t + plotH/2);
+  ctx.rotate(-Math.PI/2);
+  ctx.fillText(`${b.id} (${b.name})`, 0, 0);
+  ctx.restore();
+
+  // crosshair at current slider values
+  const curA = Number(state.scores[idA] || 0);
+  const curB = Number(state.scores[idB] || 0);
+  const px = pad.l + ((curA - 1)/9)*plotW;
+  const py = pad.t + plotH - ((curB - 1)/9)*plotH;
+  ctx.strokeStyle = '#111827';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(px, pad.t);
+  ctx.lineTo(px, pad.t + plotH);
+  ctx.moveTo(pad.l, py);
+  ctx.lineTo(pad.l + plotW, py);
+  ctx.stroke();
+  ctx.fillStyle = '#ffffff';
+  ctx.strokeStyle = '#111827';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.arc(px, py, 5, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.stroke();
+
+  const curVals = [...base];
+  curVals[idxA] = curA;
+  curVals[idxB] = curB;
+  const currentOut = computeSingleModel(modelKey, curVals);
+  note.textContent = `${SURFACE_MODELS[modelKey].label}: current crosshair output = ${currentOut.toFixed(2)} / 10, using ${a.id} and ${b.id} as the surface axes while other inputs stay at their current slider values.`;
+}
+
+function fuzzyLabel(score) {
+  if (score < 4) return 'Not Ready';
+  if (score < 7) return 'Somewhat Ready';
+  return 'Ready';
+}
+
+function trimf(x, a, b, c) {
+  if (x <= a || x >= c) return 0;
+  if (x === b) return 1;
+  if (x < b) return (x - a) / (b - a);
+  return (c - x) / (c - b);
+}
+
+function membershipValue(x, label, varKey = '') {
+  if (label === 1) return trimf(x, -4, 1, 4);
+  if (label === 2) return trimf(x, 3, 5.5, 8);
+  if (label === 3) {
+    if (varKey === 'AI2') return trimf(x, 7, 8.5, 10);
+    return trimf(x, 7, 10, 13);
+  }
+  return 0;
+}
+
+function evalSugeno(inputs, rules, coeffs, modelName = '') {
+  let num = 0;
+  let den = 0;
+  for (const rule of rules) {
+    const antecedents = rule.slice(0, inputs.length);
+    const outLabel = rule[inputs.length];
+    const weight = rule[inputs.length + 1];
+    const conn = rule[inputs.length + 2]; // 1 = AND, 2 = OR
+
+    let degrees = [];
+    antecedents.forEach((label, i) => {
+      if (label !== 0) {
+        const varKey = modelName ? `${modelName}${i + 1}` : '';
+        degrees.push(membershipValue(inputs[i], label, varKey));
+      }
+    });
+
+    let firing = 0;
+    if (degrees.length === 0) {
+      firing = 1;
+    } else if (conn === 2) {
+      firing = Math.max(...degrees);
+    } else {
+      firing = Math.min(...degrees);
+    }
+
+    firing *= weight;
+    const c = coeffs[outLabel];
+    const z = c.slice(0, inputs.length).reduce((s, coef, i) => s + coef * inputs[i], 0) + c[inputs.length];
+    num += firing * z;
+    den += firing;
+  }
+  if (den === 0) {
+    const avg = inputs.reduce((a, b) => a + b, 0) / inputs.length;
+    return avg;
+  }
+  return num / den;
+}
+
+const FUZZY_MODELS = {
+  CM: {
+    ids: ['2.01','2.02','2.03'],
+    coeffs: {
+      1: [0.45, 0.45, 0.1, 0],
+      2: [0.4, 0.4, 0.2, 0],
+      3: [0.35, 0.35, 0.3, 0]
+    },
+    rules: [
+      [0,1,1,1,1,2],[0,1,2,1,1,1],[0,2,1,1,1,1],[1,2,2,2,1,1],[2,2,2,2,1,1],
+      [3,2,2,2,1,1],[2,3,3,3,1,1],[3,3,3,3,1,1],[1,1,1,1,1,1],[3,1,1,1,1,1],
+      [3,2,2,2,1,1],[3,2,3,2,1,1],[3,3,2,2,1,1],[1,3,1,1,1,1],[1,3,2,2,1,1],
+      [1,3,3,2,1,1],[1,2,1,1,1,1],[2,2,2,2,1,1],[2,2,3,2,1,1],[2,3,3,3,1,1],[2,1,3,1,1,1]
+    ]
+  },
+  SP: {
+    ids: ['3.01','3.02','3.03','3.04'],
+    coeffs: {
+      1: [0.4, 0.4, 0.08, 0.12, 0],
+      2: [0.35, 0.35, 0.1, 0.2, 0],
+      3: [0.25, 0.25, 0.25, 0.25, 1]
+    },
+    rules: [
+      [1,1,0,0,1,1,2],[2,1,0,0,1,1,1],[3,1,0,0,1,1,1],[1,2,0,0,1,1,1],[2,2,0,0,2,1,1],
+      [3,2,0,0,2,1,1],[1,3,0,0,1,1,1],[2,3,0,0,2,1,1],[3,3,3,3,3,1,1],[3,3,3,3,3,1,1],
+      [3,3,3,2,2,1,1],[3,3,1,1,2,1,1],[3,3,2,2,2,1,1],[1,1,1,1,1,1,1],[1,1,2,2,1,1,1],
+      [1,1,1,2,1,1,1],[1,1,2,1,1,1,1],[1,1,1,2,1,1,1],[1,3,2,2,1,1,1],[1,3,1,2,1,1,1],
+      [1,3,3,2,1,1,1],[3,1,2,2,1,1,1],[3,1,2,1,1,1,1],[3,1,1,1,1,1,1],[3,1,2,3,1,1,1],
+      [3,1,1,3,1,1,1],[3,1,3,3,1,1,1],[3,2,1,1,2,1,1],[3,2,1,3,2,1,1],[3,2,1,2,2,1,1],
+      [3,2,3,3,2,1,1],[3,2,2,1,1,1,1],[3,2,2,3,2,1,1],[3,2,2,2,2,1,1]
+    ]
+  },
+  OEP: {
+    ids: ['4.01','4.02','4.03'],
+    coeffs: {
+      1: [0.45, 0.45, 0.1, 0],
+      2: [0.4, 0.4, 0.2, 0],
+      3: [0.35, 0.35, 0.3, 0]
+    },
+    rules: [
+      [0,1,1,1,1,2],[0,1,2,1,1,1],[0,2,1,1,1,1],[1,2,3,2,1,1],[2,2,3,2,1,1],
+      [3,2,2,2,1,1],[1,3,3,2,1,1],[2,3,3,3,1,1],[3,3,3,3,1,1],[1,1,2,1,1,1],
+      [1,2,1,1,1,1],[1,2,3,2,1,1],[1,1,2,1,1,1],[2,2,2,2,1,1],[2,1,1,1,1,1],
+      [2,3,1,1,1,1],[2,2,1,1,1,1],[2,1,2,1,1,1],[2,3,2,2,1,1]
+    ]
+  },
+  SW: {
+    ids: ['5.01','5.02','5.03','5.04'],
+    coeffs: {
+      1: [0.45, 0.45, 0.06, 0.04, 0],
+      2: [0.35, 0.35, 0.2, 0.1, 0],
+      3: [0.25, 0.25, 0.25, 0.25, 0]
+    },
+    rules: [
+      [1,1,0,0,2,1,2],[2,1,0,0,1,1,1],[3,1,0,0,1,1,1],[1,2,0,0,1,1,1],[2,2,0,0,2,1,1],
+      [3,2,0,0,2,1,1],[1,3,0,0,1,1,1],[2,3,0,0,2,1,1],[3,3,0,0,3,1,1],[1,1,3,0,1,1,1],
+      [1,1,2,0,1,1,1],[1,1,1,0,1,1,1],[1,3,1,0,1,1,1],[1,3,2,0,1,1,1],[1,3,3,0,1,1,1],
+      [1,2,1,0,1,1,1],[1,2,2,0,1,1,1],[1,2,3,0,1,1,1],[3,1,1,0,1,1,1],[3,1,2,0,1,1,1],
+      [3,1,3,0,1,1,1],[3,2,1,0,2,1,1],[3,2,2,0,2,1,1],[3,2,3,0,2,1,1],[3,3,1,0,2,1,1],
+      [3,3,2,0,3,1,1],[3,3,3,0,3,1,1],[3,3,3,1,2,1,1],[3,3,3,2,3,1,1],[3,3,3,3,3,1,1],
+      [3,1,1,1,1,1,1],[3,1,1,2,1,1,1],[3,1,1,3,1,1,1],[3,1,2,1,1,1,1],[3,1,2,2,1,1,1],
+      [3,1,2,3,1,1,1],[3,1,3,1,1,1,1],[3,1,3,2,1,1,1],[3,1,3,3,1,1,1],[3,3,3,3,3,1,1],
+      [3,3,3,2,3,1,1],[3,3,3,1,2,1,1]
+    ]
+  },
+  EA: {
+    ids: ['6.01','6.02','6.03'],
+    coeffs: {
+      1: [0.45, 0.45, 0.1, 0],
+      2: [0.4, 0.4, 0.2, 0],
+      3: [0.35, 0.35, 0.3, 0]
+    },
+    rules: [
+      [1,1,0,1,1,2],[2,1,0,1,1,1],[3,1,0,1,1,1],[1,2,0,1,1,1],[2,2,0,2,1,1],
+      [3,2,0,2,1,1],[1,3,0,1,1,1],[2,3,0,2,1,1],[3,3,0,3,1,1],[2,2,2,2,1,1],
+      [2,2,1,2,1,1],[2,2,3,2,1,1],[1,3,3,1,1,1],[1,3,2,1,1,1],[1,3,3,1,1,1],
+      [3,1,1,1,1,1],[3,1,2,1,1,1],[3,1,3,1,1,1],[3,3,1,2,1,1],[3,3,2,2,1,1],[3,3,3,3,1,1]
+    ]
+  }
+};
+
+function computeFuzzyOutputs() {
+  const outputs = {};
+  // AI fuzzy model from MATLAB rules
+  const aiModel = {
+    ids: ['1.01','1.02','1.03','1.04','1.05'],
+    coeffs: {
+      1: [0.35, 0.35, 0, 0.3, 0, 0],
+      2: [0.25, 0.25, 0.25, 0.15, 0.1, 0],
+      3: [0.2, 0.2, 0.2, 0.2, 0.2, 0]
+    },
+    // Note: AOI2 has a custom Ready MF trimf(7, 8.5, 10) in the MATLAB file.
+    rules: [
+      [1,0,1,0,0,1,1,2],[3,1,2,1,1,1,1,1],[3,1,3,1,1,1,1,1],[2,1,2,1,1,1,1,1],[2,1,3,1,1,1,1,1],
+      [3,1,2,1,2,2,1,1],[3,1,2,1,3,2,1,1],[3,1,2,2,1,2,1,1],[3,1,2,2,2,2,1,1],[3,1,2,2,3,2,1,1],
+      [3,1,2,3,1,2,1,1],[3,1,3,1,2,2,1,1],[3,1,3,1,3,2,1,1],[3,1,3,2,1,2,1,1],[3,1,3,2,2,2,1,1],
+      [3,1,3,2,3,2,1,1],[3,1,3,3,1,2,1,1],[3,1,3,3,2,2,1,1],[3,2,2,1,1,2,1,1],[3,2,2,1,2,2,1,1],
+      [3,2,2,1,3,2,1,1],[3,2,2,2,1,2,1,1],[3,2,2,2,2,2,1,1],[3,2,2,2,3,2,1,1],[3,2,2,3,1,2,1,1],
+      [3,2,3,1,1,2,1,1],[3,2,3,2,1,2,1,1],[3,2,3,2,2,2,1,1],[3,2,3,3,1,2,1,1],[3,3,2,1,1,2,1,1],
+      [3,3,2,1,2,2,1,1],[3,3,2,1,3,2,1,1],[3,3,2,2,1,2,1,1],[3,3,2,2,2,2,1,1],[3,3,2,1,1,2,1,1],
+      [3,3,2,2,1,2,1,1],[2,1,2,1,2,2,1,1],[2,1,2,1,3,2,1,1],[2,1,2,2,1,2,1,1],[2,1,2,2,2,2,1,1],
+      [2,1,2,2,3,2,1,1],[2,1,2,3,1,2,1,1],[2,1,2,3,2,2,1,1],[2,1,2,3,3,2,1,1],[2,1,3,1,2,2,1,1],
+      [2,1,3,1,3,2,1,1],[2,1,3,2,1,2,1,1],[2,1,3,2,2,2,1,1],[2,1,3,2,3,2,1,1],[2,1,3,3,1,2,1,1],
+      [2,1,3,3,2,2,1,1],[2,2,2,1,1,2,1,1],[2,2,2,1,2,2,1,1],[2,2,2,1,3,2,1,1],[2,2,2,2,1,2,1,1],
+      [2,2,2,2,2,2,1,1],[2,2,2,2,3,2,1,1],[2,2,2,3,1,2,1,1],[2,2,2,3,2,2,1,1],[2,2,2,3,3,2,1,1],
+      [2,2,3,1,1,2,1,1],[2,2,3,1,2,2,1,1],[2,2,3,1,3,2,1,1],[2,2,3,2,1,2,1,1],[2,2,3,2,2,2,1,1],
+      [2,2,3,2,3,2,1,1],[2,2,3,3,1,2,1,1],[2,2,3,3,2,2,1,1],[2,3,2,1,1,2,1,1],[2,3,2,1,2,2,1,1],
+      [2,3,2,1,3,2,1,1],[2,3,2,2,1,2,1,1],[2,3,2,2,2,2,1,1],[2,3,2,2,3,2,1,1],[2,3,2,3,1,2,1,1],
+      [2,3,3,1,1,2,1,1],[2,3,3,1,2,2,1,1],[2,3,3,2,1,2,1,1],[2,3,3,2,2,2,1,1],[3,1,2,3,2,3,1,1],
+      [3,1,2,3,3,3,1,1],[3,1,3,3,3,3,1,1],[3,2,2,3,2,3,1,1],[3,2,2,3,3,3,1,1],[3,2,3,1,2,3,1,1],
+      [3,2,3,1,3,3,1,1],[3,2,3,2,3,3,1,1],[3,2,3,3,2,3,1,1],[3,2,3,3,3,3,1,1],[3,3,2,2,3,3,1,1],
+      [3,3,2,3,1,3,1,1],[3,3,2,3,2,3,1,1],[3,3,2,3,3,3,1,1],[3,3,3,1,2,3,1,1],[3,3,3,1,3,3,1,1],
+      [3,3,3,2,2,3,1,1],[3,3,3,2,3,3,1,1],[3,3,3,3,1,3,1,1],[3,3,3,3,2,3,1,1],[3,3,3,3,3,3,1,1],
+      [2,1,3,3,3,3,1,1],[2,2,3,3,3,3,1,1],[2,3,2,3,2,3,1,1],[2,3,2,3,3,3,1,1],[2,3,3,1,3,3,1,1],
+      [2,3,3,2,3,3,1,1],[2,3,3,3,1,3,1,1],[2,3,3,3,2,3,1,1],[2,3,3,3,3,3,1,1]
+    ]
+  };
+  outputs.AI = evalSugeno(aiModel.ids.map(id => Number(state.scores[id] || 0)), aiModel.rules, aiModel.coeffs, 'AI');
+
+  for (const [key, model] of Object.entries(FUZZY_MODELS)) {
+    const inputs = model.ids.map(id => Number(state.scores[id] || 0));
+    outputs[key] = evalSugeno(inputs, model.rules, model.coeffs, key);
+  }
+  outputs.OVERALL = (outputs.AI + outputs.CM + outputs.SP + outputs.OEP + outputs.SW + outputs.EA) / 6;
+  return outputs;
+}
+
+function renderSummary() {
+  const items = filteredIndicators();
+  const scores = items.map(x => {
+    const v = Number(state.scores[x.id]);
+    return Number.isFinite(v) ? v : Number(x.defaultScore || 0);
+  });
+  const avg = scores.length ? scores.reduce((a,b)=>a+b,0)/scores.length : 0;
+  const fuzzy = computeFuzzyOutputs();
+  const setText = (id, value) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = value;
+  };
+  setText('overallScore', avg.toFixed(2));
+  setText('shownCount', items.length);
+  setText('highCount', scores.filter(x => x > 7 && x <= 10).length);
+  setText('midCount', scores.filter(x => x > 3 && x <= 7).length);
+  setText('lowCount', scores.filter(x => x >= 1 && x <= 3).length);
+  setText('criteriaEnabled', 22);
+
+  const categoryBars = document.getElementById('categoryBars');
+  const grouped = [...new Set(items.map(x => x.category))].map(cat => {
+    const catItems = items.filter(x => x.category === cat);
+    const catAvg = catItems.reduce((s,x)=>s+Number(state.scores[x.id] || 0),0)/(catItems.length || 1);
+    return {cat, avg:catAvg, n:catItems.length};
+  });
+  categoryBars.innerHTML = grouped.map(g => `
+    <div class="catRow">
+      <div class="catRowTop">
+        <div style="font-weight:800;">${g.cat}</div>
+        <div class="cat">${g.avg.toFixed(2)} / 10</div>
+      </div>
+      <div class="bar"><span style="width:${(g.avg/10)*100}%"></span></div>
+    </div>
+  `).join('');
+
+  const fuzzyBars = document.getElementById('fuzzyCategoryBars');
+  const fuzzyOrder = [
+    {key:'AI', name:'Availability of Infrastructure (AOI)'},
+    {key:'CM', name:'Accessible Clean Mobility Options (CMO)'},
+    {key:'SP', name:'Supportive Policies (SP)'},
+    {key:'OEP', name:'Outreach and Education Programs (OEP)'},
+    {key:'SW', name:'Skilled Workforce (SW)'},
+    {key:'EA', name:'Equity Aspect (EA)'}
+  ];
+  if (fuzzyBars) {
+    fuzzyBars.innerHTML = fuzzyOrder.map(item => `
+      <div class="catRow">
+        <div class="catRowTop">
+          <div style="font-weight:800;">${item.name}</div>
+          <div class="cat">${(fuzzy[item.key] || 0).toFixed(2)} / 10</div>
+        </div>
+        <div class="bar"><span style="width:${((fuzzy[item.key] || 0)/10)*100}%"></span></div>
+      </div>
+    `).join('');
+  }
+}
+
+function renderTable() {
+  const items = filteredIndicators();
+  const body = document.getElementById('tableBody');
+  body.innerHTML = items.map(ind => `
+    <tr>
+      <td>${ind.id}</td>
+      <td>${ind.category}</td>
+      <td><strong>${ind.name}</strong><br><span style="color:var(--muted)">${ind.short}</span></td>
+      <td>${ind.unit}</td>
+      <td>${ind.range}</td>
+      <td>${Number(state.scores[ind.id]).toFixed(1)} / 10</td>
+      <td>${escapeHTML(state.notes[ind.id] || '')}</td>
+    </tr>
+  `).join('');
+}
+
+
+
+function updateScore(id, value) {
+  state.scores[id] = parseFloat(value);
+  renderAll();
+}
+
+function updateNote(id, value) {
+  state.notes[id] = value;
+  renderTable();
+}
+
+function openDetail(id) {
+  const ind = indicators.find(x => x.id === id);
+  if (!ind) return;
+  const detailModal = document.getElementById('detailModal');
+  document.getElementById('modalId').textContent = ind.id;
+  document.getElementById('modalName').textContent = ind.name;
+  document.getElementById('modalCat').textContent = ind.category;
+  document.getElementById('modalObjective').textContent = ind.objective;
+  document.getElementById('modalShort').textContent = ind.short;
+  document.getElementById('modalDesc').textContent = ind.description;
+  document.getElementById('modalUnit').textContent = ind.unit;
+  document.getElementById('modalRange').textContent = ind.range;
+  document.getElementById('modalType').textContent = ind.type;
+  const currentScore = Number(state.scores[ind.id] || 0);
+  document.getElementById('modalScore').textContent = currentScore.toFixed(1) + ' / 10 (' + fuzzyLabel(currentScore) + ')';
+  const c = criteriaForIndicator(ind.id);
+  document.getElementById('modalCriteria').innerHTML = c && c.levels ? c.levels.map(level => `
+    <div style="margin-top:8px; padding:10px; border:1px solid var(--line); border-radius:12px; background:#fff;">
+      <div class="criteriaTag ${criteriaClass(level.label)}">${criteriaTerm(level.label)}</div>
+      <div class="criteriaCriteria" style="margin-top:6px;">${level.criteria || ''}</div>
+      <div class="criteriaDesc">${level.description || ''}</div>
+    </div>
+  `).join('') : '<span style="color:var(--muted);">No criteria file entry found for this indicator.</span>';
+  detailModal.showModal();
+}
+
+function resetScores() {
+  indicators.forEach(ind => {
+    state.scores[ind.id] = Number(ind.defaultScore);
+    state.notes[ind.id] = '';
+  });
+  renderAll();
+}
+
+function hardResetScores() {
+  const searchBox = document.getElementById('searchBox');
+  const categoryFilter = document.getElementById('categoryFilter');
+  const typeFilter = document.getElementById('typeFilter');
+
+  if (searchBox) searchBox.value = '';
+  if (categoryFilter) categoryFilter.value = 'all';
+  if (typeFilter) typeFilter.value = 'all';
+
+  indicators.forEach(ind => {
+    state.scores[ind.id] = Number(ind.defaultScore);
+    state.notes[ind.id] = ind.notes || '';
+  });
+
+  renderAll();
+}
+
+window.hardResetScores = hardResetScores;
+
+function escapeHTML(str) {
+  return String(str)
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;');
+}
+
+function downloadCSV() {
+  const rows = [
+    ['ID','Category','Indicator','Measurement Type','Suggested Unit','Suggested Range','Score','Notes','Fuzzy_Pillar','Fuzzy_Pillar_Score']
+  ];
+  indicators.forEach(ind => {
+    const fuzzy = computeFuzzyOutputs();
+    const pillarMap = {
+      'Availability of Infrastructure': 'AI',
+      'Accessible Clean Mobility Options': 'CM',
+      'Supportive Policies': 'SP',
+      'Outreach and Education Programs': 'OEP',
+      'Skilled Workforce': 'SW',
+      'Equity Aspect': 'EA'
+    };
+    const pillar = pillarMap[ind.category] || '';
+    rows.push([
+      ind.id,
+      ind.category,
+      ind.name,
+      ind.type,
+      ind.unit,
+      ind.range,
+      state.scores[ind.id],
+      state.notes[ind.id] || '',
+      pillar,
+      pillar ? (fuzzy[pillar] ?? '') : ''
+    ]);
+  });
+  const csv = rows.map(row => row.map(cell => {
+    const s = String(cell ?? '');
+    return /[",\n]/.test(s) ? '"' + s.replaceAll('"','""') + '"' : s;
+  }).join(',')).join('\n');
+
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'zev_readiness_scores.csv';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+
+function renderAll() {
+  renderCards();
+  renderSummary();
+  renderTable();
+  renderActionGuidance();
+  initSurfaceControls();
+  document.querySelectorAll('.scoreSlider').forEach(sl => {
+    sl.style.background = sliderGradient(sl.value);
+  });
+  renderSurfacePlot();
+}
+
+document.getElementById('searchBox').addEventListener('input', renderAll);
+document.getElementById('categoryFilter').addEventListener('change', renderAll);
+document.getElementById('typeFilter').addEventListener('change', renderAll);
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  const btn = document.getElementById('resetScoresBtn');
+  if (btn) {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      hardResetScores();
+    });
+  }
+});
+
+renderAll();
+</script>
+</body>
+</html>
