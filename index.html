@@ -475,8 +475,12 @@ body {
       text-align:center;
       font-weight:800;
       font-size:.95rem;
-      min-width:64px;
+      min-width:80px;
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
     }
+    .scoreValueBox input[type=number]::-webkit-inner-spin-button,
+    .scoreValueBox input[type=number]::-webkit-outer-spin-button { -webkit-appearance:none; margin:0; }
+    .scoreValueBox input[type=number] { -moz-appearance:textfield; }
 .note {
   width:100%;
   min-height:70px;
@@ -541,11 +545,15 @@ dialog::backdrop { background:rgba(15,23,42,.45); }
 </style>
 </head>
 <body>
+<div style="background:#fef2f2; border:2px solid #dc2626; border-radius:12px; padding:10px 20px; margin:12px auto; max-width:1400px; text-align:center;">
+  <span style="color:#dc2626; font-weight:800; font-size:1.05rem;">⚠️ Work in Progress — This page is under active development and may change without notice.</span>
+</div>
 <div class="wrap">
   <section class="hero">
     <div style="display:grid; grid-template-columns:1fr 380px; gap:32px; align-items:center;">
       <div>
         <h1 style="margin:0 0 10px 0; font-size:2rem; line-height:1.1;">ZEV Readiness Framework Dashboard</h1>
+        <!--<div style="font-size:.82rem; color:rgba(255,255,255,.75); margin-bottom:8px;">Literature-aligned update: July 2026</div>-->
         <p style="margin:0; line-height:1.6; color:rgba(255,255,255,.9); font-size:.97rem;">
           This dashboard helps communities evaluate their readiness for Zero-Emission Vehicle (ZEV) adoption across six key categories: infrastructure, mobility access, supportive policies, outreach, workforce, and equity.
         </p>
@@ -571,17 +579,17 @@ dialog::backdrop { background:rgba(15,23,42,.45); }
               <div style="flex-shrink:0; width:34px; height:34px; border-radius:50%; background:var(--blue); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:1rem;">2</div>
               <div>
                 <div style="font-weight:800; margin-bottom:4px;">Check the Suggested Unit &amp; Range</div>
-                <div style="color:var(--muted); font-size:.92rem; line-height:1.6;">Each card shows a <strong>Suggested Unit</strong> (how the indicator is measured, e.g. "% uptime") and a <strong>Suggested Range</strong> (benchmark values from research). Use these to understand where your community currently stands before assigning a score.</div>
+                <div style="color:var(--muted); font-size:.92rem; line-height:1.6;">Each card shows a <strong>Suggested Unit</strong> — the real-world metric used for that indicator (e.g., EVs/public port, % uptime, permit days) — and a <strong>Suggested Range</strong> with literature-backed benchmarks. Use these to understand where your community currently stands before entering a value.</div>
               </div>
             </div>
 
             <div style="display:flex; gap:14px; align-items:flex-start; padding:14px; border:1px solid var(--line); border-radius:14px; background:#fcfdff;">
               <div style="flex-shrink:0; width:34px; height:34px; border-radius:50%; background:var(--blue); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:1rem;">3</div>
               <div>
-                <div style="font-weight:800; margin-bottom:4px;">Assign a Score — Two Easy Ways</div>
+                <div style="font-weight:800; margin-bottom:4px;">Enter a Value — Three Easy Ways</div>
                 <div style="color:var(--muted); font-size:.92rem; line-height:1.6;">
-                  <strong>Option A — Quick buttons:</strong> Click <span style="background:#fee2e2; color:#991b1b; border-radius:6px; padding:2px 7px; font-size:.85rem; font-weight:700;">Not Ready (1–3)</span>, <span style="background:#fef3c7; color:#92400e; border-radius:6px; padding:2px 7px; font-size:.85rem; font-weight:700;">Somewhat Ready (&gt;3–7)</span>, or <span style="background:#dcfce7; color:#166534; border-radius:6px; padding:2px 7px; font-size:.85rem; font-weight:700;">Ready (&gt;7–10)</span> based on your community's current situation. The score updates automatically.<br><br>
-                  <strong>Option B — Slider:</strong> Drag the slider to any number from 1 to 10 for a more precise score. Use <em>"Show readiness conditions"</em> on each card to read exactly what qualifies as Not Ready, Somewhat Ready, or Ready — with real data thresholds to compare against.
+                  <strong>Option A — Quick buttons:</strong> Click <span style="background:#fee2e2; color:#991b1b; border-radius:6px; padding:2px 7px; font-size:.85rem; font-weight:700;">Not Ready</span>, <span style="background:#fef3c7; color:#92400e; border-radius:6px; padding:2px 7px; font-size:.85rem; font-weight:700;">Somewhat Ready</span>, or <span style="background:#dcfce7; color:#166534; border-radius:6px; padding:2px 7px; font-size:.85rem; font-weight:700;">Ready</span> — each button shows the real-world threshold for that indicator (e.g., ≤10 EVs/port for Ready). The value updates automatically.<br><br>
+                  <strong>Option B — Slider or number input:</strong> Drag the slider or type a precise value directly into the number box using the indicator's own unit. Use <em>"Show readiness conditions"</em> on each card to see what qualifies as Not Ready, Somewhat Ready, or Ready with specific real-world thresholds.
                 </div>
               </div>
             </div>
@@ -590,7 +598,7 @@ dialog::backdrop { background:rgba(15,23,42,.45); }
               <div style="flex-shrink:0; width:34px; height:34px; border-radius:50%; background:var(--blue); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:1rem;">4</div>
               <div>
                 <div style="font-weight:800; margin-bottom:4px;">Read the Readiness Summary</div>
-                <div style="color:var(--muted); font-size:.92rem; line-height:1.6;">The <strong>Overall Readiness Summary</strong> panel updates live as you score. It shows your average score out of 10 and how many indicators fall into each readiness level. The <strong>Category Scores</strong> bars reveal which of the six pillars are strongest and which need the most attention.</div>
+                <div style="color:var(--muted); font-size:.92rem; line-height:1.6;">The <strong>Overall Readiness Summary</strong> panel updates live as you enter values. Since each indicator uses a different unit, the summary converts everything to a common <strong>0–100% readiness scale</strong> (Not Ready = 0–30%, Somewhat Ready = 30–70%, Ready = 70–100%). The <strong>Category Scores</strong> bars reveal which of the six pillars are strongest and which need the most attention.</div>
               </div>
             </div>
 
@@ -598,7 +606,7 @@ dialog::backdrop { background:rgba(15,23,42,.45); }
               <div style="flex-shrink:0; width:34px; height:34px; border-radius:50%; background:var(--blue); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:1rem;">5</div>
               <div>
                 <div style="font-weight:800; margin-bottom:4px;">Review What to Work on Next</div>
-                <div style="color:var(--muted); font-size:.92rem; line-height:1.6;">Scroll down to the <strong>"What to Work on Next"</strong> section. For every indicator it gives you a plain-language action step based on your score — whether you need to start from scratch, build on what you have, or maintain strong progress. This is your practical to-do list.</div>
+                <div style="color:var(--muted); font-size:.92rem; line-height:1.6;">Scroll down to the <strong>"What to Work on Next"</strong> section. For every indicator it shows your current real-world value, a specific <strong>target to reach the next readiness level</strong> (e.g., "Target for Ready: Below 10 EVs/public port"), and a plain-language action step. This is your practical, prioritised to-do list.</div>
               </div>
             </div>
 
@@ -724,7 +732,8 @@ dialog::backdrop { background:rgba(15,23,42,.45); }
       <section class="panel">
         <h2>Indicator Scoring Cards</h2>
         <div class="sub">
-          Each indicator includes a short description, suggested unit, suggested working range, and a manual readiness score from 1 to 10. Scores are adjusted with a slider so users can move along the line instead of selecting from a dropdown. Community members can also choose a readiness option directly from the criteria file for each indicator. Click “Show readiness conditions” inside any indicator card to see the Not Ready, Somewhat Ready, and Ready conditions before selecting one. 
+
+Each indicator includes a short description, suggested unit, suggested working range, and a dynamic readiness scale based on real-world metrics. Users can adjust values using the slider or type a precise number directly into the input box — each indicator uses its own unit (e.g., EVs/port, % uptime, permit days). Community members can also select a readiness level using the quick criteria buttons, which automatically set an appropriate real-world value. Click "Show readiness conditions" inside any indicator card to see the specific thresholds for Not Ready, Somewhat Ready, and Ready before making a selection. 
 <div style="margin-top:14px; background:#f7f9fc; border:1px solid #d9e2ec; border-radius:12px; padding:16px 20px;">
 <ul style="margin:0; padding-left:22px; line-height:1.6;">
 <li><strong>Not Ready:</strong> Use this when the file indicates no relevant actions, no systems in place, no documented planning, or no supporting evidence.</li>
@@ -732,7 +741,7 @@ dialog::backdrop { background:rgba(15,23,42,.45); }
 <li><strong>Ready:</strong> Use this when the indicator meets the strongest condition in the file, with consistent implementation, complete coverage, public documentation, or integration into plans.</li>
 </ul>
 </div>
- Use the notes field for workshop comments, assumptions, or next actions.
+ <!--Use the notes field for workshop comments, assumptions, or next actions.-->
         </div>
         <div class="cards" id="cardGrid"></div>
       </section>
@@ -761,7 +770,7 @@ dialog::backdrop { background:rgba(15,23,42,.45); }
       <details class="panel accordion" open id="workNext">
         <summary>What to Work on Next</summary>
         <div class="accordionBody">
-          <div class="sub">This panel gives plain-language next steps based on the current score of each indicator.</div>
+          <div class="sub">This panel gives plain-language next steps based on each indicator's current real-world value, with specific targets to reach the next readiness level.</div>
           <div class="actionList" id="actionGuidanceList"></div>
         </div>
       </details>
@@ -774,13 +783,13 @@ dialog::backdrop { background:rgba(15,23,42,.45); }
 
 <section class="panel">
         <h2>Overall Readiness Summary</h2>
-        <div class="sub">These values update automatically as you change indicator scores. The readiness interpretation shown here is: Not Ready = 1–3, Somewhat Ready = >3–7, and Ready = >7–10.</div>
+        <div class="sub">These values update automatically as you change indicator values. Each indicator uses its own real-world metric; the summary converts all scores to a common <strong>0–100% readiness scale</strong>. Not Ready = 0–30%, Somewhat Ready = 30–70%, Ready = 70–100%.</div>
         <div class="summary">
-          <div class="stat"><div class="num" id="overallScore">0.00</div><div class="lbl">Overall readiness / 10</div></div>
+          <div class="stat"><div class="num" id="overallScore">0.00</div><div class="lbl">Overall readiness %</div></div>
           
-          <div class="stat"><div class="num" id="highCount">0</div><div class="lbl">Ready range >7 to 10</div></div>
-          <div class="stat"><div class="num" id="midCount">0</div><div class="lbl">Somewhat Ready range >3 to 7</div></div>
-          <div class="stat"><div class="num" id="lowCount">0</div><div class="lbl">Not Ready range 1 to 3</div></div>
+          <div class="stat"><div class="num" id="highCount">0</div><div class="lbl">Ready (70–100%)</div></div>
+          <div class="stat"><div class="num" id="midCount">0</div><div class="lbl">Somewhat Ready (30–70%)</div></div>
+          <div class="stat"><div class="num" id="lowCount">0</div><div class="lbl">Not Ready (0–30%)</div></div>
           
         </div>
       </section>
@@ -848,7 +857,7 @@ dialog::backdrop { background:rgba(15,23,42,.45); }
             <canvas id="surfaceCanvas" width="720" height="420" style="width:100%; max-width:100%; border-radius:14px; display:block;"></canvas>
             <div class="plotLegend">
               <span>Low readiness</span>
-              <span>Surface output / 10</span>
+              <span>Surface output %</span>
               <span>High readiness</span>
             </div>
             <div class="plotNote" id="surfaceNote"></div>
@@ -894,120 +903,473 @@ dialog::backdrop { background:rgba(15,23,42,.45); }
 </dialog>
 
 <script>
-const indicators = [{"id": "1.01", "category": "Availability of Infrastructure", "name": "ZEV Station-to-Vehicle Density and Distribution", "type": "Quantitative", "unit": "Public charging ports per 1,000 registered EVs; or EVSE per km²", "range": "Current global avg <10 EVs/public port (IEA 2024); projected ~15 EVs/port by 2035 (IEA APS); modelled mean 135 / median 23 EVs/charger across 168 studies (Xylia et al. 2025)", "short": "Measures whether EV and hydrogen stations are distributed in proportion to the local vehicle population.", "objective": "Ensure equitable and reliable access to public and private ZEV infrastructure by measuring how well charging and refueling stations are distributed relative to the light-duty vehicle population.", "description": "Tracks EVSE and hydrogen refueling availability relative to local light-duty vehicles, helping identify underserved areas and infrastructure gaps.", "defaultScore": 4, "notes": ""}, {"id": "1.02", "category": "Availability of Infrastructure", "name": "Charging Network Speed and Accessibility", "type": "Quantitative", "unit": "% DCFC of total public ports; kW power output (L2 = 3–22 kW; DCFC = 50–350 kW); avg. inter-station distance (km/miles)", "range": "U.S. 2024: 76% L2, 24% DCFC; EU AFIR: DCFC ≥150 kW every 60 km on TEN-T corridors; NEVI: DCFC ≥150 kW within 1 mile of highway exit", "short": "Captures charger mix and spacing to reflect convenience, travel flexibility, and range confidence.", "objective": "Evaluate the type of EV chargers and the charging speed of the network by analyzing charger availability and spatial distribution.", "description": "Assesses the ratio of fast chargers to Level 2 chargers and the average distance between charging sites to identify service quality gaps.", "defaultScore": 4, "notes": ""}, {"id": "1.03", "category": "Availability of Infrastructure", "name": "Energy and Grid Readiness for ZEV Infrastructure", "type": "Mixed", "unit": "Grid hosting capacity (kW/MW per feeder); % managed/smart charging adoption; V2G-capable vehicles as % of fleet", "range": "IEA target: 1.3 kW public capacity per BEV; NEVI minimum: 150 kW per DCFC; China goal: 60% off-peak charging by 2025", "short": "Assesses whether the local grid can reliably support more charging and refueling infrastructure.", "objective": "Evaluate whether existing and planned energy infrastructure can reliably support ZEV charging and refueling systems.", "description": "Examines hosting capacity, distributed energy resources, and managed charging or V2G readiness for scalable deployment.", "defaultScore": 3, "notes": ""}, {"id": "1.04", "category": "Availability of Infrastructure", "name": "Reliability and Maintenance of Charging Infrastructure", "type": "Mixed", "unit": "% uptime (availability); % First-Time Charge Success Rate (FTCSR); Mean Time to Repair (MTTR) in hours", "range": "Regulatory floor: ≥97% uptime (CA/FHWA/NEVI); UK target: ≥99%; real-world FTCSR: 71–85%; national avg reliability index: 93.5% (Q1 2026)", "short": "Focuses on charger uptime, maintenance, response time, and transparency in reporting.", "objective": "Ensure EV and hydrogen fueling infrastructure remains consistently functional, safe, and responsive to technical issues.", "description": "Evaluates uptime, incident response, maintenance practices, and reporting quality to strengthen user confidence.", "defaultScore": 3, "notes": ""}, {"id": "1.05", "category": "Availability of Infrastructure", "name": "Strategic Coverage of ZEV Chargers", "type": "Mixed", "unit": "# chargers per corridor (per 50 km); % census tracts within X miles of a public charger; equity coverage score (DAC vs non-DAC ratio)", "range": "NEVI: DCFC every 50 miles on designated highways; 60–80% of U.S. census tracts lack sufficient access; optimal radius: 5 miles urban / 15 miles rural", "short": "Checks whether chargers are sited where people travel, stop, and need them most.", "objective": "Promote effective and visible deployment of ZEV chargers in high-priority travel and activity areas.", "description": "Reviews corridor and destination siting for chargers near tourism, employment, commercial, and regional travel routes.", "defaultScore": 4, "notes": ""}, {"id": "2.01", "category": "Accessible Clean Mobility Options", "name": "Public Sector and Fleet ZEV Adoption", "type": "Mixed", "unit": "% of annual fleet purchases that are ZEVs; # ZEV fleet vehicles per 100 total fleet vehicles; CO₂ (tonnes) reduced per year", "range": "ACF: SLG fleets ≥50% ZEV purchases from 2024, 100% from 2027; ACT: 40–55% ZEV sales targets by 2035 (class-dependent)", "short": "Measures how much local public fleets have shifted toward zero-emission vehicles.", "objective": "Support public leadership by measuring adoption of ZEVs within municipal and public transit fleets.", "description": "Tracks battery electric and hydrogen vehicles in city, transit, and public fleets, with attention to disadvantaged communities.", "defaultScore": 3, "notes": ""}, {"id": "2.02", "category": "Accessible Clean Mobility Options", "name": "Community Access to Shared Electric Mobility", "type": "Mixed", "unit": "# shared e-mobility vehicles per 1,000 residents in DACs; % of programs with ≥1 equity requirement; subsidized fare uptake rate (%)", "range": "70% of U.S. shared micromobility programs have ≥1 equity requirement; discounted-fare users ride 20–30% more frequently; e-scooter usage grew ~20% in North America since 2022", "short": "Looks at affordable access to shared EVs, e-bikes, scooters, and other clean mobility services.", "objective": "Expand equitable access to clean transportation options by supporting shared electric mobility services.", "description": "Assesses service availability, affordability, equity pricing, and participation in shared clean mobility programs.", "defaultScore": 4, "notes": ""}, {"id": "2.03", "category": "Accessible Clean Mobility Options", "name": "Clean Mobility Hub Deployment and Accessibility", "type": "Mixed", "unit": "# clean mobility hubs per 100,000 residents; % DAC residents within 0.5 miles of a multimodal hub; # EV charging ports per hub", "range": "DOE Clean Cities: hubs typically include 2–10 EV ports + shared mobility docking; CARB CMO targets DACs with <0.5-mile multimodal access gap (peer-reviewed numeric ranges emerging)", "short": "Measures whether multimodal clean mobility hubs are present, accessible, and connected to community needs.", "objective": "Promote development of multimodal clean transportation centers that improve connectivity and equitable access.", "description": "Evaluates the presence, spread, and accessibility of mobility hubs that combine transit, charging, shared mobility, and real-time information.", "defaultScore": 3, "notes": ""}, {"id": "3.01", "category": "Supportive Policies", "name": "Permitting Efficiency and Legislative Compliance for ZEV Infrastructure", "type": "Mixed", "unit": "Avg. permitting time (days); % of jurisdictions AB 970 compliant; # days from application to permit issuance", "range": "CA AB 970: ≤30 business days (residential), ≤60 days (commercial); typical DCFC installation ~2 years total; CO HB24-1173 local compliance required by Dec 31, 2025", "short": "Measures whether local permitting is fast, transparent, and aligned with California requirements.", "objective": "Ensure local permitting processes for ZEV infrastructure are timely, transparent, and compliant with state legislation.", "description": "Tracks permit timelines, workflow transparency, and evidence of streamlined permitting and AB 970 compliance.", "defaultScore": 3, "notes": ""}, {"id": "3.02", "category": "Supportive Policies", "name": "Zoning and Land Use Incentives for ZEV Infrastructure Deployment", "type": "Mixed", "unit": "% of new construction with EV-ready parking; # EV spaces required per X parking spaces in zoning code; incentive points in PUD systems", "range": "CA AB 98: 100% of new construction must include EV charging infrastructure; CO: ≥20% EV-ready spaces in new lots; Minneapolis: EV chargers required for new surface lots ≥20 spaces", "short": "Assesses whether zoning and land-use rules actively support EV infrastructure in priority locations.", "objective": "Encourage integration of ZEV infrastructure into community development using zoning codes and land-use policies.", "description": "Reviews local ordinances, overlays, incentives, and public-private agreements that make charger siting easier.", "defaultScore": 3, "notes": ""}, {"id": "3.03", "category": "Supportive Policies", "name": "ZEV User Incentives: Adoption and Parking Support", "type": "Mixed", "unit": "$ rebate value per vehicle; % EV sales uplift per $1,000 incentive; % of incentive funds reaching DAC/low-income households", "range": "Federal IRA: up to $7,500 new / $4,000 used EV; each $1,000 rebate → ~2.6% uplift in CA EV sales; ~16% of CA's $1.9B incentive funds reached DAC households", "short": "Examines rebates, rate programs, parking benefits, and other user-facing incentives for adoption.", "objective": "Support broader ZEV adoption by reducing upfront and operational costs for users.", "description": "Looks at financial and convenience-based incentives, especially for low-income residents, renters, and users without home charging.", "defaultScore": 4, "notes": ""}, {"id": "3.04", "category": "Supportive Policies", "name": "Policy Support for Medium- and Heavy-Duty ZEVs", "type": "Mixed", "unit": "% of annual MD/HD vehicle sales that are ZEVs; # MD/HD ZEV charging ports deployed; $ public funding (voucher) per ZEV truck", "range": "ACT: 35–55% ZEV MD/HD sales by 2035 (class-dependent); ACF: SLG fleets 50% ZEV purchases from 2024, 100% from 2027; HVIP vouchers: $45,000–$240,000 per heavy-duty ZEV", "short": "Assesses policies and funding that support zero-emission buses, trucks, and other large fleets.", "objective": "Accelerate deployment of medium- and heavy-duty ZEVs through supportive policies, funding, and infrastructure.", "description": "Covers compliance plans, grant participation, fleet turnover, and charging or hydrogen investments for MD/HD vehicles.", "defaultScore": 3, "notes": ""}, {"id": "4.01", "category": "Outreach and Education Programs", "name": "Public Awareness & Community Engagement", "type": "Mixed", "unit": "# public ZEV outreach events per year; # community organizations engaged; % change in ZEV awareness score (survey-based)", "range": "Community outreach campaigns achieve 10–25% uptake increase in targeted DAC neighborhoods; CARB ZEV Equity Task Force: 14 workgroup meetings in 2023 (no universal peer-reviewed numeric target yet)", "short": "Measures how strongly a community informs and involves residents in ZEV-related outreach.", "objective": "Ensure community members have equitable access to information, events, and resources on ZEVs and clean mobility.", "description": "Tracks workshops, ride-and-drive events, public education programs, and partnerships that build awareness.", "defaultScore": 4, "notes": ""}, {"id": "4.02", "category": "Outreach and Education Programs", "name": "Educational & Workforce Programs", "type": "Mixed", "unit": "# ZEV training programs available regionally; # students enrolled per year; # ASE/manufacturer certifications issued annually", "range": ">100 EV training programs identified across U.S. (WRI 2025); FCCC ZEV Education Program active in 8 CA community colleges; ASE launched 2 new xEV certifications in 2023 (national enrollment benchmarks not yet standardized)", "short": "Measures the scale of ZEV-related education and workforce development in schools and training pathways.", "objective": "Develop a future-ready workforce by educating students and professionals on ZEV technologies and careers.", "description": "Reviews curriculum integration, formal programs, and participation levels across K–12, colleges, and workforce training.", "defaultScore": 4, "notes": ""}, {"id": "4.03", "category": "Outreach and Education Programs", "name": "Equity-Focused ZEV Education", "type": "Mixed", "unit": "# multilingual ZEV education materials/campaigns; % DAC residents reached by ZEV education; # community-based organizations delivering ZEV programming", "range": "~16% ($314M of $1.9B) of CA incentives reached DAC households (UCLA Luskin 2024); CARB ZEV Equity Task Force: 3+ workgroups, 14 meetings in 2023 (no standardized national range defined)", "short": "Assesses whether ZEV education is inclusive, multilingual, and designed for underserved communities.", "objective": "Promote inclusive access to ZEV knowledge by engaging underserved and historically marginalized communities.", "description": "Focuses on multilingual outreach, tailored materials, community partnerships, and equity-centered education delivery.", "defaultScore": 3, "notes": ""}, {"id": "5.01", "category": "Skilled Workforce", "name": "Training Program Availability", "type": "Mixed", "unit": "# accredited ZEV training programs per region; # training seats/enrollments per year; # colleges/institutions offering ZEV curriculum", "range": ">100 EV training programs across U.S. (WRI 2025); FCCC ZEV Program active in 8 CA community colleges; eTRUC Fresno Advanced Transportation Center opened Fall 2024 (national enrollment benchmark not established)", "short": "Measures whether local institutions offer accessible training relevant to ZEV maintenance and repair.", "objective": "Ensure local institutions offer accessible, up-to-date programs that prepare students and job seekers for ZEV work.", "description": "Tracks the existence, diversity, and reach of ZEV-related vocational, college, and specialized technical training.", "defaultScore": 3, "notes": ""}, {"id": "5.02", "category": "Skilled Workforce", "name": "Workforce Transition & Upskilling", "type": "Mixed", "unit": "# ICE workers retrained for ZEV roles per year; % workforce transition rate; $ invested per trainee in upskilling programs", "range": "DOE USEER (2024): EV industry covers 5 key workforce areas with significant job growth; skills transferable across manufacturing, electrical, and automotive sectors (no standardized % transition rate benchmark in peer-reviewed literature yet)", "short": "Measures how well the region helps traditional automotive workers move into ZEV-related roles.", "objective": "Support a just transition by equipping traditional automotive professionals with skills for the ZEV economy.", "description": "Assesses retraining and upskilling opportunities tailored to ICE-sector workers and emerging ZEV jobs.", "defaultScore": 3, "notes": ""}, {"id": "5.03", "category": "Skilled Workforce", "name": "Number of Certified ZEV Technicians in the Area", "type": "Quantitative", "unit": "# ASE-certified xEV technicians per 10,000 registered ZEVs; # certified repair shops per county/region", "range": "ASE launched 2 new xEV certifications in 2023; CA BAR (2025) tracking certified ZEV shops statewide (no standard technicians-per-ZEV ratio published in peer-reviewed literature yet)", "short": "Measures the local technical workforce available to maintain and repair growing ZEV fleets.", "objective": "Evaluate regional technical capacity to maintain and repair ZEVs by identifying certified professionals.", "description": "Counts technicians with recognized ZEV certifications and relates that capacity to local fleet size and growth.", "defaultScore": 2, "notes": ""}, {"id": "5.04", "category": "Skilled Workforce", "name": "Employment Growth Rate in ZEV-Related Occupations", "type": "Quantitative", "unit": "% annual growth rate in ZEV-related jobs; # new ZEV jobs per year; ZEV jobs as % of total automotive employment", "range": "Clean energy jobs growing 3–5x faster than overall economy (DOE 2024); U.S. EV manufacturing investments created >100,000 jobs since 2021; Class 8 BEV deliveries grew 6x in one year", "short": "Tracks how fast jobs in the ZEV ecosystem are expanding in the region.", "objective": "Track the evolution of the clean transportation workforce by measuring annual employment growth in ZEV occupations.", "description": "Monitors labor market growth in manufacturing, repair, charging, fueling, batteries, fleet, and mobility services.", "defaultScore": 3, "notes": ""}, {"id": "6.01", "category": "Equity Aspect", "name": "Equitable Access to ZEVs and Incentives", "type": "Mixed", "unit": "% of ZEV incentive funds reaching DAC/low-income households; # ZEV purchases per 1,000 low-income households; $ median ZEV purchase price gap (DAC vs non-DAC)", "range": "UCLA Luskin (2024): ~16% of CA incentive funds reached DAC households (target ≥40%); EV trip share >7% in highest income group vs. <2% in lowest; Federal IRA: $4,000 used EV / $7,500 new EV (income-capped)", "short": "Measures whether incentives and policies are designed to reach underserved households and communities.", "objective": "Promote a just and inclusive transition by ensuring that incentives and policies are accessible to all Californians, especially underserved groups.", "description": "Reviews rebates, grants, and equity-focused programs for renters, multifamily residents, low-income households, and communities burdened by pollution.", "defaultScore": 4, "notes": ""}, {"id": "6.02", "category": "Equity Aspect", "name": "Income Levels per Capita", "type": "Quantitative", "unit": "Median household income ($); % households below poverty line; AMI (Area Median Income) percentile used in program eligibility", "range": "SANDAG (2024): EV trip share >7% (>$200k income) vs. <1% (<$50k income); CVRP income threshold: ≤400% federal poverty level for enhanced rebates; CalEnviroScreen DAC threshold: ≥75th percentile on burden score", "short": "Provides affordability context by showing where incomes may limit access to ZEVs and charging.", "objective": "Support equitable ZEV planning by identifying communities with lower incomes that may require targeted assistance.", "description": "Uses per-capita income and vehicle cost comparisons to identify affordability gaps and justify targeted support.", "defaultScore": 2, "notes": ""}, {"id": "6.03", "category": "Equity Aspect", "name": "Environmental and Health Equity Outcomes", "type": "Quantitative", "unit": "µg/m³ PM₂.₅ concentration; # asthma-related ER visits per 10,000 residents; % reduction in NOₓ/PM₂.₅ attributable to ZEV adoption", "range": "WHO PM₂.₅ guideline: ≤5 µg/m³ annual mean; U.S. EPA NAAQS: ≤9 µg/m³ (revised 2024); DACs consistently 15–25% higher PM₂.₅ than non-DAC tracts; broad ZEV adoption reduces transportation PM₂.₅ by 30–60% in high-adoption zones", "short": "Measures whether ZEV progress is associated with cleaner air and better health outcomes in overburdened areas.", "objective": "Assess whether the transition to ZEVs is contributing to improved environmental quality and public health outcomes.", "description": "Tracks pollution and respiratory health indicators and compares them with areas experiencing ZEV deployment or adoption.", "defaultScore": 4, "notes": ""}];
+const indicators = [{"id": "1.01", "category": "Availability of Infrastructure", "name": "ZEV Station-to-Vehicle Density and Distribution", "type": "Quantitative", "unit": "EVs per public charging port; public charging kW per electric LDV; public ports per 1,000 EVs", "range": "Reference points: ~10 EVs/public port in the U.S.; 1.4 kW of public charging capacity per electric LDV (U.S., 2025); systematic-review median 23 EVs/charger (mean 135). For scoring, ≤10 EVs/port or ≥1.4 kW/EV indicates strong provision; always compare urban, rural, and DAC areas.", "short": "Measures whether EV and hydrogen stations are distributed in proportion to the local vehicle population.", "objective": "Ensure equitable and reliable access to public and private ZEV infrastructure by measuring how well charging and refueling stations are distributed relative to the light-duty vehicle population.", "description": "Tracks EVSE and hydrogen refueling availability relative to local light-duty vehicles, helping identify underserved areas and infrastructure gaps.", "defaultScore": 4, "notes": ""}, {"id": "1.02", "category": "Availability of Infrastructure", "name": "Charging Network Speed and Accessibility", "type": "Quantitative", "unit": "% public ports by charging level; charger power (kW); average spacing between corridor sites (km or miles); % sites with real-time status", "range": "Level 1: 1.4–2.4 kW; Level 2: 3–22 kW; DCFC: 50–350 kW. U.S. reference mix: ~24% DCFC and 76% Level 2. AFIR corridor benchmark: ≥150-kW charging at intervals of ≤60 km (37 mi).", "short": "Captures charger mix and spacing to reflect convenience, travel flexibility, and range confidence.", "objective": "Evaluate the type of EV chargers and the charging speed of the network by analyzing charger availability and spatial distribution.", "description": "Assesses the ratio of fast chargers to Level 2 chargers and the average distance between charging sites to identify service quality gaps.", "defaultScore": 4, "notes": ""}, {"id": "1.03", "category": "Availability of Infrastructure", "name": "Energy and Grid Readiness for ZEV Infrastructure", "type": "Mixed", "unit": "Public charging capacity (kW per electric LDV/BEV); available feeder/transformer hosting capacity (kW or MW); % charging load managed; DER/V2G capability", "range": "Use 1.4 kW of public charging capacity per electric LDV as the 2025 U.S. reference. Also report the share of forecast charging load supportable without upgrades, documented hosting-capacity maps/studies, and whether managed charging, DER, storage, or V2G is operational—not merely planned.", "short": "Assesses whether the local grid can reliably support more charging and refueling infrastructure.", "objective": "Evaluate whether existing and planned energy infrastructure can reliably support ZEV charging and refueling systems.", "description": "Examines hosting capacity, distributed energy resources, and managed charging or V2G readiness for scalable deployment.", "defaultScore": 3, "notes": ""}, {"id": "1.04", "category": "Availability of Infrastructure", "name": "Reliability and Maintenance of Charging Infrastructure", "type": "Mixed", "unit": "% uptime; first-time charge success rate (FTCSR); mean time to repair (hours); unresolved incidents per 100 ports; % status data publicly reported", "range": "Minimum regulatory uptime: 97% (NEVI/California); stronger benchmark: 99% (UK rapid network). Field FTCSR has been ~78%; ChargerHelp reports performance near 85% for new stations and <70% by year three. Track both uptime and successful session initiation.", "short": "Focuses on charger uptime, maintenance, response time, and transparency in reporting.", "objective": "Ensure EV and hydrogen fueling infrastructure remains consistently functional, safe, and responsive to technical issues.", "description": "Evaluates uptime, incident response, maintenance practices, and reporting quality to strengthen user confidence.", "defaultScore": 3, "notes": ""}, {"id": "1.05", "category": "Availability of Infrastructure", "name": "Strategic Coverage of ZEV Chargers", "type": "Mixed", "unit": "% priority corridors/destinations covered; % residents/households within a defined access radius or drive time; DAC/non-DAC access ratio", "range": "Use locally mapped priority corridors, destinations, and equity zones. Report coverage from 0–100%; where walk-up charging is relevant, measure households within 0.25 mile. A ready result should show near-complete priority-corridor coverage and no material DAC access deficit.", "short": "Checks whether chargers are sited where people travel, stop, and need them most.", "objective": "Promote effective and visible deployment of ZEV chargers in high-priority travel and activity areas.", "description": "Reviews corridor and destination siting for chargers near tourism, employment, commercial, and regional travel routes.", "defaultScore": 4, "notes": ""}, {"id": "2.01", "category": "Accessible Clean Mobility Options", "name": "Public Sector and Fleet ZEV Adoption", "type": "Mixed", "unit": "% annual public-fleet purchases that are ZEV; % total fleet that is ZEV; fleet segments covered; annual GHG/criteria-pollutant reduction", "range": "California ACF benchmark for state/local fleets: ≥50% of annual purchases as ZEV beginning 2024 and 100% beginning 2027. Track the stock share separately because purchase compliance can coexist with a low total-fleet ZEV share.", "short": "Measures how much local public fleets have shifted toward zero-emission vehicles.", "objective": "Support public leadership by measuring adoption of ZEVs within municipal and public transit fleets.", "description": "Tracks battery electric and hydrogen vehicles in city, transit, and public fleets, with attention to disadvantaged communities.", "defaultScore": 3, "notes": ""}, {"id": "2.02", "category": "Accessible Clean Mobility Options", "name": "Community Access to Shared Electric Mobility", "type": "Mixed", "unit": "% shared-mobility programs with formal equity requirements; shared EV/e-bike/e-scooter availability per 1,000 residents; low-income enrollment; service-hours or vehicle availability by neighborhood", "range": "Observed U.S. reference: 62% of shared micromobility programs include at least one formal equity requirement. Strong readiness should include reduced fares, cash/non-smartphone access, geographic service commitments, and neighborhood-level availability monitoring.", "short": "Looks at affordable access to shared EVs, e-bikes, scooters, and other clean mobility services.", "objective": "Expand equitable access to clean transportation options by supporting shared electric mobility services.", "description": "Assesses service availability, affordability, equity pricing, and participation in shared clean mobility programs.", "defaultScore": 4, "notes": ""}, {"id": "2.03", "category": "Accessible Clean Mobility Options", "name": "Clean Mobility Hub Deployment and Accessibility", "type": "Mixed", "unit": "Number of clean mobility hubs; % target residents within 0.25–0.5 mile; number of integrated modes/services; ADA compliance; service hours", "range": "No universal numerical standard exists. Use 0–100% target-population coverage and verify that each hub combines transit with at least two supporting elements (e.g., EV charging, bikeshare/scooters, carshare, secure bike parking, real-time information) and meets ADA accessibility requirements.", "short": "Measures whether multimodal clean mobility hubs are present, accessible, and connected to community needs.", "objective": "Promote development of multimodal clean transportation centers that improve connectivity and equitable access.", "description": "Evaluates the presence, spread, and accessibility of mobility hubs that combine transit, charging, shared mobility, and real-time information.", "defaultScore": 3, "notes": ""}, {"id": "3.01", "category": "Supportive Policies", "name": "Permitting Efficiency and Legislative Compliance for ZEV Infrastructure", "type": "Mixed", "unit": "Median and 90th-percentile permit-processing time (business days); % applications electronic; % complete on first review; standardized checklist and AB 1236/AB 970 compliance", "range": "Use applicable statutory timelines as the primary threshold. Strong practice includes online submission, a published checklist, completeness review within required timelines, streamlined/ministerial approval, and public reporting of median and 90th-percentile processing time.", "short": "Measures whether local permitting is fast, transparent, and aligned with California requirements.", "objective": "Ensure local permitting processes for ZEV infrastructure are timely, transparent, and compliant with state legislation.", "description": "Tracks permit timelines, workflow transparency, and evidence of streamlined permitting and AB 970 compliance.", "defaultScore": 3, "notes": ""}, {"id": "3.02", "category": "Supportive Policies", "name": "Zoning and Land Use Incentives for ZEV Infrastructure Deployment", "type": "Mixed", "unit": "% parking spaces EV-capable, EV-ready, and EVSE-installed in covered new development; % projects meeting code", "range": "Quantitative references: ≥20% of spaces covered by EV-ready/code provisions; Colorado examples include 25% EV-capable + 10% EV-ready for certain large projects, and multifamily requirements of 50% EV-capable and 20% EV-ready. Apply the locally controlling code.", "short": "Assesses whether zoning and land-use rules actively support EV infrastructure in priority locations.", "objective": "Encourage integration of ZEV infrastructure into community development using zoning codes and land-use policies.", "description": "Reviews local ordinances, overlays, incentives, and public-private agreements that make charger siting easier.", "defaultScore": 3, "notes": ""}, {"id": "3.03", "category": "Supportive Policies", "name": "ZEV User Incentives: Adoption and Parking Support", "type": "Mixed", "unit": "Incentive value ($/vehicle); eligibility threshold (% FPL or % AMI); ZEVs per 100 residents by income/DAC status; % benefits reaching priority households; parking-support measures", "range": "Federal reference: up to $7,500 for eligible new EVs and $4,000 for used EVs. SANDAG proposed up to $9,500 new and $2,000 used for targeted households, with eligibility up to 400% FPL. Compare benefit share with the priority population share; 16% reaching DAC households indicates a major gap.", "short": "Examines rebates, rate programs, parking benefits, and other user-facing incentives for adoption.", "objective": "Support broader ZEV adoption by reducing upfront and operational costs for users.", "description": "Looks at financial and convenience-based incentives, especially for low-income residents, renters, and users without home charging.", "defaultScore": 4, "notes": ""}, {"id": "3.04", "category": "Supportive Policies", "name": "Policy Support for Medium- and Heavy-Duty ZEVs", "type": "Mixed", "unit": "% annual MD/HD purchases or sales that are ZEV; % MD/HD fleet stock that is ZEV; incentive $/vehicle; depot/corridor charging or hydrogen capacity", "range": "ACT 2035 sales benchmarks: 55% Class 2b–3, 75% Class 4–8 rigid, 40% Class 7–8 tractors. ACF public-fleet purchases: 50% from 2024 and 100% from 2027. HVIP reference incentives are roughly $45,000–$240,000 per eligible truck/bus.", "short": "Assesses policies and funding that support zero-emission buses, trucks, and other large fleets.", "objective": "Accelerate deployment of medium- and heavy-duty ZEVs through supportive policies, funding, and infrastructure.", "description": "Covers compliance plans, grant participation, fleet turnover, and charging or hydrogen investments for MD/HD vehicles.", "defaultScore": 3, "notes": ""}, {"id": "4.01", "category": "Outreach and Education Programs", "name": "Public Awareness & Community Engagement", "type": "Mixed", "unit": "Outreach events and presentations per year and per 100,000 residents; participants reached; trusted partners; pre/post awareness change", "range": "FCCC demonstration scale across eight colleges: 28 outreach events, 22 high-school presentations, and 2,719 people engaged. Normalize locally by population and track repeat events, participant demographics, referrals, and pre/post knowledge rather than event count alone.", "short": "Measures how strongly a community informs and involves residents in ZEV-related outreach.", "objective": "Ensure community members have equitable access to information, events, and resources on ZEVs and clean mobility.", "description": "Tracks workshops, ride-and-drive events, public education programs, and partnerships that build awareness.", "defaultScore": 4, "notes": ""}, {"id": "4.02", "category": "Outreach and Education Programs", "name": "Educational & Workforce Programs", "type": "Mixed", "unit": "Number of institutions/programs with EV-specific or EV-relevant curriculum; annual enrollment, completion, credential, and placement counts; industry partners", "range": "WRI identified 196 U.S. postsecondary institutions with EV-specific or EV-relevant programs. Local scoring should use counts per region/100,000 residents and require completion and placement data; course availability without enrollment or outcomes is weak evidence.", "short": "Measures the scale of ZEV-related education and workforce development in schools and training pathways.", "objective": "Develop a future-ready workforce by educating students and professionals on ZEV technologies and careers.", "description": "Reviews curriculum integration, formal programs, and participation levels across K–12, colleges, and workforce training.", "defaultScore": 4, "notes": ""}, {"id": "4.03", "category": "Outreach and Education Programs", "name": "Equity-Focused ZEV Education", "type": "Mixed", "unit": "Languages and accessible formats offered; % priority/DAC population reached; number of CBO partners; outreach funding per priority resident; conversion to applications/participation", "range": "Use the local language-access profile rather than a fixed language count. Compare outreach reach and program-benefit share with the DAC/low-income population share. California evidence that only ~16% of incentive funding reached DAC households is a gap benchmark, not a readiness target.", "short": "Assesses whether ZEV education is inclusive, multilingual, and designed for underserved communities.", "objective": "Promote inclusive access to ZEV knowledge by engaging underserved and historically marginalized communities.", "description": "Focuses on multilingual outreach, tailored materials, community partnerships, and equity-centered education delivery.", "defaultScore": 3, "notes": ""}, {"id": "5.01", "category": "Skilled Workforce", "name": "Training Program Availability", "type": "Mixed", "unit": "Number of ZEV training programs/providers per 100,000 working-age residents; annual seats, enrollment, completion, and credentials; travel distance/time to training", "range": "National evidence shows >100 EV training programs across five workforce categories. Locally, count distinct active pathways, available annual seats, completion rates, recognized credentials (ASE/EVITP/SME or equivalent), and geographic accessibility.", "short": "Measures whether local institutions offer accessible training relevant to ZEV maintenance and repair.", "objective": "Ensure local institutions offer accessible, up-to-date programs that prepare students and job seekers for ZEV work.", "description": "Tracks the existence, diversity, and reach of ZEV-related vocational, college, and specialized technical training.", "defaultScore": 3, "notes": ""}, {"id": "5.02", "category": "Skilled Workforce", "name": "Workforce Transition & Upskilling", "type": "Mixed", "unit": "Number of transition/upskilling pathways; annual participants/completions; completion and job-placement rate (%); employer partners; wage change", "range": "USEER reference: clean-energy employment grew 4.9% in 2023 versus 2.0% overall, adding ~149,000 jobs. Strong readiness requires documented pathways for incumbent automotive/electrical/manufacturing workers and tracked placement—not just transferable-skills claims.", "short": "Measures how well the region helps traditional automotive workers move into ZEV-related roles.", "objective": "Support a just transition by equipping traditional automotive professionals with skills for the ZEV economy.", "description": "Assesses retraining and upskilling opportunities tailored to ICE-sector workers and emerging ZEV jobs.", "defaultScore": 3, "notes": ""}, {"id": "5.03", "category": "Skilled Workforce", "name": "Number of Certified ZEV Technicians in the Area", "type": "Quantitative", "unit": "ASE xEV Level 1 and Level 2 certified personnel; certified technicians per 10,000 local ZEVs; % repair facilities with certified staff; average service travel distance", "range": "ASE xEV credentials include Level 1 Electrical Safety Awareness and Level 2 Technician Electrical Safety. No universal technician-to-ZEV standard exists; use a locally tracked ratio per 10,000 ZEVs, service wait times, and geographic coverage, with year-over-year improvement.", "short": "Measures the local technical workforce available to maintain and repair growing ZEV fleets.", "objective": "Evaluate regional technical capacity to maintain and repair ZEVs by identifying certified professionals.", "description": "Counts technicians with recognized ZEV certifications and relates that capacity to local fleet size and growth.", "defaultScore": 2, "notes": ""}, {"id": "5.04", "category": "Skilled Workforce", "name": "Employment Growth Rate in ZEV-Related Occupations", "type": "Quantitative", "unit": "Annual ZEV-related employment growth (%); ZEV job-growth/overall job-growth ratio; jobs created, filled, and retained; median wage", "range": "Reference: clean-energy employment grew 4.9% in 2023 versus 2.0% overall (~2.45×). Literature describes EV/clean-energy subsectors growing roughly 3–5× the broader economy; use a ≥2× regional growth ratio as a practical strong-performance benchmark while tracking job quality.", "short": "Tracks how fast jobs in the ZEV ecosystem are expanding in the region.", "objective": "Track the evolution of the clean transportation workforce by measuring annual employment growth in ZEV occupations.", "description": "Monitors labor market growth in manufacturing, repair, charging, fueling, batteries, fleet, and mobility services.", "defaultScore": 3, "notes": ""}, {"id": "6.01", "category": "Equity Aspect", "name": "Equitable Access to ZEVs and Incentives", "type": "Mixed", "unit": "% incentive dollars and participants from DAC/low-income households; ZEV purchases per 1,000 priority households; charger access ratio; out-of-pocket cost burden", "range": "Compare each equity group’s benefit share with its population or eligible-household share. California evidence: only ~16% of $1.9B reached DAC households; Justice40 provides a 40% benefits benchmark for covered federal investments. Report both dollars and participants.", "short": "Measures whether incentives and policies are designed to reach underserved households and communities.", "objective": "Promote a just and inclusive transition by ensuring that incentives and policies are accessible to all Californians, especially underserved groups.", "description": "Reviews rebates, grants, and equity-focused programs for renters, multifamily residents, low-income households, and communities burdened by pollution.", "defaultScore": 4, "notes": ""}, {"id": "6.02", "category": "Equity Aspect", "name": "Income Levels per Capita", "type": "Quantitative", "unit": "Median household income ($); % households below poverty; % FPL and % AMI distribution; ZEV ownership/trip share by income band", "range": "SANDAG reference: EV trip share >7% for households >$200,000 versus <1% below $50,000; ownership 0.5 vs 2.3 ZEVs per 100 residents in LIDAC vs non-LIDAC areas. CVRP enhanced-rebate eligibility used ≤400% FPL; CalEnviroScreen DACs are generally the highest 25% burden tracts.", "short": "Provides affordability context by showing where incomes may limit access to ZEVs and charging.", "objective": "Support equitable ZEV planning by identifying communities with lower incomes that may require targeted assistance.", "description": "Uses per-capita income and vehicle cost comparisons to identify affordability gaps and justify targeted support.", "defaultScore": 2, "notes": ""}, {"id": "6.03", "category": "Equity Aspect", "name": "Environmental and Health Equity Outcomes", "type": "Quantitative", "unit": "Annual mean PM₂.₅ (µg/m³); NO₂ concentration; asthma/respiratory ER visits per 10,000; exposure and emission reduction by DAC status", "range": "WHO annual PM₂.₅ guideline: ≤5 µg/m³; U.S. EPA annual PM₂.₅ NAAQS: ≤9 µg/m³. California DACs experienced ~41–44% higher PM₂.₅ and ~70% higher NO₂ than advantaged tracts. Track absolute levels and whether the exposure gap narrows.", "short": "Measures whether ZEV progress is associated with cleaner air and better health outcomes in overburdened areas.", "objective": "Assess whether the transition to ZEVs is contributing to improved environmental quality and public health outcomes.", "description": "Tracks pollution and respiratory health indicators and compares them with areas experiencing ZEV deployment or adoption.", "defaultScore": 4, "notes": ""}];
 
 
 const CRITERIA_DATA = {
-"AI1": {"title": "ZEV Station-to-Vehicle Density & Distribution", "levels": [
-  {"label": "Ready (7-10)", "criteria": "≤20 EVs per public port OR ≥50 ports per 1,000 EVs; sub-regional gap mapping complete", "description": "Station-to-vehicle ratio is at or below the IEA 2035 Announced Pledges Scenario target of ~15 EVs per public charging point. Local data is available at sub-regional level. Underserved area gaps are mapped and addressed in official transportation/equity plans. Public-facing dashboards or maps are maintained."},
-  {"label": "Somewhat Ready (3-7)", "criteria": "15–30 EVs per public port; partial data available for some areas", "description": "Station-to-vehicle ratio is in the 15–30 EVs/port range — above the current global average of <10 EVs/port (IEA 2024) but below the 2035 APS projection of ~15. Some sub-regional mapping exists but coverage is incomplete or not formally integrated into planning documents."},
-  {"label": "Not Ready (1-3)", "criteria": ">50 EVs per public port OR no ratio data available", "description": "Station-to-vehicle ratio exceeds 30 EVs per public port, or no reliable ratio data exists at all. No spatial mapping, no coverage gap analysis, and no evidence of inclusion in transportation or equity programs."}
-], "refs": []},
-"AI2": {"title": "Charging Network Speed and Accessibility", "levels": [
-  {"label": "Ready (7-10)", "criteria": "DCFC ≥25% of public ports; inter-station spacing ≤60 km on corridors; DCFC ≥150 kW", "description": "Network meets or exceeds NEVI/EU AFIR standards: DCFC stations rated ≥150 kW, spaced ≤50 miles (~80 km) on designated highways, within 1 mile of highway exits. DCFC share exceeds 25% of all public ports (above U.S. 2024 average of 24%). ADA-accessible chargers documented."},
-  {"label": "Somewhat Ready (3-7)", "criteria": "DCFC 10–25% of public ports; corridor gaps 60–120 km; some stations <150 kW", "description": "DCFC share between 10–24% of public ports, or corridor spacing is 60–120 km (exceeding AFIR/NEVI targets). Some fast chargers present but below the 150 kW minimum, or chargers are clustered in urban areas with rural/suburban gaps remaining."},
-  {"label": "Not Ready (1-3)", "criteria": "<10% DCFC share; inter-station gaps >120 km; no corridor strategy", "description": "Fewer than 10% of public ports are DCFC, or average inter-station distance exceeds 120 km with no designated corridor strategy. No documented plan to meet NEVI or AFIR spacing standards. Network is predominantly Level 2 only."}
-], "refs": []},
-"AI3": {"title": "Energy and Grid Readiness for ZEV Infrastructure", "levels": [
-  {"label": "Ready (7-10)", "criteria": "≥1.3 kW public charging capacity per registered BEV; managed charging or V2G program active covering ≥20% of load", "description": "Grid hosting capacity meets IEA benchmark of ≥1.3 kW public capacity per registered BEV. Managed/smart charging programs cover ≥20% of charging load. V2G-capable vehicles or pilot programs are operational. Utility coordination plans are documented and publicly available."},
-  {"label": "Somewhat Ready (3-7)", "criteria": "0.5–1.3 kW per BEV; hosting capacity mapped but managed charging <20%", "description": "Public charging capacity is between 0.5–1.3 kW per BEV (below IEA target). Hosting capacity maps exist for some feeders. Managed charging pilots may be underway but cover less than 20% of network. V2G integration is planned but not yet active."},
-  {"label": "Not Ready (1-3)", "criteria": "<0.5 kW per BEV; no hosting capacity data; no managed charging or V2G planning", "description": "Public charging capacity is below 0.5 kW per registered BEV, or no grid hosting capacity data exists at all. No managed charging programs, no V2G readiness, and no coordination with utilities on ZEV infrastructure expansion."}
-], "refs": []},
-"AI4": {"title": "Reliability and Maintenance of Charging Infrastructure", "levels": [
-  {"label": "Ready (7-10)", "criteria": "Uptime ≥97% (CA/FHWA/NEVI floor); FTCSR ≥85%; MTTR ≤24 hours; public reporting active", "description": "Charger uptime meets or exceeds the CA/FHWA/NEVI regulatory floor of ≥97% (UK target: ≥99%). First-Time Charge Success Rate (FTCSR) is ≥85% (above real-world average). Mean Time to Repair (MTTR) is ≤24 hours. Uptime data is publicly reported and service agreements are in place, especially for rural and DAC locations."},
-  {"label": "Somewhat Ready (3-7)", "criteria": "Uptime 90–97%; FTCSR 71–85%; MTTR 24–72 hours; partial reporting", "description": "Charger uptime is in the 90–97% range (national avg reliability index: 93.5% in Q1 2026), or FTCSR is between 71–85% (typical real-world degradation by year 3). Some operators track and report reliability, but coverage is inconsistent. MTTR varies between 24–72 hours."},
-  {"label": "Not Ready (1-3)", "criteria": "Uptime <90%; FTCSR <71%; MTTR >72 hours; no public reliability reporting", "description": "Uptime falls below 90%, or FTCSR is below 71% (below real-world floor for aging stations). MTTR exceeds 72 hours. No public uptime data, no maintenance logs, and no accountability standards in place."}
-], "refs": []},
-"AI5": {"title": "Strategic Coverage of ZEV Chargers", "levels": [
-  {"label": "Ready (7-10)", "criteria": "DCFC every ≤50 miles on designated corridors; ≥80% census tracts within 5 miles (urban) / 15 miles (rural); DAC equity ratio ≥1.0", "description": "Charger siting meets NEVI standard: DCFC every ≤50 miles on designated highways, within 1 mile of exit. ≥80% of census tracts have a public charger within 5-mile (urban) or 15-mile (rural) service radius. DAC-to-non-DAC coverage ratio is documented and equity gaps are formally addressed."},
-  {"label": "Somewhat Ready (3-7)", "criteria": "DCFC gaps 50–100 miles; 40–80% census tract coverage; DAC equity ratio tracked but <1.0", "description": "DCFC corridor gaps range from 50–100 miles, exceeding NEVI targets in some segments. Between 40–80% of census tracts have charger access within the target radius (60–80% of U.S. tracts currently lack sufficient access). DAC vs. non-DAC equity coverage ratio is tracked but below parity."},
-  {"label": "Not Ready (1-3)", "criteria": "DCFC gaps >100 miles; <40% census tracts covered; no equity siting analysis", "description": "DCFC gaps exceed 100 miles on key corridors, or fewer than 40% of census tracts have a public charger within the service radius. No spatial equity analysis, no DAC siting strategy, and no corridor planning aligned with NEVI or state ZEV targets."}
-], "refs": []},
-"CM1": {"title": "Public Sector and Fleet ZEV Adoption", "levels": [
-  {"label": "Ready (7-10)", "criteria": "≥50% of annual fleet purchases are ZEVs (ACF SLG 2024 target); fleet inventory tracked by fuel type; HVIP participation documented", "description": "Meets the ACF requirement: ≥50% of new annual fleet purchases are ZEVs (from 2024), progressing toward 100% by 2027. Fleet inventory is up-to-date by fuel type. Route equity analysis using CalEnviroScreen is documented. Participation in funding programs (HVIP) is tracked and reported."},
-  {"label": "Somewhat Ready (3-7)", "criteria": "10–50% ZEV fleet purchase share; basic inventory exists; equity/funding tracking incomplete", "description": "Annual ZEV fleet purchases are between 10–50% (below ACF threshold). Basic fleet inventory exists but may not be fully categorized by fuel type. Some electrification planning is underway but equity mapping and HVIP participation are not yet documented comprehensively."},
-  {"label": "Not Ready (1-3)", "criteria": "<10% ZEV fleet purchase share; no fleet inventory or ZEV transition plan", "description": "Fewer than 10% of annual fleet purchases are ZEVs, or no fleet ZEV data is tracked. No ACF compliance planning, no charging infrastructure roadmap for fleet use, and no engagement with state funding programs."}
-], "refs": []},
-"CM2": {"title": "Community Access to Shared Electric Mobility", "levels": [
-  {"label": "Ready (7-10)", "criteria": "≥70% of programs have ≥1 equity requirement; ≥1 shared e-vehicle per 1,000 DAC residents; subsidized fare uptake active", "description": "Shared mobility programs meet the national benchmark: ≥70% of programs include at least one equity requirement (Brown & Howell 2024). Service density reaches ≥1 shared e-vehicle per 1,000 DAC residents. Discounted fare uptake is active — subsidized-fare users ride 20–30% more frequently. Service areas and equity data are mapped."},
-  {"label": "Somewhat Ready (3-7)", "criteria": "30–70% of programs have equity requirements; 0.3–1 vehicles per 1,000 DAC residents", "description": "Between 30–70% of shared mobility programs include equity provisions. Vehicle density in DACs is 0.3–1 per 1,000 residents. Some geographic tracking exists but is incomplete. Discounted fare programs are piloted but not fully scaled."},
-  {"label": "Not Ready (1-3)", "criteria": "<30% equity program compliance; <0.3 shared e-vehicles per 1,000 DAC residents; no equity pricing", "description": "Fewer than 30% of shared mobility programs have equity requirements, or shared e-vehicle density in DACs is below 0.3 per 1,000 residents. No usage data or service maps. No equity-focused pricing or access programs documented."}
-], "refs": []},
-"CM3": {"title": "Clean Mobility Hub Deployment and Accessibility", "levels": [
-  {"label": "Ready (7-10)", "criteria": "≥1 hub per 100,000 residents; ≥70% DAC residents within 0.5 miles; 2–10 EV ports per hub; ADA compliant", "description": "Hub density meets or exceeds DOE Clean Cities guidance (2–10 EV ports + shared mobility docking per hub). ≥70% of DAC residents are within 0.5 miles of a multimodal hub (CARB CMO target). Hubs are ADA-compliant, integrated into regional plans, and user data is tracked."},
-  {"label": "Somewhat Ready (3-7)", "criteria": "0.3–1 hub per 100,000 residents; 30–70% DAC residents within 0.5 miles; <2 EV ports per hub", "description": "Hub density is between 0.3–1 per 100,000 residents. Between 30–70% of DAC residents are within the 0.5-mile target. Some hubs are operational but services are limited (fewer than 2 EV ports), accessibility features are incomplete, or equity impact is not tracked."},
-  {"label": "Not Ready (1-3)", "criteria": "<0.3 hubs per 100,000 residents; <30% DAC residents within 0.5 miles; no hub planning", "description": "Hub density is below 0.3 per 100,000 residents, fewer than 30% of DAC residents have a hub within 0.5 miles, or no clean mobility hub planning exists. No documentation of coverage, service integration, or inclusion in transportation strategies."}
-], "refs": []},
-"SP1": {"title": "Permitting Efficiency and Legislative Compliance", "levels": [
-  {"label": "Ready (7-10)", "criteria": "Residential permits ≤30 business days; commercial ≤60 days; AB 970 compliant; digital workflow active", "description": "Jurisdiction meets CA AB 970 benchmarks: residential EVSE permits issued within ≤30 business days, commercial within ≤60 days. Permitting timelines are publicly tracked on a dashboard. Digital or streamlined permitting workflows are in place. Full AB 970 / CO HB24-1173 compliance is demonstrated."},
-  {"label": "Somewhat Ready (3-7)", "criteria": "Residential 30–90 days; commercial 60–180 days; partial AB 970 alignment; some workflow improvements", "description": "Permit timelines are 30–90 days (residential) or 60–180 days (commercial), exceeding AB 970 targets. Some workflow improvements are underway. AB 970 alignment is partial (e.g., draft ordinances or offline-only processes). Note: typical full DCFC installation takes ~2 years including all site work."},
-  {"label": "Not Ready (1-3)", "criteria": "Residential >90 days; commercial >180 days; no AB 970 compliance; no timeline tracking", "description": "Permitting takes more than 90 days (residential) or 180 days (commercial), or no timeline data is collected. No evidence of AB 970 compliance, no digital permitting tools, and no streamlined workflow for EVSE applications."}
-], "refs": []},
-"SP2": {"title": "Zoning and Land Use Incentives for ZEV Infrastructure", "levels": [
-  {"label": "Ready (7-10)", "criteria": "100% new construction EV-ready (CA AB 98); ≥20% EV-ready spaces in new lots (CO standard); active local incentive programs", "description": "Jurisdiction meets CA AB 98: 100% of new construction includes EV charging infrastructure. New surface lots of ≥20 spaces include ≥20% EV-ready spaces (CO standard). Local tax rebates or EVSE grants are active, tracked, and publicly accessible. Overlay maps align with state/regional ZEV plans."},
-  {"label": "Somewhat Ready (3-7)", "criteria": "20–99% new construction EV-ready; 5–20% EV-ready spaces required in new lots; ≥1 incentive program adopted", "description": "Between 20–99% of new construction includes EV-ready requirements. Zoning codes require 5–20% EV-ready spaces in new parking lots. At least one local incentive program or zoning update is in place, but comprehensive coverage or state alignment is incomplete."},
-  {"label": "Not Ready (1-3)", "criteria": "<20% new construction EV-ready; no EV space requirements in zoning; no local incentives", "description": "Fewer than 20% of new construction projects are subject to EV-ready requirements. No local zoning codes mandate EV spaces in new lots. No public-facing incentive programs, overlays, or developer guidance documents are available."}
-], "refs": []},
-"SP3": {"title": "ZEV User Incentives: Adoption and Parking Support", "levels": [
-  {"label": "Ready (7-10)", "criteria": "Federal IRA accessed ($4k–$7.5k/vehicle); each $1k rebate → ~2.6% EV uptake; ≥30% of incentive funds reach DAC households", "description": "Full incentive suite in place: local rebates, federal IRA credits (up to $7,500 new / $4,000 used EV), and designated EV parking with active ICE-ing enforcement. Each $1,000 rebate produces ~2.6% EV sales uplift in CA (Muehlegger & Rapson 2022). ≥30% of total incentive funds reach DAC/low-income households (above current CA avg of ~16%)."},
-  {"label": "Somewhat Ready (3-7)", "criteria": "≥1 active incentive type; $500–$2,500 local rebate; 10–30% of funds reach DAC households", "description": "At least one financial incentive is active (local rebate $500–$2,500, utility rate discount, or dedicated EV parking). Between 10–30% of incentive funding reaches DAC or low-income households. ICE-ing enforcement may exist but is not consistently applied."},
-  {"label": "Not Ready (1-3)", "criteria": "No local rebates; <10% of incentive funds reach DAC households; no EV parking enforcement", "description": "No local financial rebates or parking support for ZEV users. Less than 10% of any existing incentive funds reach DAC or low-income households. No municipal ordinances on EV parking or ICE-ing enforcement are documented or promoted."}
-], "refs": []},
-"SP4": {"title": "Policy Support for Medium- and Heavy-Duty ZEVs", "levels": [
-  {"label": "Ready (7-10)", "criteria": "≥50% annual ZEV fleet purchases (ACF 2024 target); HVIP vouchers accessed ($45k–$240k/vehicle); ACT compliance plan documented", "description": "Jurisdiction meets ACF: ≥50% of SLG annual fleet purchases are ZEVs (2024, rising to 100% by 2027). HVIP vouchers ($45,000–$240,000 per heavy-duty ZEV, class-dependent) are actively accessed. ACT ZEV sales targets (35–55% by 2035) are tracked and infrastructure is planned accordingly."},
-  {"label": "Somewhat Ready (3-7)", "criteria": "10–50% annual MD/HD ZEV purchases; HVIP participation initiated; draft ACT compliance plan", "description": "Between 10–50% of annual MD/HD fleet purchases are ZEVs. HVIP participation is initiated but not at full scale. A draft ACF/ACT compliance plan exists. Some MD/HD charging or hydrogen refueling infrastructure is under development."},
-  {"label": "Not Ready (1-3)", "criteria": "<10% annual MD/HD ZEV purchases; no HVIP access; no ACF/ACT compliance planning", "description": "Fewer than 10% of MD/HD fleet purchases are ZEVs, or no tracking exists. No participation in HVIP or similar voucher programs. No ACF/ACT compliance planning, no infrastructure investment for MD/HD ZEV charging or hydrogen."}
-], "refs": []},
-"OEP1": {"title": "Public Awareness & Community Engagement", "levels": [
-  {"label": "Ready (7-10)", "criteria": "≥10 ZEV outreach events/year per 100,000 residents; 10–25% ZEV awareness uplift in DACs; ≥3 CBO partnerships active", "description": "Regular ZEV outreach events achieve ≥10 per year per 100,000 residents with documented participation tracking. Campaigns in targeted DAC neighborhoods achieve 10–25% increase in ZEV awareness or uptake (Connolly et al. 2023). ≥3 formal partnerships with schools, CBOs, or community groups are active and tracked."},
-  {"label": "Somewhat Ready (3-7)", "criteria": "3–10 events/year per 100,000 residents; some DAC outreach; 1–2 community partnerships", "description": "Between 3–10 ZEV outreach events per year per 100,000 residents. Some DAC-targeted outreach has occurred but is not consistently tracked. 1–2 community partnerships exist in early or pilot stage. Awareness change has not been formally measured."},
-  {"label": "Not Ready (1-3)", "criteria": "<3 events/year per 100,000 residents; no DAC targeting; no documented partnerships", "description": "Fewer than 3 ZEV outreach events per year per 100,000 residents, or none at all. No targeted engagement in DAC or equity-priority communities. No formal community organization partnerships and no tracking of participation or awareness change."}
-], "refs": []},
-"OEP2": {"title": "Educational & Workforce Programs", "levels": [
-  {"label": "Ready (7-10)", "criteria": "≥5 accredited ZEV programs regionally; ≥1 ASE xEV certification pathway locally; ZEV content in ≥3 institutions with enrollment tracked", "description": "Region has ≥5 accredited ZEV training programs (WRI 2025 identifies >100 nationally across 5 categories). At least one ASE xEV Electrical Safety certification pathway is available locally (ASE launched 2 new xEV certifications in 2023). ZEV curriculum is integrated into ≥3 K–12, community college, or vocational institutions with enrollment tracked."},
-  {"label": "Somewhat Ready (3-7)", "criteria": "2–5 programs regionally; certification accessible but not local; ZEV content in 1–2 institutions", "description": "Between 2–5 ZEV training programs are accessible in the region. ASE or manufacturer certification is available but may require travel outside the immediate area. ZEV topics are covered in 1–2 institutions but without formal curriculum integration or enrollment tracking."},
-  {"label": "Not Ready (1-3)", "criteria": "<2 programs regionally; no local certification pathway; no ZEV curriculum in local institutions", "description": "Fewer than 2 ZEV training programs in the region, or none at all. No ASE xEV or equivalent certification pathway is locally accessible. No documented ZEV-related courses in K–12, community college, or vocational programs."}
-], "refs": []},
-"OEP3": {"title": "Equity-Focused ZEV Education", "levels": [
-  {"label": "Ready (7-10)", "criteria": "Materials in ≥3 languages; ≥30% DAC residents reached; ≥3 CBO partnerships; DAC incentive share ≥30% (vs. CA avg ~16%)", "description": "Education materials are available in ≥3 languages. ≥30% of DAC residents in the target area have been reached by ZEV education programming. ≥3 active CBO partnerships delivering ZEV content. DAC household incentive fund share is ≥30% (above CA current ~16% of $1.9B — UCLA Luskin 2024)."},
-  {"label": "Somewhat Ready (3-7)", "criteria": "1–3 languages; 10–30% DAC residents reached; 1–2 CBO partnerships; DAC incentive share 10–30%", "description": "Materials are available in 1–3 languages. Between 10–30% of DAC residents are reached. 1–2 CBO partnerships are in early stage. DAC household incentive access is between 10–30% of total program funds."},
-  {"label": "Not Ready (1-3)", "criteria": "English only; <10% DAC residents reached; no CBO partnerships; DAC incentive share <10%", "description": "All materials are English-only. Fewer than 10% of DAC residents have been reached by ZEV education efforts. No community-based organization partnerships. Less than 10% of incentive funding reaches DAC households (CA documented gap: only ~16%)."}
-], "refs": []},
-"SW1": {"title": "Training Program Availability", "levels": [
-  {"label": "Ready (7-10)", "criteria": "≥5 accredited ZEV programs per region; enrollment tracked; industry partnerships and grant funding (CEC/eTRUC/DOE) active", "description": "≥5 accredited ZEV training programs per region (WRI 2025: >100 nationally across 5 categories). Enrollment and graduation trends are documented. Active industry partnerships and grant use (CEC ZEV SEED, eTRUC Fresno Advanced Transportation Center) are in place. Programs cover both light-duty and MD/HD vehicles."},
-  {"label": "Somewhat Ready (3-7)", "criteria": "2–5 programs per region; partial enrollment tracking; limited industry or grant engagement", "description": "Between 2–5 ZEV training programs are available. Enrollment data may exist for individual programs but is not systematically tracked. Industry partnerships are limited or in early stages. Grant activity (CEC, eTRUC, DOE) has been explored but not yet secured or active."},
-  {"label": "Not Ready (1-3)", "criteria": "<2 programs per region; no enrollment data; no industry partnerships or grant activity", "description": "Fewer than 2 ZEV training programs are available in the region. No curriculum or enrollment documentation. No coordination with industry partners, no active grant applications, and no outreach to potential ZEV workforce entrants."}
-], "refs": []},
-"SW2": {"title": "Workforce Transition & Upskilling", "levels": [
-  {"label": "Ready (7-10)", "criteria": "≥3 ICE-to-ZEV retraining programs active; completion data tracked; covers ≥3 of 5 DOE ZEV workforce areas; integrated into just-transition plan", "description": "≥3 active retraining programs support ICE-sector workers transitioning to ZEV roles. DOE USEER (2024) identifies 5 key ZEV workforce areas — programs cover ≥3 of these sectors (manufacturing, electrical, automotive, fueling, or battery). Enrollment and completion data are publicly reported. Retraining is integrated into a formal regional just-transition or clean economy plan."},
-  {"label": "Somewhat Ready (3-7)", "criteria": "1–3 retraining programs active or piloting; <3 of 5 DOE workforce areas covered; some completion tracking", "description": "1–3 ZEV workforce transition programs are active or in pilot phase. Skills transferable from automotive, electrical, or manufacturing sectors are acknowledged (NGA 2025), but program coverage spans fewer than 3 of the 5 DOE ZEV workforce areas. Completion data exists but is inconsistently reported."},
-  {"label": "Not Ready (1-3)", "criteria": "0 formal ICE-to-ZEV retraining programs; no completion data; no just-transition planning", "description": "No formal retraining programs for ICE-sector workers transitioning to ZEV roles. No participation or completion data tracked. No regional just-transition strategy or clean economy workforce plan that includes ZEV-specific upskilling."}
-], "refs": []},
-"SW3": {"title": "Number of Certified ZEV Technicians", "levels": [
-  {"label": "Ready (7-10)", "criteria": "≥10 ASE-certified xEV technicians per 10,000 registered ZEVs; certified shop registry current and publicly accessible", "description": "≥10 ASE-certified xEV technicians (using ASE 2023 Electrical Safety certifications) per 10,000 registered ZEVs. CA BAR tracks certified ZEV shops statewide — local registry is current. Certification data is cross-referenced with fleet growth projections and local training program output."},
-  {"label": "Somewhat Ready (3-7)", "criteria": "3–10 ASE-certified technicians per 10,000 ZEVs; partial registry; data not benchmarked to fleet growth", "description": "Between 3–10 ASE-certified xEV technicians per 10,000 registered ZEVs. Certification data exists from one or more institutions but may be outdated or not benchmarked against ZEV adoption trends. CA BAR shop certification tracking is a useful reference but coverage may be incomplete."},
-  {"label": "Not Ready (1-3)", "criteria": "<3 certified technicians per 10,000 ZEVs; no local technician registry or tracking", "description": "Fewer than 3 ASE-certified xEV technicians per 10,000 registered ZEVs, or no technician count is available. No institutional effort to compile, verify, or track ZEV certification data in the region."}
-], "refs": []},
-"SW4": {"title": "Employment Growth Rate in ZEV-Related Occupations", "levels": [
-  {"label": "Ready (7-10)", "criteria": "ZEV job growth ≥3× regional economy rate; tracked annually across ≥3 ZEV occupation sectors; >100k new jobs benchmark (EDF 2024)", "description": "ZEV-related jobs are growing ≥3× faster than the overall regional economy (DOE USEER 2024: clean energy growing 3–5× nationally). Employment growth is tracked annually across ≥3 ZEV occupation sectors (manufacturing, repair, charging, fueling, batteries, fleet, or mobility services). EDF (2024): >100,000 new U.S. EV manufacturing jobs since 2021 provides a national benchmark."},
-  {"label": "Somewhat Ready (3-7)", "criteria": "ZEV job growth 1–3× regional economy rate; data available but not ZEV-specific or <3 sectors tracked", "description": "ZEV-related job growth is 1–3× the regional economic growth rate, or general clean energy employment data is available but ZEV-specific jobs are not disaggregated. Fewer than 3 ZEV occupation sectors are tracked. Local awareness of workforce–industry alignment is developing."},
-  {"label": "Not Ready (1-3)", "criteria": "ZEV job growth <1× regional rate OR not tracked; no sector-level ZEV workforce data", "description": "ZEV-related employment is growing slower than the regional economy, or no ZEV-specific employment data is collected. No partnerships with workforce agencies, no labor market reporting, and no sector-level analysis to guide clean transportation workforce development."}
-], "refs": []},
-"EA1": {"title": "Equitable Access to ZEVs and Incentives", "levels": [
-  {"label": "Ready (7-10)", "criteria": "≥30% of incentive funds reach DAC households (vs. CA avg ~16%); EV adoption gap <3× between income groups; IRA credits actively promoted", "description": "≥30% of total ZEV incentive funding reaches DAC or low-income households (well above CA documented ~16% of $1.9B — UCLA Luskin 2024). Federal IRA credits ($4,000 used / $7,500 new EV, income-capped) are actively promoted. EV adoption rate gap between highest and lowest income groups is below 3× (current SANDAG 2024: >7% high-income vs. <2% low-income trip share)."},
-  {"label": "Somewhat Ready (3-7)", "criteria": "10–30% of incentive funds reach DAC households; adoption gap 3–5× between income groups; ≥1 equity-targeted program", "description": "Between 10–30% of incentive funds are reaching DAC or low-income households. The EV adoption gap between income groups is 3–5× (improving from the current >5× national disparity). At least one program targets multifamily residents, renters, or low-income buyers specifically."},
-  {"label": "Not Ready (1-3)", "criteria": "<10% of incentive funds reach DAC households; adoption gap >5× between income groups; no equity program provisions", "description": "Less than 10% of incentive funding reaches DAC or low-income households. EV adoption gap exceeds 5× between highest and lowest income groups (matching or worse than current CA baseline). No equity-targeted program provisions or affordability tracking in place."}
-], "refs": []},
-"EA2": {"title": "Income Levels per Capita", "levels": [
-  {"label": "Ready (7-10)", "criteria": "Income-ZEV affordability gap quantified at census-tract level; CVRP eligibility (≤400% FPL) mapped; CalEnviroScreen DAC overlay (≥75th pctile) applied", "description": "Per-capita income and ZEV affordability data are cross-referenced at sub-regional (census-tract) level. CVRP income threshold (≤400% federal poverty level) is mapped to identify eligible populations. CalEnviroScreen DAC threshold (≥75th percentile burden score) is applied to target ZEV programs. EV trip share gap (>7% for >$200k income vs. <1% for <$50k — SANDAG 2024) is documented and guides interventions."},
-  {"label": "Somewhat Ready (3-7)", "criteria": "Regional income data collected; affordability gap estimated but not at census-tract level; partial program eligibility mapping", "description": "Regional or city-level income distribution data is available. A general ZEV affordability gap is estimated (comparing median local income to median ZEV price), but analysis is not disaggregated to census-tract level. CVRP or equivalent income-based eligibility is acknowledged but not fully mapped."},
-  {"label": "Not Ready (1-3)", "criteria": "No income-ZEV affordability analysis; no census-tract mapping; no DAC overlay applied to ZEV programs", "description": "No per-capita income data has been used in relation to ZEV pricing or program design. No census-tract mapping, no CVRP income eligibility analysis, and no CalEnviroScreen or equivalent DAC overlay applied to ZEV infrastructure or incentive decisions."}
-], "refs": []},
-"EA3": {"title": "Environmental and Health Equity Outcomes", "levels": [
-  {"label": "Ready (7-10)", "criteria": "PM₂.₅ ≤9 µg/m³ (EPA NAAQS 2024) trending toward ≤5 µg/m³ (WHO); DAC-non-DAC gap (15–25%) reducing; ZEV-linked 30–60% PM₂.₅ reduction documented", "description": "Annual mean PM₂.₅ meets EPA NAAQS revised 2024 standard of ≤9 µg/m³ (target: WHO guideline of ≤5 µg/m³). The DAC–non-DAC PM₂.₅ exposure gap (typically 15–25% higher in DACs — Su et al. 2024) is tracked and showing reduction. ZEV adoption is linked to 30–60% reduction in transportation PM₂.₅ in high-adoption zones (UCLA Luskin 2021). CalEnviroScreen is used and data is publicly reported."},
-  {"label": "Somewhat Ready (3-7)", "criteria": "PM₂.₅ 9–15 µg/m³; DAC-non-DAC gap tracked but not reducing; ZEV-health link partially documented", "description": "Annual mean PM₂.₅ is between 9–15 µg/m³ (above EPA NAAQS but below severely polluted threshold). The DAC–non-DAC PM₂.₅ gap is being tracked but no significant improvement trend is documented. Some ZEV-health outcome linkage is emerging in local data, but longitudinal analysis is incomplete."},
-  {"label": "Not Ready (1-3)", "criteria": "PM₂.₅ >15 µg/m³ OR no data; no DAC-non-DAC tracking; no ZEV-health outcome linkage", "description": "Annual mean PM₂.₅ exceeds 15 µg/m³, or no air quality data is available at the local level. No tracking of the DAC–non-DAC PM₂.₅ disparity (15–25% documented gap). No effort to link ZEV adoption to health outcomes (asthma ER visits per 10,000 residents, NOₓ/PM₂.₅ reductions), and no CalEnviroScreen or equivalent tool applied."}
-], "refs": []}};
+  "AI1": {
+    "title": "ZEV Station-to-Vehicle Density & Distribution",
+    "levels": [
+      {
+        "label": "Ready (7-10)",
+        "criteria": "About <=10 EVs/public port and/or >=1.4 kW public capacity per electric LDV, with urban-rural and equity gap mapping.",
+        "description": "Station-to-vehicle ratio is at or below the IEA 2035 Announced Pledges Scenario target of ~15 EVs per public charging point. Local data is available at sub-regional level. Underserved area gaps are mapped and addressed in official transportation/equity plans. Public-facing dashboards or maps are maintained."
+      },
+      {
+        "label": "Somewhat Ready (3-7)",
+        "criteria": "About 10-23 EVs/public port, or capacity/distribution data are incomplete.",
+        "description": "Station-to-vehicle ratio is in the 15–30 EVs/port range — above the current global average of <10 EVs/port (IEA 2024) but below the 2035 APS projection of ~15. Some sub-regional mapping exists but coverage is incomplete or not formally integrated into planning documents."
+      },
+      {
+        "label": "Not Ready (1-3)",
+        "criteria": ">23 EVs/public port and no subregional distribution analysis.",
+        "description": "Station-to-vehicle ratio exceeds 30 EVs per public port, or no reliable ratio data exists at all. No spatial mapping, no coverage gap analysis, and no evidence of inclusion in transportation or equity programs."
+      }
+    ],
+    "refs": []
+  },
+  "AI2": {
+    "title": "Charging Network Speed and Accessibility",
+    "levels": [
+      {
+        "label": "Ready (7-10)",
+        "criteria": "DCFC share >=24%, corridor stations >=150 kW at about 60 km spacing, with real-time availability reporting.",
+        "description": "Network meets or exceeds NEVI/EU AFIR standards: DCFC stations rated ≥150 kW, spaced ≤50 miles (~80 km) on designated highways, within 1 mile of highway exits. DCFC share exceeds 25% of all public ports (above U.S. 2024 average of 24%). ADA-accessible chargers documented."
+      },
+      {
+        "label": "Somewhat Ready (3-7)",
+        "criteria": "DCFC share 10-24% and/or corridor spacing exceeds 60 km in important travel areas.",
+        "description": "DCFC share between 10–24% of public ports, or corridor spacing is 60–120 km (exceeding AFIR/NEVI targets). Some fast chargers present but below the 150 kW minimum, or chargers are clustered in urban areas with rural/suburban gaps remaining."
+      },
+      {
+        "label": "Not Ready (1-3)",
+        "criteria": "DCFC share <10%, major corridor gaps, or no real-time availability information.",
+        "description": "Fewer than 10% of public ports are DCFC, or average inter-station distance exceeds 120 km with no designated corridor strategy. No documented plan to meet NEVI or AFIR spacing standards. Network is predominantly Level 2 only."
+      }
+    ],
+    "refs": []
+  },
+  "AI3": {
+    "title": "Energy and Grid Readiness for ZEV Infrastructure",
+    "levels": [
+      {
+        "label": "Ready (7-10)",
+        "criteria": "Public capacity is about >=1.4 kW/electric LDV, hosting constraints are mapped, and managed charging/DER/V2G measures are active.",
+        "description": "Grid hosting capacity meets IEA benchmark of ≥1.4 kW public capacity per electric LDV. Managed/smart charging programs cover ≥20% of charging load. V2G-capable vehicles or pilot programs are operational. Utility coordination plans are documented and publicly available."
+      },
+      {
+        "label": "Somewhat Ready (3-7)",
+        "criteria": "Hosting capacity is assessed, but public capacity is below 1.4 kW/electric LDV or managed charging remains limited.",
+        "description": "Public charging capacity is between 0.5–1.4 kW per electric LDV (below IEA target). Hosting capacity maps exist for some feeders. Managed charging pilots may be underway but cover less than 20% of network. V2G integration is planned but not yet active."
+      },
+      {
+        "label": "Not Ready (1-3)",
+        "criteria": "No hosting-capacity assessment and no managed charging, DER, or V2G planning.",
+        "description": "Public charging capacity is below 0.5 kW per registered BEV, or no grid hosting capacity data exists at all. No managed charging programs, no V2G readiness, and no coordination with utilities on ZEV infrastructure expansion."
+      }
+    ],
+    "refs": []
+  },
+  "AI4": {
+    "title": "Reliability and Maintenance of Charging Infrastructure",
+    "levels": [
+      {
+        "label": "Ready (7-10)",
+        "criteria": "Uptime >=97%, FTCSR about >=85%, preventive maintenance and transparent incident/repair reporting.",
+        "description": "Charger uptime meets or exceeds the CA/FHWA/NEVI regulatory floor of ≥97% (UK target: ≥99%). First-Time Charge Success Rate (FTCSR) is ≥85% (above real-world average). Mean Time to Repair (MTTR) is ≤24 hours. Uptime data is publicly reported and service agreements are in place, especially for rural and DAC locations."
+      },
+      {
+        "label": "Somewhat Ready (3-7)",
+        "criteria": "Uptime 93.5-<97% and/or FTCSR 70-<85%, with partial maintenance reporting.",
+        "description": "Charger uptime is in the 90–97% range (national avg reliability index: 93.5% in Q1 2026), or FTCSR is between 71–85% (typical real-world degradation by year 3). Some operators track and report reliability, but coverage is inconsistent. MTTR varies between 24–72 hours."
+      },
+      {
+        "label": "Not Ready (1-3)",
+        "criteria": "Uptime <93.5%, FTCSR <70%, or no repair/public reporting system.",
+        "description": "Uptime falls below 90%, or FTCSR is below 71% (below real-world floor for aging stations). MTTR exceeds 72 hours. No public uptime data, no maintenance logs, and no accountability standards in place."
+      }
+    ],
+    "refs": []
+  },
+  "AI5": {
+    "title": "Strategic Coverage of ZEV Chargers",
+    "levels": [
+      {
+        "label": "Ready (7-10)",
+        "criteria": "Siting uses traffic, population, socioeconomic and proximity criteria; access-radius and DAC/non-DAC outcomes are monitored.",
+        "description": "Charger siting meets NEVI standard: DCFC every ≤50 miles on designated highways, within 1 mile of exit. ≥80% of census tracts have a public charger within 5-mile (urban) or 15-mile (rural) service radius. DAC-to-non-DAC coverage ratio is documented and equity gaps are formally addressed."
+      },
+      {
+        "label": "Somewhat Ready (3-7)",
+        "criteria": "Priority areas are mapped, but coverage or DAC access remains uneven.",
+        "description": "DCFC corridor gaps range from 50–100 miles, exceeding NEVI targets in some segments. Between 40–80% of census tracts have charger access within the target radius (60–80% of U.S. tracts currently lack sufficient access). DAC vs. non-DAC equity coverage ratio is tracked but below parity."
+      },
+      {
+        "label": "Not Ready (1-3)",
+        "criteria": "No corridor/destination/equity siting analysis and no access-radius mapping.",
+        "description": "DCFC gaps exceed 100 miles on key corridors, or fewer than 40% of census tracts have a public charger within the service radius. No spatial equity analysis, no DAC siting strategy, and no corridor planning aligned with NEVI or state ZEV targets."
+      }
+    ],
+    "refs": []
+  },
+  "CM1": {
+    "title": "Public Sector and Fleet ZEV Adoption",
+    "levels": [
+      {
+        "label": "Ready (7-10)",
+        "criteria": ">=50% annual ZEV purchases, progressing to 100% by 2027, with fleet, charging and equity tracking.",
+        "description": "Meets the ACF requirement: ≥50% of new annual fleet purchases are ZEVs (from 2024), progressing toward 100% by 2027. Fleet inventory is up-to-date by fuel type. Route equity analysis using CalEnviroScreen is documented. Participation in funding programs (HVIP) is tracked and reported."
+      },
+      {
+        "label": "Somewhat Ready (3-7)",
+        "criteria": "10-<50% annual ZEV purchases with partial duty-cycle, charging, or cost planning.",
+        "description": "Annual ZEV fleet purchases are between 10–50% (below ACF threshold). Basic fleet inventory exists but may not be fully categorized by fuel type. Some electrification planning is underway but equity mapping and HVIP participation are not yet documented comprehensively."
+      },
+      {
+        "label": "Not Ready (1-3)",
+        "criteria": "<10% annual ZEV purchases and no fleet transition inventory or plan.",
+        "description": "Fewer than 10% of annual fleet purchases are ZEVs, or no fleet ZEV data is tracked. No ACF compliance planning, no charging infrastructure roadmap for fleet use, and no engagement with state funding programs."
+      }
+    ],
+    "refs": []
+  },
+  "CM2": {
+    "title": "Community Access to Shared Electric Mobility",
+    "levels": [
+      {
+        "label": "Ready (7-10)",
+        "criteria": ">=62% include formal equity provisions, with neighborhood availability, affordability and rebalancing monitored.",
+        "description": "Shared mobility programs meet the national benchmark: ≥70% of programs include at least one equity requirement (Brown & Howell 2024). Service density reaches ≥1 shared e-vehicle per 1,000 DAC residents. Discounted fare uptake is active — subsidized-fare users ride 20–30% more frequently. Service areas and equity data are mapped."
+      },
+      {
+        "label": "Somewhat Ready (3-7)",
+        "criteria": "30-<62% include equity provisions and some affordability/access measures are active.",
+        "description": "Between 30–70% of shared mobility programs include equity provisions. Vehicle density in DACs is 0.3–1 per 1,000 residents. Some geographic tracking exists but is incomplete. Discounted fare programs are piloted but not fully scaled."
+      },
+      {
+        "label": "Not Ready (1-3)",
+        "criteria": "<30% of programs include equity provisions or neighborhood service disparities are not measured.",
+        "description": "Fewer than 30% of shared mobility programs have equity requirements, or shared e-vehicle density in DACs is below 0.3 per 1,000 residents. No usage data or service maps. No equity-focused pricing or access programs documented."
+      }
+    ],
+    "refs": []
+  },
+  "CM3": {
+    "title": "Clean Mobility Hub Deployment and Accessibility",
+    "levels": [
+      {
+        "label": "Ready (7-10)",
+        "criteria": "Hubs integrate multiple modes, real-time information, ADA access, first/last-mile connections and formal community/utility partnerships.",
+        "description": "Hub density meets or exceeds DOE Clean Cities guidance (2–10 EV ports + shared mobility docking per hub). ≥70% of DAC residents are within 0.5 miles of a multimodal hub (CARB CMO target). Hubs are ADA-compliant, integrated into regional plans, and user data is tracked."
+      },
+      {
+        "label": "Somewhat Ready (3-7)",
+        "criteria": "A pilot hub or partial integration exists, but ADA/equity/utility coordination is incomplete.",
+        "description": "Hub density is between 0.3–1 per 100,000 residents. Between 30–70% of DAC residents are within the 0.5-mile target. Some hubs are operational but services are limited (fewer than 2 EV ports), accessibility features are incomplete, or equity impact is not tracked."
+      },
+      {
+        "label": "Not Ready (1-3)",
+        "criteria": "No hub plan or no integration of transit, charging and shared mobility.",
+        "description": "Hub density is below 0.3 per 100,000 residents, fewer than 30% of DAC residents have a hub within 0.5 miles, or no clean mobility hub planning exists. No documentation of coverage, service integration, or inclusion in transportation strategies."
+      }
+    ],
+    "refs": []
+  },
+  "SP1": {
+    "title": "Permitting Efficiency and Legislative Compliance",
+    "levels": [
+      {
+        "label": "Ready (7-10)",
+        "criteria": "Statutory timelines are met with online submission, standardized checklists, transparent tracking and streamlined review.",
+        "description": "Jurisdiction meets CA AB 970 benchmarks: residential EVSE permits issued within ≤30 business days, commercial within ≤60 days. Permitting timelines are publicly tracked on a dashboard. Digital or streamlined permitting workflows are in place. Full AB 970 / CO HB24-1173 compliance is demonstrated."
+      },
+      {
+        "label": "Somewhat Ready (3-7)",
+        "criteria": "Some digital/standardized practices exist, but delays or compliance gaps remain.",
+        "description": "Permit timelines are 30–90 days (residential) or 60–180 days (commercial), exceeding AB 970 targets. Some workflow improvements are underway. AB 970 alignment is partial (e.g., draft ordinances or offline-only processes). Note: typical full DCFC installation takes ~2 years including all site work."
+      },
+      {
+        "label": "Not Ready (1-3)",
+        "criteria": "No standardized process, electronic submission, timeline tracking, or statutory compliance evidence.",
+        "description": "Permitting takes more than 90 days (residential) or 180 days (commercial), or no timeline data is collected. No evidence of AB 970 compliance, no digital permitting tools, and no streamlined workflow for EVSE applications."
+      }
+    ],
+    "refs": []
+  },
+  "SP2": {
+    "title": "Zoning and Land Use Incentives for ZEV Infrastructure",
+    "levels": [
+      {
+        "label": "Ready (7-10)",
+        "criteria": "At least 20% coverage is required; stronger projects meet 25% EV-capable/10% EV-ready or 50%/20% multifamily benchmarks.",
+        "description": "Jurisdiction meets CA AB 98: 100% of new construction includes EV charging infrastructure. New surface lots of ≥20 spaces include ≥20% EV-ready spaces (CO standard). Local tax rebates or EVSE grants are active, tracked, and publicly accessible. Overlay maps align with state/regional ZEV plans."
+      },
+      {
+        "label": "Somewhat Ready (3-7)",
+        "criteria": "10-<20% of covered spaces are EV-ready/capable, or requirements apply only to limited building types.",
+        "description": "Between 20–99% of new construction includes EV-ready requirements. Zoning codes require 5–20% EV-ready spaces in new parking lots. At least one local incentive program or zoning update is in place, but comprehensive coverage or state alignment is incomplete."
+      },
+      {
+        "label": "Not Ready (1-3)",
+        "criteria": "<10% of covered spaces are EV-ready/capable and no enforceable code requirement exists.",
+        "description": "Fewer than 20% of new construction projects are subject to EV-ready requirements. No local zoning codes mandate EV spaces in new lots. No public-facing incentive programs, overlays, or developer guidance documents are available."
+      }
+    ],
+    "refs": []
+  },
+  "SP3": {
+    "title": "ZEV User Incentives: Adoption and Parking Support",
+    "levels": [
+      {
+        "label": "Ready (7-10)",
+        "criteria": "New/used incentives approach relevant federal/local benchmarks, eligibility reaches low-income households, and registration/benefit gaps are tracked.",
+        "description": "Full incentive suite in place: local rebates, federal IRA credits (up to $7,500 new / $4,000 used EV), and designated EV parking with active ICE-ing enforcement. Each $1,000 rebate produces ~2.6% EV sales uplift in CA (Muehlegger & Rapson 2022). ≥30% of total incentive funds reach DAC/low-income households (above current CA avg of ~16%)."
+      },
+      {
+        "label": "Somewhat Ready (3-7)",
+        "criteria": "Basic incentives exist, but values, eligibility, or LIDAC reach remain limited.",
+        "description": "At least one financial incentive is active (local rebate $500–$2,500, utility rate discount, or dedicated EV parking). Between 10–30% of incentive funding reaches DAC or low-income households. ICE-ing enforcement may exist but is not consistently applied."
+      },
+      {
+        "label": "Not Ready (1-3)",
+        "criteria": "No meaningful incentive/parking support, or equity participation is not tracked.",
+        "description": "No local financial rebates or parking support for ZEV users. Less than 10% of any existing incentive funds reach DAC or low-income households. No municipal ordinances on EV parking or ICE-ing enforcement are documented or promoted."
+      }
+    ],
+    "refs": []
+  },
+  "SP4": {
+    "title": "Policy Support for Medium- and Heavy-Duty ZEVs",
+    "levels": [
+      {
+        "label": "Ready (7-10)",
+        "criteria": "Meets ACF purchase benchmarks, plans toward ACT 2035 shares, uses HVIP, and addresses charging/hydrogen/V2G needs.",
+        "description": "Jurisdiction meets ACF: ≥50% of SLG annual fleet purchases are ZEVs (2024, rising to 100% by 2027). HVIP vouchers ($45,000–$240,000 per heavy-duty ZEV, class-dependent) are actively accessed. ACT ZEV sales targets (35–55% by 2035) are tracked and infrastructure is planned accordingly."
+      },
+      {
+        "label": "Somewhat Ready (3-7)",
+        "criteria": "10-<50% ZEV purchases with early compliance and funding participation.",
+        "description": "Between 10–50% of annual MD/HD fleet purchases are ZEVs. HVIP participation is initiated but not at full scale. A draft ACF/ACT compliance plan exists. Some MD/HD charging or hydrogen refueling infrastructure is under development."
+      },
+      {
+        "label": "Not Ready (1-3)",
+        "criteria": "<10% ZEV purchases/sales and no ACF/ACT/HVIP or infrastructure plan.",
+        "description": "Fewer than 10% of MD/HD fleet purchases are ZEVs, or no tracking exists. No participation in HVIP or similar voucher programs. No ACF/ACT compliance planning, no infrastructure investment for MD/HD ZEV charging or hydrogen."
+      }
+    ],
+    "refs": []
+  },
+  "OEP1": {
+    "title": "Public Awareness & Community Engagement",
+    "levels": [
+      {
+        "label": "Ready (7-10)",
+        "criteria": "Recurring ride-and-drive/workshop outreach uses trusted partners and tracks events, presentations, participants and awareness outcomes.",
+        "description": "Regular ZEV outreach events achieve ≥10 per year per 100,000 residents with documented participation tracking. Campaigns in targeted DAC neighborhoods achieve 10–25% increase in ZEV awareness or uptake (Connolly et al. 2023). ≥3 formal partnerships with schools, CBOs, or community groups are active and tracked."
+      },
+      {
+        "label": "Somewhat Ready (3-7)",
+        "criteria": "Some events and partnerships occur, but reach and outcomes are inconsistently measured.",
+        "description": "Between 3–10 ZEV outreach events per year per 100,000 residents. Some DAC-targeted outreach has occurred but is not consistently tracked. 1–2 community partnerships exist in early or pilot stage. Awareness change has not been formally measured."
+      },
+      {
+        "label": "Not Ready (1-3)",
+        "criteria": "No recurring hands-on outreach, trusted partners or participation tracking.",
+        "description": "Fewer than 3 ZEV outreach events per year per 100,000 residents, or none at all. No targeted engagement in DAC or equity-priority communities. No formal community organization partnerships and no tracking of participation or awareness change."
+      }
+    ],
+    "refs": []
+  },
+  "OEP2": {
+    "title": "Educational & Workforce Programs",
+    "levels": [
+      {
+        "label": "Ready (7-10)",
+        "criteria": "Multiple institutions provide industry-aligned pathways across manufacturing, repair and charging, with enrollment/completion data.",
+        "description": "Region has ≥5 accredited ZEV training programs (WRI 2025 identifies >100 nationally across 5 categories). At least one ASE xEV Electrical Safety certification pathway is available locally (ASE launched 2 new xEV certifications in 2023). ZEV curriculum is integrated into ≥3 K–12, community college, or vocational institutions with enrollment tracked."
+      },
+      {
+        "label": "Somewhat Ready (3-7)",
+        "criteria": "One or more pathways exist, but sector coverage or completion tracking is limited.",
+        "description": "Between 2–5 ZEV training programs are accessible in the region. ASE or manufacturer certification is available but may require travel outside the immediate area. ZEV topics are covered in 1–2 institutions but without formal curriculum integration or enrollment tracking."
+      },
+      {
+        "label": "Not Ready (1-3)",
+        "criteria": "No local EV-specific/relevant education pathways or enrollment tracking.",
+        "description": "Fewer than 2 ZEV training programs in the region, or none at all. No ASE xEV or equivalent certification pathway is locally accessible. No documented ZEV-related courses in K–12, community college, or vocational programs."
+      }
+    ],
+    "refs": []
+  },
+  "OEP3": {
+    "title": "Equity-Focused ZEV Education",
+    "levels": [
+      {
+        "label": "Ready (7-10)",
+        "criteria": "Multilingual, accessible, CBO-led delivery is funded and reaches DAC residents proportionately or better, with participation outcomes tracked.",
+        "description": "Education materials are available in ≥3 languages. ≥30% of DAC residents in the target area have been reached by ZEV education programming. ≥3 active CBO partnerships delivering ZEV content. DAC household incentive fund share is ≥30% (above CA current ~16% of $1.9B — UCLA Luskin 2024)."
+      },
+      {
+        "label": "Somewhat Ready (3-7)",
+        "criteria": "Some multilingual or CBO-led outreach exists, but reach remains below the local DAC population share.",
+        "description": "Materials are available in 1–3 languages. Between 10–30% of DAC residents are reached. 1–2 CBO partnerships are in early stage. DAC household incentive access is between 10–30% of total program funds."
+      },
+      {
+        "label": "Not Ready (1-3)",
+        "criteria": "English-only/general outreach with no DAC reach or partner/funding tracking.",
+        "description": "All materials are English-only. Fewer than 10% of DAC residents have been reached by ZEV education efforts. No community-based organization partnerships. Less than 10% of incentive funding reaches DAC households (CA documented gap: only ~16%)."
+      }
+    ],
+    "refs": []
+  },
+  "SW1": {
+    "title": "Training Program Availability",
+    "levels": [
+      {
+        "label": "Ready (7-10)",
+        "criteria": ">=5 diverse programs/providers, recognized credentials, annual completion data and accessible regional coverage.",
+        "description": "≥5 accredited ZEV training programs per region (WRI 2025: >100 nationally across 5 categories). Enrollment and graduation trends are documented. Active industry partnerships and grant use (CEC ZEV SEED, eTRUC Fresno Advanced Transportation Center) are in place. Programs cover both light-duty and MD/HD vehicles."
+      },
+      {
+        "label": "Somewhat Ready (3-7)",
+        "criteria": "2-4 programs/providers with partial credential and access tracking.",
+        "description": "Between 2–5 ZEV training programs are available. Enrollment data may exist for individual programs but is not systematically tracked. Industry partnerships are limited or in early stages. Grant activity (CEC, eTRUC, DOE) has been explored but not yet secured or active."
+      },
+      {
+        "label": "Not Ready (1-3)",
+        "criteria": "<2 relevant programs/providers and no enrollment, completion or geographic-access data.",
+        "description": "Fewer than 2 ZEV training programs are available in the region. No curriculum or enrollment documentation. No coordination with industry partners, no active grant applications, and no outreach to potential ZEV workforce entrants."
+      }
+    ],
+    "refs": []
+  },
+  "SW2": {
+    "title": "Workforce Transition & Upskilling",
+    "levels": [
+      {
+        "label": "Ready (7-10)",
+        "criteria": "Multiple pathways use transferable skills, track completion/placement, and support job growth near or above the 4.9% clean-energy benchmark.",
+        "description": "≥3 active retraining programs support ICE-sector workers transitioning to ZEV roles. DOE USEER (2024) identifies 5 key ZEV workforce areas — programs cover ≥3 of these sectors (manufacturing, electrical, automotive, fueling, or battery). Enrollment and completion data are publicly reported. Retraining is integrated into a formal regional just-transition or clean economy plan."
+      },
+      {
+        "label": "Somewhat Ready (3-7)",
+        "criteria": "Pilot pathways exist, but participation, completion or employer alignment is limited.",
+        "description": "1–3 ZEV workforce transition programs are active or in pilot phase. Skills transferable from automotive, electrical, or manufacturing sectors are acknowledged (NGA 2025), but program coverage spans fewer than 3 of the 5 DOE ZEV workforce areas. Completion data exists but is inconsistently reported."
+      },
+      {
+        "label": "Not Ready (1-3)",
+        "criteria": "No formal transition/upskilling pathway or placement tracking.",
+        "description": "No formal retraining programs for ICE-sector workers transitioning to ZEV roles. No participation or completion data tracked. No regional just-transition strategy or clean economy workforce plan that includes ZEV-specific upskilling."
+      }
+    ],
+    "refs": []
+  },
+  "SW3": {
+    "title": "Number of Certified ZEV Technicians",
+    "levels": [
+      {
+        "label": "Ready (7-10)",
+        "criteria": "ASE xEV Level 1/2 pathways are locally available, certification supply exceeds the <15% national availability baseline, and technicians are tracked against ZEV growth.",
+        "description": "≥10 ASE-certified xEV technicians (using ASE 2023 Electrical Safety certifications) per 10,000 registered ZEVs. CA BAR tracks certified ZEV shops statewide — local registry is current. Certification data is cross-referenced with fleet growth projections and local training program output."
+      },
+      {
+        "label": "Somewhat Ready (3-7)",
+        "criteria": "xEV credentials are accessible but offered by <15% of relevant local programs or workforce supply is not tied to fleet growth.",
+        "description": "Between 3–10 ASE-certified xEV technicians per 10,000 registered ZEVs. Certification data exists from one or more institutions but may be outdated or not benchmarked against ZEV adoption trends. CA BAR shop certification tracking is a useful reference but coverage may be incomplete."
+      },
+      {
+        "label": "Not Ready (1-3)",
+        "criteria": "No local xEV credential pathway or certified-workforce registry.",
+        "description": "Fewer than 3 ASE-certified xEV technicians per 10,000 registered ZEVs, or no technician count is available. No institutional effort to compile, verify, or track ZEV certification data in the region."
+      }
+    ],
+    "refs": []
+  },
+  "SW4": {
+    "title": "Employment Growth Rate in ZEV-Related Occupations",
+    "levels": [
+      {
+        "label": "Ready (7-10)",
+        "criteria": "ZEV job growth is >=3 times overall regional growth and is tracked across manufacturing, charging, batteries, repair and fleet services.",
+        "description": "ZEV-related jobs are growing ≥3× faster than the overall regional economy (DOE USEER 2024: clean energy growing 3–5× nationally). Employment growth is tracked annually across ≥3 ZEV occupation sectors (manufacturing, repair, charging, fueling, batteries, fleet, or mobility services). EDF (2024): >100,000 new U.S. EV manufacturing jobs since 2021 provides a national benchmark."
+      },
+      {
+        "label": "Somewhat Ready (3-7)",
+        "criteria": "ZEV job growth is 1-<3 times overall regional growth with incomplete sector detail.",
+        "description": "ZEV-related job growth is 1–3× the regional economic growth rate, or general clean energy employment data is available but ZEV-specific jobs are not disaggregated. Fewer than 3 ZEV occupation sectors are tracked. Local awareness of workforce–industry alignment is developing."
+      },
+      {
+        "label": "Not Ready (1-3)",
+        "criteria": "ZEV job growth is not tracked or is below overall regional growth.",
+        "description": "ZEV-related employment is growing slower than the regional economy, or no ZEV-specific employment data is collected. No partnerships with workforce agencies, no labor market reporting, and no sector-level analysis to guide clean transportation workforce development."
+      }
+    ],
+    "refs": []
+  },
+  "EA1": {
+    "title": "Equitable Access to ZEVs and Incentives",
+    "levels": [
+      {
+        "label": "Ready (7-10)",
+        "criteria": "≥30% of incentive funds reach DAC households (vs. CA avg ~16%); EV adoption gap <3× between income groups; IRA credits actively promoted",
+        "description": "≥30% of total ZEV incentive funding reaches DAC or low-income households (well above CA documented ~16% of $1.9B — UCLA Luskin 2024). Federal IRA credits ($4,000 used / $7,500 new EV, income-capped) are actively promoted. EV adoption rate gap between highest and lowest income groups is below 3× (current SANDAG 2024: >7% high-income vs. <2% low-income trip share)."
+      },
+      {
+        "label": "Somewhat Ready (3-7)",
+        "criteria": "10–30% of incentive funds reach DAC households; adoption gap 3–5× between income groups; ≥1 equity-targeted program",
+        "description": "Between 10–30% of incentive funds are reaching DAC or low-income households. The EV adoption gap between income groups is 3–5× (improving from the current >5× national disparity). At least one program targets multifamily residents, renters, or low-income buyers specifically."
+      },
+      {
+        "label": "Not Ready (1-3)",
+        "criteria": "<10% of incentive funds reach DAC households; adoption gap >5× between income groups; no equity program provisions",
+        "description": "Less than 10% of incentive funding reaches DAC or low-income households. EV adoption gap exceeds 5× between highest and lowest income groups (matching or worse than current CA baseline). No equity-targeted program provisions or affordability tracking in place."
+      }
+    ],
+    "refs": []
+  },
+  "EA2": {
+    "title": "Income Levels per Capita",
+    "levels": [
+      {
+        "label": "Ready (7-10)",
+        "criteria": "Income-ZEV affordability gap quantified at census-tract level; CVRP eligibility (≤400% FPL) mapped; CalEnviroScreen DAC overlay (≥75th pctile) applied",
+        "description": "Per-capita income and ZEV affordability data are cross-referenced at sub-regional (census-tract) level. CVRP income threshold (≤400% federal poverty level) is mapped to identify eligible populations. CalEnviroScreen DAC threshold (≥75th percentile burden score) is applied to target ZEV programs. EV trip share gap (>7% for >$200k income vs. <1% for <$50k — SANDAG 2024) is documented and guides interventions."
+      },
+      {
+        "label": "Somewhat Ready (3-7)",
+        "criteria": "Regional income data collected; affordability gap estimated but not at census-tract level; partial program eligibility mapping",
+        "description": "Regional or city-level income distribution data is available. A general ZEV affordability gap is estimated (comparing median local income to median ZEV price), but analysis is not disaggregated to census-tract level. CVRP or equivalent income-based eligibility is acknowledged but not fully mapped."
+      },
+      {
+        "label": "Not Ready (1-3)",
+        "criteria": "No income-ZEV affordability analysis; no census-tract mapping; no DAC overlay applied to ZEV programs",
+        "description": "No per-capita income data has been used in relation to ZEV pricing or program design. No census-tract mapping, no CVRP income eligibility analysis, and no CalEnviroScreen or equivalent DAC overlay applied to ZEV infrastructure or incentive decisions."
+      }
+    ],
+    "refs": []
+  },
+  "EA3": {
+    "title": "Environmental and Health Equity Outcomes",
+    "levels": [
+      {
+        "label": "Ready (7-10)",
+        "criteria": "PM₂.₅ ≤9 µg/m³ (EPA NAAQS 2024) trending toward ≤5 µg/m³ (WHO); DAC-non-DAC gap (15–25%) reducing; ZEV-linked 30–60% PM₂.₅ reduction documented",
+        "description": "Annual mean PM₂.₅ meets EPA NAAQS revised 2024 standard of ≤9 µg/m³ (target: WHO guideline of ≤5 µg/m³). The DAC–non-DAC PM₂.₅ exposure gap (typically 15–25% higher in DACs — Su et al. 2024) is tracked and showing reduction. ZEV adoption is linked to 30–60% reduction in transportation PM₂.₅ in high-adoption zones (UCLA Luskin 2021). CalEnviroScreen is used and data is publicly reported."
+      },
+      {
+        "label": "Somewhat Ready (3-7)",
+        "criteria": "PM₂.₅ 9–15 µg/m³; DAC-non-DAC gap tracked but not reducing; ZEV-health link partially documented",
+        "description": "Annual mean PM₂.₅ is between 9–15 µg/m³ (above EPA NAAQS but below severely polluted threshold). The DAC–non-DAC PM₂.₅ gap is being tracked but no significant improvement trend is documented. Some ZEV-health outcome linkage is emerging in local data, but longitudinal analysis is incomplete."
+      },
+      {
+        "label": "Not Ready (1-3)",
+        "criteria": "PM₂.₅ >15 µg/m³ OR no data; no DAC-non-DAC tracking; no ZEV-health outcome linkage",
+        "description": "Annual mean PM₂.₅ exceeds 15 µg/m³, or no air quality data is available at the local level. No tracking of the DAC–non-DAC PM₂.₅ disparity (15–25% documented gap). No effort to link ZEV adoption to health outcomes (asthma ER visits per 10,000 residents, NOₓ/PM₂.₅ reductions), and no CalEnviroScreen or equivalent tool applied."
+      }
+    ],
+    "refs": []
+  }
+};
 
 const INDICATOR_CODE_MAP = {
   '1.01':'AI1','1.02':'AI2','1.03':'AI3','1.04':'AI4','1.05':'AI5',
@@ -1018,10 +1380,187 @@ const INDICATOR_CODE_MAP = {
   '6.01':'EA1','6.02':'EA2','6.03':'EA3'
 };
 
-const ACTION_RECOMMENDATIONS = {"1.01": {"name": "ZEV Density (AOI1)", "low": "Collect and validate charging and refueling station-to-vehicle data, then identify basic coverage gaps across urban, suburban, and rural areas.", "mid": "Develop plans to address underserved areas and improve spatial equity in charging and refueling access.", "high": "Maintain strong coverage through periodic mapping, registration tracking, and updates to deployment priorities."}, "1.02": {"name": "Charging Network Speed and Accessibility (AOI2)", "low": "Improve charging speed availability, diversify charger types, and reduce major access gaps in the network.", "mid": "Improve consistency of charger deployment and reporting, especially for DC fast charging and corridor accessibility.", "high": "Sustain balanced charger mix, convenient spacing, and reliable public communication on network access."}, "1.03": {"name": "Energy and Grid Readiness (AOI3)", "low": "Assess hosting capacity and coordinate with utilities to identify where grid upgrades, DERs, or managed charging are needed.", "mid": "Complete broader coverage planning and strengthen coordination with utilities and agencies on grid support and V2G readiness.", "high": "Maintain strong grid readiness through regular hosting-capacity reviews, utility coordination, and DER integration updates."}, "1.04": {"name": "Reliability and Maintenance (AOI4)", "low": "Establish uptime monitoring, maintenance logging, public reporting, and accountability standards for ZEV infrastructure.", "mid": "Improve consistency in uptime reporting, repair response, and service agreements across the charging network.", "high": "Maintain high performance with routine audits, preventive maintenance, and transparent reliability reporting."}, "1.05": {"name": "Strategic Coverage of ZEV Chargers (AOI5)", "low": "Identify priority corridors, destination zones, and accessibility gaps where charger siting is most urgently needed.", "mid": "Expand charger presence in tourism, employment, and underserved areas while improving accessibility features.", "high": "Keep strategic siting current by updating corridor and destination planning with changing travel demand."}, "2.01": {"name": "Public Sector and Fleet ZEV Adoption (CMO1)", "low": "Build a baseline inventory of public fleets and start transition planning for municipal and transit ZEV adoption.", "mid": "Expand electrification plans and strengthen service coverage in disadvantaged communities.", "high": "Maintain leadership through regular fleet updates, infrastructure alignment, and equity-focused deployment."}, "2.02": {"name": "Shared Electric Mobility Access (CMO2)", "low": "Start or expand shared EV, e-bike, or scooter programs in underserved areas and document access barriers.", "mid": "Increase geographic coverage, affordability, and participation through equity pricing and community partnerships.", "high": "Maintain strong shared mobility access through continued monitoring, outreach, and service refinement."}, "2.03": {"name": "Clean Mobility Hubs (CMO3)", "low": "Identify candidate hub locations and begin planning multimodal services, accessibility, and local partnerships.", "mid": "Improve hub coverage, service quality, and ADA access while linking hubs more strongly to local plans.", "high": "Sustain hub performance through user feedback, ridership tracking, and periodic service upgrades."}, "3.01": {"name": "Permitting Efficiency (SP1)", "low": "Document current permitting timelines and build a streamlined, transparent ZEV permitting workflow.", "mid": "Reduce delays, improve internal coordination, and strengthen compliance with state permitting requirements.", "high": "Maintain rapid permitting through routine review of workflows, dashboards, and ordinance updates."}, "3.02": {"name": "Zoning and Land Use Incentives (SP2)", "low": "Review zoning codes and identify where EV-ready requirements or supportive incentives are missing.", "mid": "Expand zoning support in multifamily, commercial, and transit-oriented locations and improve developer guidance.", "high": "Maintain strong land-use support by updating overlays, incentives, and public-private partnerships."}, "3.03": {"name": "User Incentives and Parking Support (SP3)", "low": "Create or document basic rebates, charging incentives, parking support, and anti-ICE-ing protections.", "mid": "Improve visibility and reach of incentives, especially for renters, low-income users, and dense neighborhoods.", "high": "Maintain strong incentive programs through periodic updates, clear outreach, and usage monitoring."}, "3.04": {"name": "Policy Support for MD/HD ZEVs (SP4)", "low": "Develop local policy alignment and infrastructure planning for medium- and heavy-duty ZEV deployment.", "mid": "Expand grant participation, compliance planning, and fleet transition support for public and private operators.", "high": "Maintain progress through ongoing funding strategy, infrastructure expansion, and regulatory updates."}, "4.01": {"name": "Public Awareness and Community Engagement (OEP1)", "low": "Start public workshops, outreach events, and partnerships to build foundational awareness of ZEV options.", "mid": "Increase frequency, consistency, and community reach of engagement activities, especially in priority areas.", "high": "Maintain strong awareness through recurring outreach, updated messaging, and local partnerships."}, "4.02": {"name": "Educational and Workforce Programs (OEP2)", "low": "Introduce ZEV topics into schools, colleges, and local workforce programs with clear participation tracking.", "mid": "Expand curriculum reach, technical depth, and institutional coordination to build stronger pathways.", "high": "Maintain strong program quality through participant tracking, curriculum refreshes, and industry alignment."}, "4.03": {"name": "Equity-Focused ZEV Education (OEP3)", "low": "Develop multilingual and community-based education efforts targeted to underserved populations.", "mid": "Improve geographic coverage, demographic reach, and partnership depth for equity-centered ZEV education.", "high": "Maintain inclusive education through updated multilingual resources and regular community feedback."}, "5.01": {"name": "Training Program Availability (SW1)", "low": "Identify missing ZEV training pathways and begin building partnerships with schools and workforce providers.", "mid": "Expand the number and visibility of training programs while improving alignment with industry needs.", "high": "Maintain strong training availability through regular program refreshes, outreach, and enrollment tracking."}, "5.02": {"name": "Workforce Transition and Upskilling (SW2)", "low": "Launch retraining and upskilling programs for workers transitioning from ICE-related occupations.", "mid": "Increase accessibility, scale, and participation of workforce transition programs across the region.", "high": "Maintain momentum through employer engagement, updated certifications, and continued reskilling support."}, "5.03": {"name": "Certified ZEV Technicians (SW3)", "low": "Track the local technician pipeline and increase access to recognized ZEV certification pathways.", "mid": "Expand technician supply relative to local ZEV growth and strengthen training-to-certification transitions.", "high": "Maintain technical readiness through continued certification growth and local workforce monitoring."}, "5.04": {"name": "Employment Growth in ZEV Occupations (SW4)", "low": "Track baseline labor market data and identify priority occupations where local job growth is lagging.", "mid": "Improve workforce planning and employer coordination so training supply matches labor demand.", "high": "Maintain strong growth through ongoing labor market monitoring and strategic workforce investment."}, "6.01": {"name": "Equitable Access to ZEVs and Incentives (EA1)", "low": "Build or strengthen equity-focused incentive programs for low-income households, renters, and multifamily residents.", "mid": "Expand reach and accessibility of programs so underserved groups can use them more consistently.", "high": "Maintain equitable access through targeted outreach, simplified participation, and regular program review."}, "6.02": {"name": "Income Levels and Affordability Context (EA2)", "low": "Use local income and affordability data to identify where ZEV cost barriers are highest.", "mid": "Integrate income-based targeting more clearly into incentives, outreach, and infrastructure planning.", "high": "Maintain affordability focus through regular updates to income and vehicle-cost comparisons."}, "6.03": {"name": "Environmental and Health Equity Outcomes (EA3)", "low": "Establish baseline PM2.5 and asthma-related indicators and identify overburdened communities for tracking.", "mid": "Improve monitoring and strengthen links between ZEV progress and health or air-quality improvements.", "high": "Maintain strong outcome tracking through regular environmental-health reporting and equity evaluation."}};
+const ACTION_RECOMMENDATIONS = {"1.01": {"name": "ZEV Density (AOI1)", "low": "Compile registrations, port counts and public kW capacity; map urban, rural and disadvantaged-area gaps.", "mid": "Move toward about 10 EVs per port and 1.4 kW per electric LDV while closing geographic disparities.", "high": "Refresh vehicle, power-capacity and distribution data annually and prevent localized access gaps."}, "1.02": {"name": "Charging Network Speed and Accessibility (AOI2)", "low": "Inventory charger power, DCFC share, corridor spacing and real-time data availability.", "mid": "Raise DCFC availability toward the observed 24% share and close gaps toward the 150 kW/60 km corridor benchmark.", "high": "Maintain a balanced network and publish accurate real-time availability and accessibility information."}, "1.03": {"name": "Energy and Grid Readiness (AOI3)", "low": "Complete feeder/transformer hosting-capacity studies with the utility and identify managed-charging opportunities.", "mid": "Increase public capacity toward 1.4 kW/electric LDV and implement DER, smart charging or V2G pilots.", "high": "Regularly update hosting-capacity maps and scale coordinated charging and bidirectional flexibility."}, "1.04": {"name": "Reliability and Maintenance (AOI4)", "low": "Measure FTCSR as well as uptime; establish incident logging, repair targets and public reporting.", "mid": "Close the gap to 97% uptime and about 85% FTCSR through preventive maintenance and enforceable service standards.", "high": "Audit performance by station age and operator and maintain transparent reliability reporting."}, "1.05": {"name": "Strategic Coverage of ZEV Chargers (AOI5)", "low": "Map priority corridors, destinations and household access radii using demographic and traffic data.", "mid": "Prioritize sites that improve disadvantaged-community access and correct corridor/destination gaps.", "high": "Re-optimize siting as travel demand and demographics change and publish DAC/non-DAC access outcomes."}, "2.01": {"name": "Public Sector and Fleet ZEV Adoption (CMO1)", "low": "Create a duty-cycle, charging, cost and replacement inventory for municipal and transit fleets.", "mid": "Increase annual ZEV purchases toward the 50% ACF benchmark and align infrastructure and funding.", "high": "Progress toward 100% purchases by 2027 and report deployment benefits in disadvantaged communities."}, "2.02": {"name": "Shared Electric Mobility Access (CMO2)", "low": "Document service availability, pricing, payment options and rebalancing by neighborhood.", "mid": "Add formal equity requirements and move toward the 62% national program benchmark.", "high": "Continuously test whether affordability and vehicle availability remain equitable across neighborhoods."}, "2.03": {"name": "Clean Mobility Hubs (CMO3)", "low": "Identify hub locations and partners and define transit, charging, shared-mobility and ADA requirements.", "mid": "Convert pilots into fully integrated hubs with utility coordination and community-led design.", "high": "Track ridership, first/last-mile access, ADA performance and community outcomes and refine services."}, "3.01": {"name": "Permitting Efficiency (SP1)", "low": "Measure actual permit times and adopt electronic submission, standard checklists and status tracking.", "mid": "Resolve workflow and inter-agency delays and document AB 970/AB 1236 or applicable state compliance.", "high": "Publish performance dashboards and periodically update streamlined procedures and staff guidance."}, "3.02": {"name": "Zoning and Land Use Incentives (SP2)", "low": "Audit codes for EV-capable, EV-ready and installed-EVSE requirements by building type.", "mid": "Raise covered parking requirements toward at least 20% and strengthen multifamily/commercial provisions.", "high": "Maintain enforceable requirements and update them using demand, spatial and equity analysis."}, "3.03": {"name": "User Incentives and Parking Support (SP3)", "low": "Inventory purchase, used-EV, charging and parking incentives and measure who receives them.", "mid": "Target low-income/LIDAC households with meaningful benefits and simplified eligibility and application support.", "high": "Evaluate adoption and distributional outcomes and adjust incentive values, income limits and parking benefits."}, "3.04": {"name": "Policy Support for MD/HD ZEVs (SP4)", "low": "Develop an ACF/ACT compliance, infrastructure and funding roadmap for trucks and buses.", "mid": "Scale HVIP participation and annual ZEV purchases while planning high-power charging or hydrogen supply.", "high": "Track progress toward 2035 sales shares and evaluate V2G and grid-resilience opportunities."}, "4.01": {"name": "Public Awareness and Community Engagement (OEP1)", "low": "Launch recurring hands-on events with trusted community organizations and collect participation baselines.", "mid": "Expand presentations, ride-and-drives and individualized assistance and measure awareness changes.", "high": "Maintain recurring engagement and report participants, partner coverage and conversion outcomes."}, "4.02": {"name": "Educational and Workforce Programs (OEP2)", "low": "Map EV-specific and EV-relevant programs across schools, colleges and workforce providers.", "mid": "Expand pathways across manufacturing, repair and charging and track enrollment and completion.", "high": "Keep curriculum industry-aligned and strengthen transfer from existing automotive, electrical and manufacturing skills."}, "4.03": {"name": "Equity-Focused ZEV Education (OEP3)", "low": "Develop multilingual, accessible materials and fund trusted community-based delivery.", "mid": "Measure DAC reach against local population share and remove program-access barriers.", "high": "Sustain dedicated outreach funding and use participation data to refine locally responsive strategies."}, "5.01": {"name": "Training Program Availability (SW1)", "low": "Inventory programs, certified providers, credentials, seats and travel distance to training.", "mid": "Expand recognized pathways and improve enrollment/completion and geographic access.", "high": "Maintain diverse credentials, employer partnerships and annual capacity/outcome reporting."}, "5.02": {"name": "Workforce Transition and Upskilling (SW2)", "low": "Create transition pathways that build on transferable automotive, electrical and manufacturing skills.", "mid": "Scale participation and track completion, placement and employer demand against clean-energy job growth.", "high": "Refresh skills and credentials as technology changes and maintain strong employer/community-college partnerships."}, "5.03": {"name": "Certified ZEV Technicians (SW3)", "low": "Establish a registry of ASE xEV Level 1/2 personnel and relevant training providers.", "mid": "Increase local credential availability beyond the <15% national program baseline and align supply with fleet growth.", "high": "Monitor certified personnel, shops and training throughput annually and address MD/HD service gaps."}, "5.04": {"name": "Employment Growth in ZEV Occupations (SW4)", "low": "Define ZEV occupations and establish a regional baseline across key sectors.", "mid": "Align training and employer recruitment so ZEV job growth reaches 1-3 times overall growth.", "high": "Sustain growth at >=3 times the regional economy and report job quality, sector and geographic distribution."}, "6.01": {"name": "Equitable Access to ZEVs and Incentives (EA1)", "low": "Build or strengthen equity-focused incentive programs for low-income households, renters, and multifamily residents.", "mid": "Expand reach and accessibility of programs so underserved groups can use them more consistently.", "high": "Maintain equitable access through targeted outreach, simplified participation, and regular program review."}, "6.02": {"name": "Income Levels and Affordability Context (EA2)", "low": "Use local income and affordability data to identify where ZEV cost barriers are highest.", "mid": "Integrate income-based targeting more clearly into incentives, outreach, and infrastructure planning.", "high": "Maintain affordability focus through regular updates to income and vehicle-cost comparisons."}, "6.03": {"name": "Environmental and Health Equity Outcomes (EA3)", "low": "Establish baseline PM2.5 and asthma-related indicators and identify overburdened communities for tracking.", "mid": "Improve monitoring and strengthen links between ZEV progress and health or air-quality improvements.", "high": "Maintain strong outcome tracking through regular environmental-health reporting and equity evaluation."}};
+
+
+// Real-world metric scales for each indicator
+// inverted: true = lower value is better (e.g., fewer EVs/port = more infrastructure)
+// nr = Not Ready threshold, sr = Somewhat Ready threshold, r = Ready threshold
+const REAL_SCALES = {
+  '1.01': {min:0, max:50, unit:'EVs/public port', step:1, inverted:true,
+    nr:23, sr:10, r:10,
+    ticks:['0','10','20','30','40','50'],
+    readyLabel:'≤10', srLabel:'10–23', nrLabel:'>23'},
+  '1.02': {min:0, max:50, unit:'% DCFC share', step:1, inverted:false,
+    nr:10, sr:24, r:24,
+    ticks:['0%','10%','20%','30%','40%','50%'],
+    readyLabel:'≥24%', srLabel:'10–24%', nrLabel:'<10%'},
+  '1.03': {min:0, max:3, unit:'kW/BEV public capacity', step:0.1, inverted:false,
+    nr:0.5, sr:1.4, r:1.4,
+    ticks:['0','0.5','1.0','1.5','2.0','2.5','3.0'],
+    readyLabel:'≥1.4', srLabel:'0.5–1.4', nrLabel:'<0.5'},
+  '1.04': {min:70, max:100, unit:'% uptime', step:0.5, inverted:false,
+    nr:85, sr:97, r:97,
+    ticks:['70%','75%','80%','85%','90%','95%','100%'],
+    readyLabel:'≥97%', srLabel:'85–97%', nrLabel:'<85%'},
+  '1.05': {min:0, max:100, unit:'% priority corridors covered', step:1, inverted:false,
+    nr:30, sr:80, r:80,
+    ticks:['0%','20%','40%','60%','80%','100%'],
+    readyLabel:'≥80%', srLabel:'30–80%', nrLabel:'<30%'},
+  '2.01': {min:0, max:100, unit:'% fleet purchases ZEV', step:1, inverted:false,
+    nr:10, sr:50, r:50,
+    ticks:['0%','20%','40%','60%','80%','100%'],
+    readyLabel:'≥50%', srLabel:'10–50%', nrLabel:'<10%'},
+  '2.02': {min:0, max:100, unit:'% programs w/ equity req.', step:1, inverted:false,
+    nr:30, sr:62, r:62,
+    ticks:['0%','20%','40%','62%','80%','100%'],
+    readyLabel:'≥62%', srLabel:'30–62%', nrLabel:'<30%'},
+  '2.03': {min:0, max:100, unit:'% target pop. within 0.5 mi', step:1, inverted:false,
+    nr:10, sr:50, r:50,
+    ticks:['0%','20%','40%','60%','80%','100%'],
+    readyLabel:'≥50%', srLabel:'10–50%', nrLabel:'<10%'},
+  '3.01': {min:0, max:180, unit:'days median permit time', step:1, inverted:true,
+    nr:90, sr:30, r:30,
+    ticks:['0','30','60','90','120','150','180'],
+    readyLabel:'≤30 days', srLabel:'30–90 days', nrLabel:'>90 days'},
+  '3.02': {min:0, max:50, unit:'% new parking EV-ready', step:1, inverted:false,
+    nr:5, sr:20, r:20,
+    ticks:['0%','10%','20%','30%','40%','50%'],
+    readyLabel:'≥20%', srLabel:'5–20%', nrLabel:'<5%'},
+  '3.03': {min:0, max:50, unit:'% incentive $ to DACs', step:1, inverted:false,
+    nr:10, sr:30, r:30,
+    ticks:['0%','10%','20%','30%','40%','50%'],
+    readyLabel:'≥30%', srLabel:'10–30%', nrLabel:'<10%'},
+  '3.04': {min:0, max:100, unit:'% MD/HD purchases ZEV', step:1, inverted:false,
+    nr:10, sr:50, r:50,
+    ticks:['0%','20%','40%','60%','80%','100%'],
+    readyLabel:'≥50%', srLabel:'10–50%', nrLabel:'<10%'},
+  '4.01': {min:0, max:30, unit:'events per 100k residents/yr', step:1, inverted:false,
+    nr:2, sr:10, r:10,
+    ticks:['0','5','10','15','20','25','30'],
+    readyLabel:'≥10', srLabel:'2–10', nrLabel:'<2'},
+  '4.02': {min:0, max:30, unit:'# EV training programs', step:1, inverted:false,
+    nr:3, sr:10, r:10,
+    ticks:['0','5','10','15','20','25','30'],
+    readyLabel:'≥10', srLabel:'3–10', nrLabel:'<3'},
+  '4.03': {min:0, max:50, unit:'% DAC pop. reached', step:1, inverted:false,
+    nr:10, sr:30, r:30,
+    ticks:['0%','10%','20%','30%','40%','50%'],
+    readyLabel:'≥30%', srLabel:'10–30%', nrLabel:'<10%'},
+  '5.01': {min:0, max:10, unit:'programs per 100k pop.', step:0.5, inverted:false,
+    nr:1, sr:3, r:3,
+    ticks:['0','2','4','6','8','10'],
+    readyLabel:'≥3', srLabel:'1–3', nrLabel:'<1'},
+  '5.02': {min:0, max:10, unit:'% clean energy job growth', step:0.1, inverted:false,
+    nr:2, sr:4.9, r:4.9,
+    ticks:['0%','2%','4%','6%','8%','10%'],
+    readyLabel:'≥4.9%', srLabel:'2–4.9%', nrLabel:'<2%'},
+  '5.03': {min:0, max:30, unit:'cert. techs per 10k ZEVs', step:1, inverted:false,
+    nr:5, sr:15, r:15,
+    ticks:['0','5','10','15','20','25','30'],
+    readyLabel:'≥15', srLabel:'5–15', nrLabel:'<5'},
+  '5.04': {min:0, max:6, unit:'× growth vs overall economy', step:0.1, inverted:false,
+    nr:1.5, sr:3, r:3,
+    ticks:['0×','1×','2×','3×','4×','5×','6×'],
+    readyLabel:'≥3×', srLabel:'1.5–3×', nrLabel:'<1.5×'},
+  '6.01': {min:0, max:60, unit:'% incentive $ reaching DACs', step:1, inverted:false,
+    nr:16, sr:40, r:40,
+    ticks:['0%','10%','20%','30%','40%','50%','60%'],
+    readyLabel:'≥40%', srLabel:'16–40%', nrLabel:'<16%'},
+  '6.02': {min:0, max:5, unit:'ZEVs per 100 low-income res.', step:0.1, inverted:false,
+    nr:0.5, sr:2.3, r:2.3,
+    ticks:['0','1','2','3','4','5'],
+    readyLabel:'≥2.3', srLabel:'0.5–2.3', nrLabel:'<0.5'},
+  '6.03': {min:0, max:20, unit:'µg/m³ PM₂.₅ annual mean', step:0.5, inverted:true,
+    nr:9, sr:5, r:5,
+    ticks:['0','5','9','12','15','18','20'],
+    readyLabel:'≤5', srLabel:'5–9', nrLabel:'>9'}
+};
+
+// Convert a real-world value to internal 1-10 score
+function realToScore(id, realVal) {
+  const s = REAL_SCALES[id];
+  if (!s) return realVal; // fallback
+  realVal = Number(realVal);
+  if (s.inverted) {
+    // inverted: lower real = higher score
+    if (realVal <= s.r) return 10;       // best
+    if (realVal >= s.nr) return 1;       // worst
+    if (realVal <= s.sr) {
+      // sr..r zone → maps to 7..10
+      return 7 + (s.sr - realVal) / (s.sr - s.r) * 3;
+    }
+    // nr..sr zone → maps to 1..7
+    return 1 + (s.nr - realVal) / (s.nr - s.sr) * 6;
+  } else {
+    // normal: higher real = higher score
+    if (realVal >= s.r) return 10;       // best
+    if (realVal <= Math.min(s.nr, s.min)) return 1; // worst
+    if (realVal >= s.sr) {
+      // sr..r zone → maps to 7..10
+      return 7 + (realVal - s.sr) / (s.r - s.sr) * 3;
+    }
+    if (realVal >= s.nr) {
+      // nr..sr zone → maps to 3..7
+      return 3 + (realVal - s.nr) / (s.sr - s.nr) * 4;
+    }
+    // below nr → maps to 1..3
+    const floor = Math.max(s.min, 0);
+    return 1 + (realVal - floor) / (s.nr - floor) * 2;
+  }
+}
+
+// Convert internal 1-10 score to approximate real-world value
+function scoreToReal(id, score) {
+  const s = REAL_SCALES[id];
+  if (!s) return score;
+  score = Number(score);
+  if (s.inverted) {
+    if (score >= 10) return s.r;
+    if (score <= 1) return s.max;
+    if (score >= 7) return s.sr - (score - 7) / 3 * (s.sr - s.r);
+    return s.nr - (score - 1) / 6 * (s.nr - s.sr);
+  } else {
+    if (score >= 10) return s.max;
+    if (score <= 1) return s.min;
+    if (score >= 7) return s.sr + (score - 7) / 3 * (s.r - s.sr);
+    if (score >= 3) return s.nr + (score - 3) / 4 * (s.sr - s.nr);
+    return s.min + (score - 1) / 2 * (s.nr - s.min);
+  }
+}
+
+// Format a real value with the indicator's unit
+function formatReal(id, realVal) {
+  const s = REAL_SCALES[id];
+  if (!s) return Number(realVal).toFixed(1) + ' / 10';
+  const v = Number(realVal);
+  const unit = s.unit;
+  if (unit.startsWith('%') || unit.includes('% ')) return v.toFixed(s.step < 1 ? 1 : 0) + '% ' + unit.replace(/^%\s*/, '').replace(/%/, '');
+  if (unit.includes('µg/m')) return v.toFixed(1) + ' ' + unit;
+  if (unit.includes('×')) return v.toFixed(1) + unit.replace(/.*×/, '×');
+  return (s.step < 1 ? v.toFixed(1) : v.toFixed(0)) + ' ' + unit;
+}
+
+// Get readiness label for a real value
+function realReadiness(id, realVal) {
+  const s = REAL_SCALES[id];
+  if (!s) return realVal > 7 ? 'Ready' : realVal > 3 ? 'Somewhat Ready' : 'Not Ready';
+  realVal = Number(realVal);
+  if (s.inverted) {
+    if (realVal <= s.r) return 'Ready';
+    if (realVal <= s.nr) return 'Somewhat Ready';
+    return 'Not Ready';
+  } else {
+    if (realVal >= s.r) return 'Ready';
+    if (realVal >= s.nr) return 'Somewhat Ready';
+    return 'Not Ready';
+  }
+}
+
 
 const state = {
   scores: Object.fromEntries(indicators.map(x => [x.id, x.defaultScore])),
+  realValues: Object.fromEntries(indicators.map(x => [x.id, scoreToReal(x.id, x.defaultScore)])),
   notes: Object.fromEntries(indicators.map(x => [x.id, x.notes || ""])),
   activeRegion: null // unused
 };
@@ -1080,7 +1619,30 @@ function criteriaTerm(label) {
 }
 
 function applyCriteriaLevel(indicatorId, levelLabel) {
-  state.scores[indicatorId] = criteriaScore(levelLabel);
+  const s = REAL_SCALES[indicatorId];
+  const term = criteriaTerm(levelLabel);
+  let realVal, internalScore;
+
+  if (s) {
+    // Set real value to the midpoint of each readiness band
+    if (s.inverted) {
+      if (term === 'Ready')          realVal = s.r * 0.5;                    // well within ready zone
+      else if (term === 'Somewhat Ready') realVal = (s.sr + s.nr) / 2;      // midpoint of SR zone
+      else                           realVal = s.nr + (s.max - s.nr) * 0.4; // into NR zone
+    } else {
+      if (term === 'Ready')          realVal = s.r + (s.max - s.r) * 0.3;   // well into ready zone
+      else if (term === 'Somewhat Ready') realVal = (s.nr + s.sr) / 2;      // midpoint of SR zone
+      else                           realVal = s.min + (s.nr - s.min) * 0.3; // into NR zone
+    }
+    realVal = Math.max(s.min, Math.min(s.max, realVal));
+    internalScore = realToScore(indicatorId, realVal);
+  } else {
+    internalScore = criteriaScore(levelLabel);
+    realVal = internalScore;
+  }
+
+  state.scores[indicatorId] = internalScore;
+  state.realValues[indicatorId] = realVal;
   renderAll();
 }
 
@@ -1106,15 +1668,17 @@ function renderCriteriaButtons(ind) {
 
   return `
     <div class="criteriaQuickTitle">Quick criteria selection</div>
-    <div class="cat" style="margin-top:4px;">Use score ranges: Not Ready = 1–3, Somewhat Ready = &gt;3–7, Ready = &gt;7–10</div>
     <div class="criteriaButtonRow">
       ${ordered.map(level => `
         <button class="criteriaBtn ${criteriaClass(level.label)}" onclick="applyCriteriaLevel('${ind.id}', '${String(level.label).replace(/'/g, "\'")}')">
-          ${criteriaTerm(level.label) === 'Not Ready'
-            ? 'Not Ready (1–3)'
-            : criteriaTerm(level.label) === 'Somewhat Ready'
-            ? 'Somewhat Ready (>3–7)'
-            : 'Ready (>7–10)'}
+          ${(() => {
+            const s = REAL_SCALES[ind.id];
+            const term = criteriaTerm(level.label);
+            if (!s) return term === 'Not Ready' ? 'Not Ready (1–3)' : term === 'Somewhat Ready' ? 'Somewhat Ready (>3–7)' : 'Ready (>7–10)';
+            return term === 'Not Ready' ? 'Not Ready (' + s.nrLabel + ')'
+              : term === 'Somewhat Ready' ? 'Somewhat Ready (' + s.srLabel + ')'
+              : 'Ready (' + s.readyLabel + ')';
+          })()}
         </button>
       `).join('')}
     </div>
@@ -1178,15 +1742,27 @@ function renderActionGuidance() {
   const items = filteredIndicators();
   container.innerHTML = items.map(ind => {
     const score = Number(state.scores[ind.id] || 0);
+    const s = REAL_SCALES[ind.id];
+    const rv = state.realValues[ind.id];
+    const realDisplay = s ? (s.step < 1 ? Number(rv).toFixed(1) : Math.round(rv)) + ' ' + s.unit : score.toFixed(1) + ' / 10';
+    const pct = ((score - 1) / 9 * 100).toFixed(0);
+    const band = actionBand(score);
+    const bandLabel = band === 'low' ? 'Not Ready' : band === 'mid' ? 'Somewhat Ready' : 'Ready';
+    const thresholdHint = s ? (band === 'low'
+      ? (s.inverted ? 'Target: move below ' + s.nr + ' ' + s.unit : 'Target: reach ' + s.nr + ' ' + s.unit)
+      : band === 'mid'
+      ? (s.inverted ? 'Target: move below ' + s.r + ' ' + s.unit : 'Target: reach ' + s.r + ' ' + s.unit)
+      : '') : '';
     return `
       <div class="actionItem">
         <div class="actionHeader">
           <div>
             <strong>${ind.id} — ${ind.name}</strong><br>
-            <span class="cat">Current score: ${score.toFixed(1)} / 10</span>
+            <span class="cat">Current value: ${realDisplay} (${pct}% readiness)</span>
+            ${thresholdHint ? '<br><span class="cat" style="color:var(--blue);font-weight:600;">→ ' + thresholdHint + '</span>' : ''}
           </div>
-          <span class="criteriaTag ${actionBand(score) === 'low' ? 'notready' : actionBand(score) === 'mid' ? 'somewhat' : 'ready'}">
-            ${actionBand(score) === 'low' ? 'Not Ready' : actionBand(score) === 'mid' ? 'Somewhat Ready' : 'Ready'}
+          <span class="criteriaTag ${band === 'low' ? 'notready' : band === 'mid' ? 'somewhat' : 'ready'}">
+            ${bandLabel}
           </span>
         </div>
         <div class="actionLead">${actionIntroForScore(score)}</div>
@@ -1197,139 +1773,306 @@ function renderActionGuidance() {
 }
 
 const INDICATOR_REFS = {
-  '1.01': [
-    {num:1, text:'Brown, A. et al. (2024). EV Charging Infrastructure Trends Q1 2024. NREL.', url:'https://www.osti.gov/biblio/2447837'},
-    {num:2, text:'IEA. (2026). Global EV Outlook 2026: Electric Vehicle Charging.', url:'https://www.iea.org/reports/global-ev-outlook-2026/electric-vehicle-charging-chap-6-and-10'},
-    {num:3, text:'Xylia, M., Olsson, E., Macura, B., & Nykvist, B. (2025). Estimating charging infrastructure demand for EVs: A systematic review. Energy Strategy Reviews, 38, 107496.', url:'https://www.sciencedirect.com/science/article/pii/S2211467X25001166'},
-    {num:4, text:'Li, Z. (2024). A review of global EV charging infrastructure development. Int. J. Global Economics & Management.', url:'https://wepub.org/index.php/IJGEM/article/view/2343'}
+  "1.01": [
+    {
+      "num": 20,
+      "text": "NREL — EV charging infrastructure trends Q1 2024",
+      "url": "https://docs.nrel.gov/docs/fy24osti/90156.pdf"
+    },
+    {
+      "num": 21,
+      "text": "IEA — Global EV Outlook 2026",
+      "url": "https://www.iea.org/reports/global-ev-outlook-2026"
+    },
+    {
+      "num": 23,
+      "text": "IEA — Global EV Outlook 2024",
+      "url": "https://www.iea.org/reports/global-ev-outlook-2024"
+    }
   ],
-  '1.02': [
-    {num:5, text:'Sawant, M. et al. (2024). DC fast charging stations for EVs: A review. IET Energy Conversion and Economics.', url:'https://www.researchgate.net/publication/378548241_DC_fast_charging_stations_for_electric_vehicles_A_review'},
-    {num:6, text:'IEA. (2024). Global EV Outlook 2024: Trends in EV Charging.', url:'https://www.iea.org/reports/global-ev-outlook-2024'},
-    {num:7, text:'Carlton, S. & Sultana, M. (2024). Utility or equity? Public EV charger allocations in Austin, TX. Transportation Research Part D.', url:'https://doi.org/10.1016/j.trd.2024.104278'},
-    {num:8, text:'Cooke, B. & Lee, A. (2025). Charger Data Transparency: Curing Range Anxiety. Brookings/AEI.', url:'https://www.brookings.edu/articles/charger-data-transparency/'}
+  "1.02": [
+    {
+      "num": 23,
+      "text": "IEA — Global EV Outlook 2024",
+      "url": "https://www.iea.org/reports/global-ev-outlook-2024"
+    },
+    {
+      "num": 26,
+      "text": "Brookings/AEI — Charger Data Transparency",
+      "url": "https://www.brookings.edu/wp-content/uploads/2025/09/Charger-Data-Transparency.pdf"
+    },
+    {
+      "num": 24,
+      "text": "Sawant & Zambare — DC fast charging review",
+      "url": "https://doi.org/10.1049/enc2.12091"
+    }
   ],
-  '1.03': [
-    {num:9, text:'Nutkani, I.U. et al. (2024). Impact of EV charging on distribution network. IET Smart Grid, 7(1).', url:'https://digital-library.theiet.org/doi/full/10.1049/stg2.12156'},
-    {num:10, text:'Rehman, A. et al. (2024). Grid-integrated solutions for sustainable EV charging. Frontiers in Energy Research, 12.', url:'https://www.frontiersin.org/journals/energy-research/articles/10.3389/fenrg.2024.1403883/full'},
-    {num:11, text:'U.S. DOE. (2025). Vehicles-to-Grid Integration Assessment Report. EERE.', url:'https://www.energy.gov/cmei/vehicles/articles/vehicle-grid-integration-assessment-report'},
-    {num:12, text:'Persson, J. et al. (2025). Smart charging and V2G: strengthen or strain grids? Applied Energy.', url:'https://doi.org/10.1016/j.apenergy.2025.125702'}
+  "1.03": [
+    {
+      "num": 21,
+      "text": "IEA — Global EV Outlook 2026",
+      "url": "https://www.iea.org/reports/global-ev-outlook-2026"
+    },
+    {
+      "num": 28,
+      "text": "Frontiers — Grid-integrated EV charging solutions",
+      "url": "https://doi.org/10.3389/fenrg.2024.1403883"
+    },
+    {
+      "num": 10,
+      "text": "NREL — Reliability, resilience and grid resilience",
+      "url": "https://docs.nrel.gov/docs/fy24osti/89896.pdf"
+    }
   ],
-  '1.04': [
-    {num:13, text:'Slowik, P. et al. (2023). Improving Public Charging Infrastructure Reliability. ICCT Briefing.', url:'https://theicct.org/wp-content/uploads/2023/03/public-charging-reliability-mar23.pdf'},
-    {num:14, text:'Rempel, D. et al. (2022). Reliability of Open Public EV DC Fast Chargers. UC Berkeley.', url:'https://arxiv.org/abs/2203.16372'},
-    {num:15, text:'ChargerHelp. (2025). 2025 EV Charging Reliability Report: FTCSR Analysis.', url:'https://www.chargerhelp.com/post/news-and-events/chargerhelp-report-reveals-charge-success-rate-and-not-uptime-more-accurate-metric-for-ev-driver-experience/'},
-    {num:16, text:'Paren. (2026). EV Charger Reliability & Utilization Data: US DCFC Q1 2026.', url:'https://www.paren.app/data/charger-reliability'}
+  "1.04": [
+    {
+      "num": 30,
+      "text": "ICCT — Improving public charging reliability",
+      "url": "https://theicct.org/wp-content/uploads/2023/03/public-charging-reliability-mar23.pdf"
+    },
+    {
+      "num": 31,
+      "text": "Reliability of open public DC fast chargers",
+      "url": "https://arxiv.org/abs/2203.16372"
+    },
+    {
+      "num": 32,
+      "text": "ChargerHelp — Charge success rate report",
+      "url": "https://www.chargerhelp.com/post/news-and-events/chargerhelp-report-reveals-charge-success-rate-and-not-uptime-more-accurate-metric-for-ev-driver-experience/"
+    }
   ],
-  '1.05': [
-    {num:17, text:'Hanig, H. et al. (2025). Siting for demand and equity: Optimizing L2 EV charger placement. J. Transport Geography.', url:'https://doi.org/10.1016/j.jtrangeo.2025.104118'},
-    {num:18, text:'Omer, O. et al. (2025). Multi-criteria decision analysis for optimal EVCS siting in Oklahoma. Transportation Research Interdisciplinary Perspectives.', url:'https://www.sciencedirect.com/science/article/pii/S2666691X25000259'},
-    {num:19, text:'Elamin, M. et al. (2025). Geodemographic-aware EV charging placement using Graph Neural Networks. Energy, 314.', url:'https://doi.org/10.1016/j.energy.2025.135834'},
-    {num:20, text:'Argonne National Laboratory. (2022). Equity, Environmental Justice, and EV Charger Siting. ANL-22/29.', url:'https://www.anl.gov/article/argonne-tools-helping-build-equitable-nationwide-electric-vehicle-charging-network'}
+  "1.05": [
+    {
+      "num": 36,
+      "text": "Argonne — Equitable nationwide charging network tools",
+      "url": "https://www.anl.gov/article/argonne-tools-helping-build-equitable-nationwide-electric-vehicle-charging-network"
+    }
   ],
-  '2.01': [
-    {num:21, text:'Rinaldi, M. et al. (2023). EV Transitioning Framework for Public Fleet Planning. Transportation Research Part D, 119.', url:'https://doi.org/10.1016/j.trd.2023.103740'},
-    {num:22, text:'CARB. (2023). Advanced Clean Fleets (ACF) Regulation Summary.', url:'https://ww2.arb.ca.gov/our-work/programs/advanced-clean-fleets'},
-    {num:23, text:'GNA. (2024). State of Sustainable Fleets 2024 Market Brief. Gladstein, Neandross & Associates.', url:'https://www.stateofsustainablefleets.com/market-briefs/2024-report/'},
-    {num:24, text:'WRI. (2023). Ways the US Can Electrify Its Public Vehicle Fleets. World Resources Institute.', url:'https://www.wri.org/insights/us-public-fleet-electrification'}
+  "2.01": [
+    {
+      "num": 39,
+      "text": "WRI — Public fleet electrification in the U.S.",
+      "url": "https://www.wri.org/insights/us-public-fleet-electrification"
+    },
+    {
+      "num": 66,
+      "text": "CARB — ACF state/local government fleets",
+      "url": "https://ww2.arb.ca.gov/resources/fact-sheets/advanced-clean-fleets-regulation-state-local-government-agency-fleet"
+    },
+    {
+      "num": 38,
+      "text": "State of Sustainable Fleets 2024",
+      "url": "https://www.stateofsustainablefleets.com/market-briefs/2024-report/"
+    }
   ],
-  '2.02': [
-    {num:25, text:'Brown, A. & Howell, A. (2024). Equity Requirements in US Shared Micromobility Programs. Transportation Research Record, 2678(9).', url:'https://doi.org/10.1016/j.jcmr.2024.100020'},
-    {num:26, text:'Oliva Mäkinen, S. et al. (2025). Urban micromobility and social equity via e-scooter rebalancing. Res. Transportation Business & Mgmt., 61.', url:'https://doi.org/10.1016/j.rtbm.2025.101417'},
-    {num:27, text:'UCLA Luskin. (2024). Analysis of CA EV Incentive Distribution & Registration Rates Since 2015.', url:'https://escholarship.org/uc/item/7ht4t1km'},
-    {num:28, text:'Qian, X. & Jaller, M. (2022). Spatial equity of micromobility: e-scooters vs. bikeshare in DC. Travel Behaviour and Society, 29.', url:'https://doi.org/10.1016/j.tbs.2022.07.001'}
+  "2.02": [
+    {
+      "num": 40,
+      "text": "Brown & Howell — Equity requirements in shared micromobility",
+      "url": "https://doi.org/10.1016/j.jcmr.2024.100020"
+    }
   ],
-  '2.03': [
-    {num:29, text:'UN-Habitat. (2022). The Role of Electric Mobility for Low-Carbon and Sustainable Cities.', url:'https://unhabitat.org/integration-is-key-the-role-of-electric-mobility-for-low-carbon-and-sustainable-cities'},
-    {num:30, text:'Shared Mobility Inc. (2025). Connecting Communities Through Clean Mobility Planning.', url:'https://www.sharedmobility.org/post/connecting-communities-through-clean-mobility-planning'},
-    {num:31, text:'U.S. DOE Clean Cities. (2024). EV Mobility Hubs: Project Lessons. EERE.', url:'https://web.archive.org/web/2024/https://cleancities.energy.gov/project-lessons-mobility-hubs'},
-    {num:32, text:'Farhan, J. & Chen, T.D. (2025). Decarbonising urban transport: EVs, transit and infrastructure. Discover Global Society, 2(1).', url:'https://link.springer.com/article/10.1007/s44268-025-00054-w'}
+  "2.03": [
+    {
+      "num": 46,
+      "text": "DOE Clean Cities — EV mobility hubs project lessons",
+      "url": "https://afdc.energy.gov/files/u/publication/ev_mobility_hubs_project_lessons.pdf"
+    }
   ],
-  '3.01': [
-    {num:33, text:'Gamage, T. et al. (2023). EV charging station installation timelines and project delays. Transportation Research Part D, 124.', url:'https://ncst.ucdavis.edu/research-product/costs-and-challenges-installing-corridor-dc-fast-chargers-california'},
-    {num:34, text:'Advanced Energy United. (2025). Key 2024 Legislative Trends in Electrified Transportation.', url:'https://advancedenergyunited.org/blog/2024-ev-state-policy-wrapped/'},
-    {num:35, text:'Colorado Energy Office. (2024). Local Government EV Charging Permitting: HB24-1173.', url:'https://energyoffice.colorado.gov/ev-charging-permitting'},
-    {num:36, text:'Electrification Coalition. (2024). Cutting the Red Tape — EVSE Permitting and Building Codes.', url:'https://electrificationcoalition.org/electrifying-municipalities/'}
+  "3.01": [
+    {
+      "num": 48,
+      "text": "California AB 970 bill text",
+      "url": "https://leginfo.legislature.ca.gov/faces/billTextClient.xhtml?bill_id=202120220AB970"
+    },
+    {
+      "num": 53,
+      "text": "California GO-Biz — EV charging permitting guidebook",
+      "url": "https://business.ca.gov/wp-content/uploads/2019/12/GoBIZ-EVCharging-Guidebook.pdf"
+    }
   ],
-  '3.02': [
-    {num:37, text:'CA GO-Biz. (2023). EVCS Permit Streamlining and Zoning Requirements Fact Sheet.', url:'https://static.business.ca.gov/industries/zero-emission-vehicles/plug-in-readiness/permitting-electric-vehicle-charging-stations-best-practices/'},
-    {num:38, text:'Liu, H. et al. (2024). Barriers and motivators to EV adoption: A global review. Green Energy & Intelligent Transportation, 3.', url:'https://doi.org/10.1016/j.geits.2024.100153'},
-    {num:39, text:'Milrose Consultants. (2024). Navigating Permitting for EV Charging Stations.', url:'https://www.milrose.com/insights/navigating-permitting-electric-vehicle-charging-stations-powering-growth-in-the-industry'},
-    {num:40, text:'IIETA. (2025). EV Charging Infrastructure Planning: Spatial and Predictive Analysis Framework. IJSDP, 20(6).', url:'https://www.iieta.org/journals/ijsdp/paper/10.18280/ijsdp.200605'}
+  "3.02": [
+    {
+      "num": 58,
+      "text": "Colorado HB22-1218",
+      "url": "https://leg.colorado.gov/bills/hb22-1218"
+    },
+    {
+      "num": 57,
+      "text": "Colorado model EV-ready building code",
+      "url": "https://energyoffice.colorado.gov/ev-ready-building-codes"
+    }
   ],
-  '3.03': [
-    {num:41, text:'ZEV Alliance. (2024). Adapting ZEV Incentives for a Mainstream Market.', url:'https://zevalliance.org/adapting-zero-emission-vehicle-incentives-for-a-mainstream-market/'},
-    {num:42, text:'Muehlegger, E. & Rapson, D.S. (2022). Subsidizing low/middle-income EV adoption. Journal of Public Economics, 216.', url:'https://www.nber.org/papers/w25359'},
-    {num:43, text:'SANDAG. (2024). ZEV Incentive Program Strategy Final Report.', url:'https://www.sandag.org/-/media/SANDAG/Documents/PDF/projects-and-programs/innovative-mobility/clean-transportation/incentive-programs/zev-incentive-program-strategy-report-2024-08-23.pdf'},
-    {num:44, text:'RFF. (2024). Equity in EV Charging Infrastructure. Working Paper 24-14.', url:'https://www.rff.org/publications/working-papers/equity-in-electric-vehicle-charging-infrastructure/'}
+  "3.03": [
+    {
+      "num": 63,
+      "text": "SANDAG — ZEV Incentive Program Strategy",
+      "url": "https://www.sandag.org/-/media/SANDAG/Documents/PDF/projects-and-programs/innovative-mobility/clean-transportation/incentive-programs/zev-incentive-program-strategy-report-2024-08-23.pdf"
+    },
+    {
+      "num": 88,
+      "text": "CVRP — Income eligibility requirements",
+      "url": "https://cleanvehiclerebate.org/en/eligibility-guidelines"
+    }
   ],
-  '3.04': [
-    {num:45, text:'CARB. (2023). Advanced Clean Fleets Regulation Summary. California Air Resources Board.', url:'https://ww2.arb.ca.gov/our-work/programs/advanced-clean-fleets'},
-    {num:46, text:'CARB. (2024). California Truck Availability Analysis. CARB Staff Memorandum.', url:'https://ww2.arb.ca.gov/our-work/programs/advanced-clean-trucks'},
-    {num:47, text:'State Climate Policy Dashboard. (2024). MD/HD ZEV Mandates: State Overview. RFF.', url:'https://www.rff.org/topics/transportation/electric-vehicles/'},
-    {num:48, text:'Electrification Coalition. (2023). Advancing V2G Technology Adoption.', url:'https://electrificationcoalition.org/electrifying-municipalities/'}
+  "3.04": [
+    {
+      "num": 66,
+      "text": "CARB — Advanced Clean Fleets",
+      "url": "https://ww2.arb.ca.gov/resources/fact-sheets/advanced-clean-fleets-regulation-state-local-government-agency-fleet"
+    },
+    {
+      "num": 68,
+      "text": "California HVIP implementation manual",
+      "url": "https://californiahvip.org/wp-content/uploads/2024/10/FY23-24-HVIP-Implementation-Manual-103124.pdf"
+    }
   ],
-  '4.01': [
-    {num:49, text:'Connolly, R., Pierce, G., & Liu, B. (2023). Beyond Incentives: Community Outreach for EV Purchase Uptake. UCLA Luskin.', url:'https://escholarship.org/uc/item/7ht4t1km'},
-    {num:50, text:'CARB. (2023). ZEV Equity Task Force Updates and ZEV Equitable Access Program.', url:'https://ww2.arb.ca.gov/updates-zev-equity-task-force'},
-    {num:51, text:'RFF. (2023). Final Summary Report: ZEV Mandates Workshop.', url:'https://www.rff.org/publications/reports/final-summary-report-zero-emissions-vehicle-zev-mandates-workshop/'},
-    {num:52, text:'Foundation for CA Community Colleges. (2024). ZEV Education Program: Community Outreach & Workforce.', url:'https://foundationccc.org/our-work/climate-action/building-a-strong-climate-workforce/zev-education-program/'}
+  "4.01": [
+    {
+      "num": 71,
+      "text": "CARB — Outreach & Education Workgroup",
+      "url": "https://ww2.arb.ca.gov/outreach-education-workgroup"
+    },
+    {
+      "num": 73,
+      "text": "FCCC — ZEV Education Program",
+      "url": "https://foundationccc.org/our-work/climate-action/building-a-strong-climate-workforce/zev-education-program/"
+    }
   ],
-  '4.02': [
-    {num:53, text:'WRI. (2025). Emerging Trends in US EV Training Programs. World Resources Institute.', url:'https://www.wri.org/insights/electric-vehicle-training-programs-trends'},
-    {num:54, text:'CEC. (2024). ZEV SEED Project: ZEV Sustainable Equitable Employment Destination. California Energy Commission.', url:'https://www.energy.ca.gov/data-reports/reports/electric-vehicle-charging-infrastructure-assessment-ab-2127'},
-    {num:55, text:'NGA. (2025). EV Workforce Myth-Busting. National Governors Association.', url:'https://www.nga.org/publications/ev-workforce-myth-busting/'},
-    {num:56, text:'eTRUC. (2025). ZEV Training Program Finder. Electric Truck & Bus Research Utility Collaborative.', url:'https://etruc.org/engagement/zev-training-program-finder/'}
+  "4.02": [
+    {
+      "num": 74,
+      "text": "CEC — ZEV SEED final report",
+      "url": "https://www.energy.ca.gov/sites/default/files/2024-05/CEC-600-2024-046.pdf"
+    },
+    {
+      "num": 75,
+      "text": "WRI — Emerging trends in U.S. EV training programs",
+      "url": "https://www.wri.org/insights/electric-vehicle-training-programs-trends"
+    }
   ],
-  '4.03': [
-    {num:57, text:'UCLA Luskin. (2024). CA EV Incentive Distribution & Registration Rates 2015–2024: Equity Assessment.', url:'https://escholarship.org/uc/item/7ht4t1km'},
-    {num:58, text:'Greenlining Institute. (2025). ZEV Workforce Training & Development Strategy: Equity Comments.', url:'https://greenlining.org/our-work/environmental-equity/electric-vehicles/'},
-    {num:59, text:'CARB. (2024). 2024 ZEV Action Plan — Labor & Workforce Development Agency.', url:'https://ww2.arb.ca.gov/updates-zev-equity-task-force'},
-    {num:60, text:'RFF. (2023). ZEV Mandates Workshop: Effective, Efficient, and Equitable Implementation.', url:'https://www.rff.org/publications/reports/final-summary-report-zero-emissions-vehicle-zev-mandates-workshop/'}
+  "4.03": [
+    {
+      "num": 73,
+      "text": "FCCC — ZEV Education Program",
+      "url": "https://foundationccc.org/our-work/climate-action/building-a-strong-climate-workforce/zev-education-program/"
+    },
+    {
+      "num": 71,
+      "text": "CARB — Outreach & Education Workgroup",
+      "url": "https://ww2.arb.ca.gov/outreach-education-workgroup"
+    }
   ],
-  '5.01': [
-    {num:61, text:'WRI. (2025). Emerging Trends in US EV Training Programs. World Resources Institute.', url:'https://www.wri.org/insights/electric-vehicle-training-programs-trends'},
-    {num:62, text:'eTRUC. (2025). ZEV Training Program Finder: CA Programs.', url:'https://etruc.org/engagement/zev-training-program-finder/'},
-    {num:63, text:'SME. (2024). EV Battery Packaging and Assembly Certification. Society of Manufacturing Engineers.', url:'https://www.sme.org/training/electric-vehicle-fundamentals-evf-certification/'},
-    {num:64, text:'CA BAR. (2025). BAR ZEV Technician Training Action Plan 2025. CA Dept. of Consumer Affairs.', url:'https://bar.ca.gov/Industry/Training/index.html'}
+  "5.01": [
+    {
+      "num": 75,
+      "text": "WRI — Emerging trends in U.S. EV training programs",
+      "url": "https://www.wri.org/insights/electric-vehicle-training-programs-trends"
+    },
+    {
+      "num": 77,
+      "text": "CEC — Workforce training and development",
+      "url": "https://www.energy.ca.gov/programs-and-topics/programs/clean-transportation-program/clean-transportation-funding-areas-2"
+    },
+    {
+      "num": 78,
+      "text": "SME — EV Fundamentals certification",
+      "url": "https://www.sme.org/training/electric-vehicle-fundamentals-evf-certification/"
+    }
   ],
-  '5.02': [
-    {num:65, text:'NGA. (2025). EV Workforce Myth-Busting. National Governors Association.', url:'https://www.nga.org/publications/ev-workforce-myth-busting/'},
-    {num:66, text:'U.S. DOE. (2024). United States Energy & Employment Report 2024.', url:'https://www.energy.gov/sites/default/files/2024-10/USEER%202024_COMPLETE_1002.pdf'},
-    {num:67, text:'Greenlining Institute. (2025). ZEV Workforce Training & Development Strategy Comments.', url:'https://greenlining.org/our-work/environmental-equity/electric-vehicles/'},
-    {num:68, text:'FCCC. (2024). ZEV Education Program: Workforce Development Strategy.', url:'https://foundationccc.org/our-work/climate-action/building-a-strong-climate-workforce/zev-education-program/'}
+  "5.02": [
+    {
+      "num": 76,
+      "text": "NGA — EV workforce myth busting",
+      "url": "https://www.nga.org/publications/ev-workforce-myth-busting/"
+    },
+    {
+      "num": 79,
+      "text": "DOE — USEER 2024",
+      "url": "https://www.energy.gov/sites/default/files/2024-10/USEER%202024%20COMPLETE_1002.pdf"
+    }
   ],
-  '5.03': [
-    {num:69, text:'ASE. (2023). New xEV Electrical Safety Certifications. Automotive Service Excellence.', url:'https://www.ase.com/xev'},
-    {num:70, text:'WRI. (2025). Emerging Trends in US EV Training Programs. World Resources Institute.', url:'https://www.wri.org/insights/electric-vehicle-training-programs-trends'},
-    {num:71, text:'CEC. (2024). ZEV SEED Project Final Report. California Energy Commission.', url:'https://www.energy.ca.gov/data-reports/reports/electric-vehicle-charging-infrastructure-assessment-ab-2127'},
-    {num:72, text:'eTRUC. (2025). ZEV Training Program Finder: Advanced Transportation Center Fresno.', url:'https://etruc.org/engagement/zev-training-program-finder/'}
+  "5.03": [
+    {
+      "num": 81,
+      "text": "ASE — xEV high-voltage safety certifications",
+      "url": "https://www.ase.com/ev/"
+    },
+    {
+      "num": 74,
+      "text": "CEC — ZEV SEED final report",
+      "url": "https://www.energy.ca.gov/sites/default/files/2024-05/CEC-600-2024-046.pdf"
+    }
   ],
-  '5.04': [
-    {num:73, text:'U.S. DOE. (2024). United States Energy & Employment Report 2024.', url:'https://www.energy.gov/sites/default/files/2024-10/USEER%202024_COMPLETE_1002.pdf'},
-    {num:74, text:'EDF. (2024). U.S. EV Manufacturing Investments and Jobs. Environmental Defense Fund.', url:'https://www.edf.org/media/us-electric-vehicle-investments-have-grown-188-billion-almost-200000-jobs-new-report'},
-    {num:75, text:'NGA. (2025). EV Workforce Myth-Busting. National Governors Association.', url:'https://www.nga.org/publications/ev-workforce-myth-busting/'},
-    {num:76, text:'SME. (2024). EV Battery Packaging and Assembly Certification Launch. Society of Manufacturing Engineers.', url:'https://www.sme.org/training/electric-vehicle-fundamentals-evf-certification/'}
+  "5.04": [
+    {
+      "num": 79,
+      "text": "DOE — USEER 2024",
+      "url": "https://www.energy.gov/sites/default/files/2024-10/USEER%202024%20COMPLETE_1002.pdf"
+    },
+    {
+      "num": 82,
+      "text": "EDF/WSP — U.S. EV manufacturing investments and jobs",
+      "url": "https://www.edf.org/sites/default/files/2024-03/EDF_US_EV_Manufacturing_Investments_Spring2024.pdf"
+    }
   ],
-  '6.01': [
-    {num:77, text:'Muehlegger, E. & Rapson, D.S. (2022). Subsidizing low/middle-income EV adoption in CA. Journal of Public Economics, 216.', url:'https://www.nber.org/papers/w25359'},
-    {num:78, text:'ZEV Alliance. (2024). Adapting ZEV Incentives for a Mainstream Market.', url:'https://zevalliance.org/adapting-zero-emission-vehicle-incentives-for-a-mainstream-market/'},
-    {num:79, text:'UCLA Luskin. (2024). CA EV Incentive Distribution Analysis: Equity Assessment 2015–2024.', url:'https://escholarship.org/uc/item/7ht4t1km'},
-    {num:80, text:'RFF. (2024). Equity in EV Charging Infrastructure. Working Paper 24-14.', url:'https://www.rff.org/publications/working-papers/equity-in-electric-vehicle-charging-infrastructure/'}
+  "6.01": [
+    {
+      "num": 42,
+      "text": "UCLA Luskin — California EV incentive distribution",
+      "url": "https://doi.org/10.1016/j.trd.2024.104233"
+    },
+    {
+      "num": 36,
+      "text": "Argonne — Equitable charging network tools",
+      "url": "https://www.anl.gov/article/argonne-tools-helping-build-equitable-nationwide-electric-vehicle-charging-network"
+    }
   ],
-  '6.02': [
-    {num:81, text:'Liu, H. et al. (2024). Barriers and motivators to EV adoption: A global review. Green Energy & Intelligent Transportation, 3.', url:'https://doi.org/10.1016/j.geits.2024.100153'},
-    {num:82, text:'RFF. (2023). ZEV Mandates Workshop Final Summary Report.', url:'https://www.rff.org/publications/reports/final-summary-report-zero-emissions-vehicle-zev-mandates-workshop/'},
-    {num:83, text:'SANDAG. (2024). ZEV Incentive Program Strategy Final Report.', url:'https://www.sandag.org/-/media/SANDAG/Documents/PDF/projects-and-programs/innovative-mobility/clean-transportation/incentive-programs/zev-incentive-program-strategy-report-2024-08-23.pdf'},
-    {num:84, text:'Carlton, S. & Sultana, M. (2024). Utility or equity? Public EV charger allocations in Austin, TX. Transportation Research Part D.', url:'https://doi.org/10.1016/j.trd.2024.104278'}
+  "6.02": [
+    {
+      "num": 63,
+      "text": "SANDAG — ZEV Incentive Program Strategy",
+      "url": "https://www.sandag.org/-/media/SANDAG/Documents/PDF/projects-and-programs/innovative-mobility/clean-transportation/incentive-programs/zev-incentive-program-strategy-report-2024-08-23.pdf"
+    },
+    {
+      "num": 89,
+      "text": "CalEnviroScreen 4.0",
+      "url": "https://oehha.ca.gov/calenviroscreen"
+    },
+    {
+      "num": 88,
+      "text": "CVRP income eligibility",
+      "url": "https://cleanvehiclerebate.org/en/eligibility-guidelines"
+    }
   ],
-  '6.03': [
-    {num:85, text:'Su, J.G. et al. (2024). New method for mapping air pollution reveals disproportionate burden in DACs. Environ. Health Perspectives, UC Berkeley.', url:'https://www.science.org/doi/10.1126/sciadv.adm9986'},
-    {num:86, text:'Center for Sustainable Systems, U. Michigan. (2025). Environmental Justice Factsheet. CSS17-16.', url:'https://css.umich.edu/publications/factsheets/sustainability-indicators/environmental-justice-factsheet'},
-    {num:87, text:'CARB. (2023). ZEV Equity Task Force and ZEV Equitable Access Program Updates.', url:'https://ww2.arb.ca.gov/updates-zev-equity-task-force'},
-    {num:88, text:'UCLA Luskin. (2021). Driving CA\'s Transportation Emissions to Zero: Health, Environmental & Economic Benefits.', url:'https://escholarship.org/uc/item/7ht4t1km'}
+  "6.03": [
+    {
+      "num": 91,
+      "text": "WHO Global Air Quality Guidelines",
+      "url": "https://www.who.int/europe/publications/i/item/9789240034433"
+    },
+    {
+      "num": 92,
+      "text": "U.S. EPA — PM NAAQS",
+      "url": "https://www.epa.gov/pm-pollution/national-ambient-air-quality-standards-naaqs-pm"
+    },
+    {
+      "num": 93,
+      "text": "University of Michigan — Environmental Justice Factsheet",
+      "url": "https://css.umich.edu/sites/default/files/2025-09/CSS17-16_0.pdf"
+    },
+    {
+      "num": 94,
+      "text": "Nature Communications — ZEV air-quality benefits and equity gaps",
+      "url": "https://doi.org/10.1038/s41467-023-43562-0"
+    }
   ]
 };
+
+const UPDATED_LITERATURE_REFS = {};
+Object.assign(INDICATOR_REFS, UPDATED_LITERATURE_REFS);
+
+
 
 function renderIndicatorRefs(id) {
   const refs = INDICATOR_REFS[id];
@@ -1368,27 +2111,54 @@ function renderCards() {
       </div>
       <div class="scoreArea">
         <div class="scoreSliderWrap">
-          <div class="cat" style="margin-bottom:2px;">Current readiness score</div>
+          <div class="cat" style="margin-bottom:2px;">Current readiness value <span style="font-weight:400;color:var(--muted);font-size:.78rem;">(${REAL_SCALES[ind.id] ? REAL_SCALES[ind.id].unit : 'score'})</span></div>
           <input
             class="scoreSlider"
             type="range"
-            min="1"
-            max="10"
-            step="0.1"
-            value="${state.scores[ind.id]}"
-            oninput="updateScore('${ind.id}', parseFloat(this.value))"
-            aria-label="Score for ${ind.id}" style="background:${sliderGradient(state.scores[ind.id])}"
+            min="${REAL_SCALES[ind.id] ? REAL_SCALES[ind.id].min : 1}"
+            max="${REAL_SCALES[ind.id] ? REAL_SCALES[ind.id].max : 10}"
+            step="${REAL_SCALES[ind.id] ? REAL_SCALES[ind.id].step : 0.1}"
+            value="${state.realValues[ind.id] != null ? state.realValues[ind.id] : state.scores[ind.id]}"
+            oninput="updateRealScore('${ind.id}', parseFloat(this.value))"
+            aria-label="Score for ${ind.id}" style="background:${sliderGradient(state.scores[ind.id], ind.id)}"
           >
-          <div class="scoreTicks"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span></div>
+          <div class="scoreTicks">${REAL_SCALES[ind.id] ? REAL_SCALES[ind.id].ticks.map(t=>'<span>'+t+'</span>').join('') : '<span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>'}</div>
           
         </div>
-        <div class="scoreValueBox">${Number(state.scores[ind.id]).toFixed(1)} / 10</div>
+        <div class="scoreValueBox" style="font-size:1rem; gap:4px;">
+          <input
+            type="number"
+            id="numInput_${ind.id}"
+            min="${REAL_SCALES[ind.id] ? REAL_SCALES[ind.id].min : 1}"
+            max="${REAL_SCALES[ind.id] ? REAL_SCALES[ind.id].max : 10}"
+            step="${REAL_SCALES[ind.id] ? REAL_SCALES[ind.id].step : 0.1}"
+            value="${REAL_SCALES[ind.id] ? (REAL_SCALES[ind.id].step < 1 ? Number(state.realValues[ind.id]).toFixed(1) : Math.round(state.realValues[ind.id])) : Number(state.scores[ind.id]).toFixed(1)}"
+            onchange="updateRealScore('${ind.id}', parseFloat(this.value))"
+            onkeydown="if(event.key==='Enter'){this.blur();}"
+            style="width:70px; text-align:center; font-size:1.15rem; font-weight:800; color:var(--dark); border:2px solid var(--line); border-radius:10px; padding:6px 4px; background:#fff; outline:none; -moz-appearance:textfield;"
+            onfocus="this.style.borderColor='var(--blue)'" onblur="this.style.borderColor='var(--line)'"
+            aria-label="Enter value for ${ind.id}"
+          >
+          <div style="font-size:.68rem;color:var(--muted);margin-top:1px;">${REAL_SCALES[ind.id] ? REAL_SCALES[ind.id].unit : '/ 10'}</div>
+          <div style="font-size:.68rem;color:var(--blue);margin-top:2px;font-weight:700;">${(() => { const s = REAL_SCALES[ind.id]; if (!s) return ''; const rv = state.realValues[ind.id]; return realReadiness(ind.id, rv); })()}</div>
+        </div>
       </div>
       ${renderCriteriaButtons(ind)}
       ${renderCriteriaDetails(ind)}
       <div class="actionBox">
         <div class="actionLead">${actionIntroForScore(state.scores[ind.id])}</div>
         <div class="actionMsg">- ${actionTextForIndicator(ind.id, state.scores[ind.id])}</div>
+        ${(() => {
+          const s = REAL_SCALES[ind.id];
+          if (!s) return '';
+          const band = actionBand(state.scores[ind.id]);
+          if (band === 'high') return '';
+          const target = band === 'low'
+            ? (s.inverted ? 'Below ' + s.nr + ' ' + s.unit : 'Above ' + s.nr + ' ' + s.unit)
+            : (s.inverted ? 'Below ' + s.r + ' ' + s.unit : 'Above ' + s.r + ' ' + s.unit);
+          const nextLevel = band === 'low' ? 'Somewhat Ready' : 'Ready';
+          return '<div style="margin-top:6px;font-size:.82rem;color:var(--blue);font-weight:700;">→ Target for ' + nextLevel + ': ' + target + '</div>';
+        })()}
       </div>
       ${renderIndicatorRefs(ind.id)}
       <div class="actions">
@@ -1401,12 +2171,25 @@ function renderCards() {
 
 
 
-function sliderGradient(value) {
-  const pct = ((Number(value) - 1) / 9) * 100;
+function sliderGradient(value, id) {
+  const s = REAL_SCALES[id];
+  // Calculate thumb position as % of slider range
+  let pct;
+  if (s) {
+    const realVal = state.realValues[id] != null ? state.realValues[id] : scoreToReal(id, value);
+    pct = ((realVal - s.min) / (s.max - s.min)) * 100;
+  } else {
+    pct = ((Number(value) - 1) / 9) * 100;
+  }
+  pct = Math.max(0, Math.min(100, pct));
+  const isInverted = s && s.inverted;
+  const colorStart = isInverted ? '#16a34a' : '#dc2626';
+  const colorMid = '#f59e0b';
+  const colorEnd = isInverted ? '#dc2626' : '#16a34a';
   return `linear-gradient(90deg,
-    #dc2626 0%,
-    #f59e0b 45%,
-    #16a34a 100%) 0/100% 100% no-repeat,
+    ${colorStart} 0%,
+    ${colorMid} 50%,
+    ${colorEnd} 100%) 0/100% 100% no-repeat,
     linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0) ${pct}%, #e5e7eb ${pct}%, #e5e7eb 100%)`;
 }
 
@@ -1619,7 +2402,7 @@ function renderSurfacePlot() {
   curVals[idxA] = curA;
   curVals[idxB] = curB;
   const currentOut = computeSingleModel(modelKey, curVals);
-  note.textContent = `${SURFACE_MODELS[modelKey].label}: current crosshair output = ${currentOut.toFixed(2)} / 10, using ${a.id} and ${b.id} as the surface axes while other inputs stay at their current slider values.`;
+  note.textContent = `${SURFACE_MODELS[modelKey].label}: current crosshair output = ${((currentOut - 1) / 9 * 100).toFixed(0)}%, using ${a.id} and ${b.id} as the surface axes while other inputs stay at their current slider values.`;
 }
 
 function fuzzyLabel(score) {
@@ -1823,11 +2606,11 @@ function renderSummary() {
     const el = document.getElementById(id);
     if (el) el.textContent = value;
   };
-  setText('overallScore', avg.toFixed(2));
+  setText('overallScore', ((avg - 1) / 9 * 100).toFixed(0) + '%');
   setText('shownCount', items.length);
-  setText('highCount', scores.filter(x => x > 7 && x <= 10).length);
-  setText('midCount', scores.filter(x => x > 3 && x <= 7).length);
-  setText('lowCount', scores.filter(x => x >= 1 && x <= 3).length);
+  setText('highCount', scores.filter(x => ((x-1)/9*100) >= 70).length);
+  setText('midCount', scores.filter(x => { const p = (x-1)/9*100; return p >= 30 && p < 70; }).length);
+  setText('lowCount', scores.filter(x => ((x-1)/9*100) < 30).length);
   setText('criteriaEnabled', 22);
 
   const categoryBars = document.getElementById('categoryBars');
@@ -1840,9 +2623,9 @@ function renderSummary() {
     <div class="catRow">
       <div class="catRowTop">
         <div style="font-weight:800;">${g.cat}</div>
-        <div class="cat">${g.avg.toFixed(2)} / 10</div>
+        <div class="cat">${((g.avg - 1) / 9 * 100).toFixed(0)}%</div>
       </div>
-      <div class="bar"><span style="width:${(g.avg/10)*100}%"></span></div>
+      <div class="bar"><span style="width:${((g.avg - 1) / 9) * 100}%"></span></div>
     </div>
   `).join('');
 
@@ -1860,9 +2643,9 @@ function renderSummary() {
       <div class="catRow">
         <div class="catRowTop">
           <div style="font-weight:800;">${item.name}</div>
-          <div class="cat">${(fuzzy[item.key] || 0).toFixed(2)} / 10</div>
+          <div class="cat">${(((fuzzy[item.key] || 0) - 1) / 9 * 100).toFixed(0)}%</div>
         </div>
-        <div class="bar"><span style="width:${((fuzzy[item.key] || 0)/10)*100}%"></span></div>
+        <div class="bar"><span style="width:${(((fuzzy[item.key] || 0) - 1) / 9) * 100}%"></span></div>
       </div>
     `).join('');
   }
@@ -1878,7 +2661,7 @@ function renderTable() {
       <td><strong>${ind.name}</strong><br><span style="color:var(--muted)">${ind.short}</span></td>
       <td>${ind.unit}</td>
       <td>${ind.range}</td>
-      <td>${Number(state.scores[ind.id]).toFixed(1)} / 10</td>
+      <td>${REAL_SCALES[ind.id] ? (REAL_SCALES[ind.id].step < 1 ? Number(state.realValues[ind.id]).toFixed(1) : Math.round(state.realValues[ind.id])) + " " + REAL_SCALES[ind.id].unit : Number(state.scores[ind.id]).toFixed(1) + " / 10"}</td>
       <td>${escapeHTML(state.notes[ind.id] || '')}</td>
     </tr>
   `).join('');
@@ -1886,8 +2669,19 @@ function renderTable() {
 
 
 
+function updateRealScore(id, realValue) {
+  realValue = parseFloat(realValue);
+  if (isNaN(realValue)) return;
+  const s = REAL_SCALES[id];
+  if (s) realValue = Math.max(s.min, Math.min(s.max, realValue));
+  state.realValues[id] = realValue;
+  state.scores[id] = realToScore(id, realValue);
+  renderAll();
+}
+
 function updateScore(id, value) {
   state.scores[id] = parseFloat(value);
+  state.realValues[id] = scoreToReal(id, value);
   renderAll();
 }
 
@@ -1910,7 +2704,7 @@ function openDetail(id) {
   document.getElementById('modalRange').textContent = ind.range;
   document.getElementById('modalType').textContent = ind.type;
   const currentScore = Number(state.scores[ind.id] || 0);
-  document.getElementById('modalScore').textContent = currentScore.toFixed(1) + ' / 10 (' + fuzzyLabel(currentScore) + ')';
+  document.getElementById('modalScore').textContent = ((currentScore - 1) / 9 * 100).toFixed(0) + '% (' + fuzzyLabel(currentScore) + ')';
   const c = criteriaForIndicator(ind.id);
   document.getElementById('modalCriteria').innerHTML = c && c.levels ? c.levels.map(level => `
     <div style="margin-top:8px; padding:10px; border:1px solid var(--line); border-radius:12px; background:#fff;">
@@ -1925,6 +2719,7 @@ function openDetail(id) {
 function resetScores() {
   indicators.forEach(ind => {
     state.scores[ind.id] = Number(ind.defaultScore);
+    state.realValues[ind.id] = scoreToReal(ind.id, ind.defaultScore);
     state.notes[ind.id] = '';
   });
   renderAll();
@@ -1941,6 +2736,7 @@ function hardResetScores() {
 
   indicators.forEach(ind => {
     state.scores[ind.id] = Number(ind.defaultScore);
+    state.realValues[ind.id] = scoreToReal(ind.id, ind.defaultScore);
     state.notes[ind.id] = ind.notes || '';
   });
 
@@ -2009,7 +2805,8 @@ function renderAll() {
   renderActionGuidance();
   initSurfaceControls();
   document.querySelectorAll('.scoreSlider').forEach(sl => {
-    sl.style.background = sliderGradient(sl.value);
+    const indId = sl.getAttribute('aria-label')?.replace('Score for ', '') || '';
+    sl.style.background = sliderGradient(state.scores[indId] || sl.value, indId);
   });
   renderSurfacePlot();
 }
